@@ -467,6 +467,135 @@
       font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.85);
     }
   }
+
+/* ===== BASE (MOBILE FIRST) ===== */
+
+.custom-banner__top-bar-{{ ai_gen_id }} {
+  background: {{ block.settings.top_bar_bg_color }};
+  padding: 14px 16px 18px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Top row (hamburger + brand) */
+.custom-banner__top-row-{{ ai_gen_id }} {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 14px;
+}
+
+/* Hamburger */
+.custom-banner__menu-icon-{{ ai_gen_id }} {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Brand */
+.custom-banner__brand-{{ ai_gen_id }} {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Message */
+.custom-banner__message-{{ ai_gen_id }} {
+  text-align: center;
+  font-size: {{ block.settings.top_message_size }}px;
+  color: {{ block.settings.top_message_color }};
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* Button wrapper */
+.custom-banner__top-cta-{{ ai_gen_id }} {
+  display: flex;
+  justify-content: center;
+}
+
+/* Button */
+.custom-banner__top-button-{{ ai_gen_id }} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 220px;
+  min-height: 48px;
+  padding: 12px 22px;
+  background: #f3e62f;
+  color: #111;
+  text-decoration: none;
+  font-size: {{ block.settings.top_button_font_size }}px;
+  text-transform: uppercase;
+}
+
+/* Arrow animation */
+.custom-banner__arrow-{{ ai_gen_id }} {
+  transition: transform 0.3s ease;
+}
+
+.custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
+  transform: translateX(5px);
+}
+
+
+/* ===== DESKTOP ===== */
+
+@media screen and (min-width: 769px) {
+
+  .custom-banner__top-bar-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 24px;
+  }
+
+  /* hide hamburger */
+  .custom-banner__menu-icon-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  /* left (logo/brand) */
+  .custom-banner__top-row-{{ ai_gen_id }} {
+    justify-content: flex-start;
+    margin-bottom: 0;
+  }
+
+  .custom-banner__brand-{{ ai_gen_id }} {
+    text-align: left;
+  }
+
+  /* center message */
+  .custom-banner__message-{{ ai_gen_id }} {
+    margin-bottom: 0;
+  }
+
+  /* right button */
+  .custom-banner__top-cta-{{ ai_gen_id }} {
+    justify-content: flex-end;
+  }
+}
+
+
+/* ===== SMALL MOBILE FIX ===== */
+
+@media screen and (max-width: 480px) {
+  .custom-banner__top-button-{{ ai_gen_id }} {
+    min-width: 180px;
+    font-size: 14px;
+  }
+
+  .custom-banner__brand-{{ ai_gen_id }} {
+    font-size: 14px;
+  }
+}
 {% endstyle %}
 
 <custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
