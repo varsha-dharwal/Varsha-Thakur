@@ -585,7 +585,6 @@
 {% schema %}
 {
   "name": "Custom banner",
-  "tag": null,
   "settings": [
     {
       "type": "header",
@@ -597,14 +596,30 @@
       "label": "Logo image"
     },
     {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "TISSO VISION"
+    },
+    {
       "type": "range",
       "id": "logo_width",
       "min": 50,
-      "max": 200,
+      "max": 240,
       "step": 10,
       "unit": "px",
       "label": "Logo width",
       "default": 120
+    },
+    {
+      "type": "range",
+      "id": "logo_text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Logo text size",
+      "default": 16
     },
     {
       "type": "text",
@@ -670,32 +685,62 @@
     {
       "type": "color",
       "id": "top_bar_bg_color",
-      "label": "Background",
-      "default": "#f3f3f3"
+      "label": "Top bar background",
+      "default": "#efefef"
+    },
+    {
+      "type": "color",
+      "id": "logo_bg_color",
+      "label": "Logo background",
+      "default": "#efefef"
+    },
+    {
+      "type": "color",
+      "id": "logo_border_color",
+      "label": "Logo border color",
+      "default": "#ff3b30"
+    },
+    {
+      "type": "color",
+      "id": "logo_text_color",
+      "label": "Logo text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "message_bg_color",
+      "label": "Message background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "message_border_color",
+      "label": "Message border color",
+      "default": "#ff3b30"
     },
     {
       "type": "color",
       "id": "top_message_color",
-      "label": "Message color",
+      "label": "Message text color",
       "default": "#121212"
     },
     {
       "type": "color",
       "id": "top_button_bg",
       "label": "Button background",
-      "default": "#121212"
+      "default": "#f4ea2a"
     },
     {
       "type": "color",
-      "id": "top_button_hover_bg",
-      "label": "Button hover background",
-      "default": "#000000"
+      "id": "top_button_border_color",
+      "label": "Button border color",
+      "default": "#ff3b30"
     },
     {
       "type": "color",
       "id": "top_button_text_color",
-      "label": "Button text",
-      "default": "#ffffff"
+      "label": "Button text color",
+      "default": "#111111"
     },
     {
       "type": "header",
@@ -907,5 +952,4 @@
     }
   ]
 }
-
 {% endschema %}
