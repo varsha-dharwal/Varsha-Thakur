@@ -352,41 +352,154 @@
         font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.85);
       }
     }
+
+      .custom-banner__top-bar-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 24px;
+    background: {{ block.settings.top_bar_bg_color }};
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .custom-banner__logo-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .custom-banner__logo-{{ ai_gen_id }} img {
+    display: block;
+    width: {{ block.settings.logo_width }}px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .custom-banner__logo-text-{{ ai_gen_id }},
+  .custom-banner__logo-placeholder-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    min-height: 42px;
+    border: 2px solid {{ block.settings.logo_border_color }};
+    background: {{ block.settings.logo_bg_color }};
+    color: {{ block.settings.logo_text_color }};
+    font-size: {{ block.settings.logo_text_size }}px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .custom-banner__message-{{ ai_gen_id }} {
+    justify-self: center;
+    text-align: center;
+    padding: 8px 14px;
+    border: 2px solid {{ block.settings.message_border_color }};
+    background: {{ block.settings.message_bg_color }};
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .custom-banner__top-cta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 10px 22px;
+    text-decoration: none;
+    background: {{ block.settings.top_button_bg }};
+    color: {{ block.settings.top_button_text_color }};
+    border: 2px solid {{ block.settings.top_button_border_color }};
+    transition: all 0.3s ease;
+  }
+
+  .custom-banner__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.top_button_font_size }}px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .custom-banner__arrow-{{ ai_gen_id }} {
+    font-size: 18px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 768px) {
+    .custom-banner__top-bar-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .custom-banner__logo-{{ ai_gen_id }},
+    .custom-banner__top-cta-{{ ai_gen_id }} {
+      justify-content: center;
+    }
+
+    .custom-banner__message-{{ ai_gen_id }} {
+      white-space: normal;
+    }
+  }
 {% endstyle %}
 
 <custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  <div class="custom-banner__top-bar-{{ ai_gen_id }}">
-    <div class="custom-banner__logo-{{ ai_gen_id }}">
-      {% if block.settings.logo %}
-        <img
-          src="{{ block.settings.logo | image_url: width: 400 }}"
-          alt="{{ block.settings.logo.alt | escape }}"
-          width="{{ block.settings.logo_width }}"
-          height="auto"
-          loading="lazy"
-        >
-      {% else %}
-        <div class="custom-banner__logo-placeholder-{{ ai_gen_id }}">
-          {{ 'image' | placeholder_svg_tag }}
-        </div>
-      {% endif %}
-    </div>
-
-    <div class="custom-banner__message-{{ ai_gen_id }}">
-      {{ block.settings.top_message }}
-    </div>
-
-    <div class="custom-banner__top-cta-{{ ai_gen_id }}">
-      <a
-        href="{{ block.settings.top_button_link }}"
-        class="custom-banner__top-button-{{ ai_gen_id }}"
+ <div class="custom-banner__top-bar-{{ ai_gen_id }}">
+  <div class="custom-banner__logo-{{ ai_gen_id }}">
+    {% if block.settings.logo != blank %}
+      <img
+        src="{{ block.settings.logo | image_url: width: 400 }}"
+        alt="{{ block.settings.logo.alt | escape }}"
+        width="{{ block.settings.logo_width }}"
+        height="auto"
+        loading="lazy"
       >
-        <span class="custom-banner__text-{{ ai_gen_id }}">
-          {{ block.settings.top_button_label }}
-        </span>
-      </a>
-    </div>
+    {% elsif block.settings.logo_text != blank %}
+      <div class="custom-banner__logo-text-{{ ai_gen_id }}">
+        {{ block.settings.logo_text }}
+      </div>
+    {% else %}
+      <div class="custom-banner__logo-placeholder-{{ ai_gen_id }}">
+        TISSO VISION
+      </div>
+    {% endif %}
   </div>
+
+  <div class="custom-banner__message-{{ ai_gen_id }}">
+    {{ block.settings.top_message }}
+  </div>
+
+  <div class="custom-banner__top-cta-{{ ai_gen_id }}">
+    <a
+      href="{{ block.settings.top_button_link | default: '#' }}"
+      class="custom-banner__top-button-{{ ai_gen_id }}"
+    >
+      <span class="custom-banner__text-{{ ai_gen_id }}">
+        {{ block.settings.top_button_label }}
+      </span>
+      <span class="custom-banner__arrow-{{ ai_gen_id }}">→</span>
+    </a>
+  </div>
+</div>
 
   <div class="custom-banner__hero-{{ ai_gen_id }}">
     <div
@@ -794,4 +907,5 @@
     }
   ]
 }
+
 {% endschema %}
