@@ -1,6 +1,598 @@
+{% doc %}
+  @prompt
+    Create a custom Shopify section from scratch named "custom-banner.liquid" for a separate page template. Do not use any ready-made Dawn sections or components. The banner must be built as one single custom Shopify section and all editable text must come from the Shopify customizer schema.
+    
+    Structure required:
+    
+    1. Top bar area with 3 columns:
+    - Left: brand text like "TISSO VISION"
+    - Center: small message text like "Find the ideal gift for your loved ones."
+    - Right: yellow CTA button like "CHOOSE GIFT" with arrow
+    - Desktop layout should be 3 columns aligned left, center, right
+    - Mobile layout should stack cleanly
+    
+    2. Hero image area:
+    - Full-width illustrated background image
+    - Content aligned on the left side over the image
+    - Large heading like "The Gift Guide"
+    - Description text below heading
+    - Black CTA button like "SHOP NOW" with hover animation
+    - All text must be editable from the customizer
+    - Background image must be selectable from the customizer
+    
+    3. Bottom strip area:
+    - Thin horizontal strip below hero
+    - Centered uppercase text like "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    - Text must be editable from the customizer
+    
+    Technical requirements:
+    - Use only Liquid, HTML, CSS, and vanilla JavaScript
+    - Do not use jQuery
+    - Do not use Dawn ready-made sections
+    - Keep code clean, structured, commented, and efficient
+    - Add smooth button hover animation
+    - Make it responsive for desktop and mobile
+    - Add schema settings for all editable text, colors, links, and image
+    - Use semantic class names
+    - Write production-ready Shopify section code
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .custom-banner-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .custom-banner-topbar-{{ ai_gen_id }} {
+    background-color: {{ block.settings.topbar_bg_color }};
+    padding: 16px 20px;
+  }
+
+  .custom-banner-topbar-content-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .custom-banner-brand-{{ ai_gen_id }} {
+    font-size: {{ block.settings.brand_font_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.topbar_text_color }};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .custom-banner-message-{{ ai_gen_id }} {
+    font-size: {{ block.settings.message_font_size }}px;
+    color: {{ block.settings.topbar_text_color }};
+    text-align: center;
+  }
+
+  .custom-banner-topbar-cta-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: {{ block.settings.topbar_cta_bg_color }};
+    color: {{ block.settings.topbar_cta_text_color }};
+    text-decoration: none;
+    font-size: {{ block.settings.topbar_cta_font_size }}px;
+    font-weight: 600;
+    border-radius: {{ block.settings.topbar_cta_border_radius }}px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    justify-self: end;
+  }
+
+  .custom-banner-topbar-cta-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .custom-banner-topbar-cta-arrow-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-banner-topbar-cta-{{ ai_gen_id }}:hover .custom-banner-topbar-cta-arrow-{{ ai_gen_id }} {
+    transform: translateX(4px);
+  }
+
+  .custom-banner-hero-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.hero_min_height }}px;
+    background-color: {{ block.settings.hero_bg_color }};
+    overflow: hidden;
+  }
+
+  .custom-banner-hero-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .custom-banner-hero-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .custom-banner-hero-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .custom-banner-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    display: flex;
+    align-items: center;
+    min-height: {{ block.settings.hero_min_height }}px;
+  }
+
+  .custom-banner-hero-text-{{ ai_gen_id }} {
+    max-width: 600px;
+  }
+
+  .custom-banner-hero-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_heading_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.hero_text_color }};
+    margin: 0 0 20px;
+    line-height: 1.2;
+  }
+
+  .custom-banner-hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_description_size }}px;
+    color: {{ block.settings.hero_text_color }};
+    margin: 0 0 30px;
+    line-height: 1.6;
+  }
+
+  .custom-banner-hero-cta-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 16px 40px;
+    background-color: {{ block.settings.hero_cta_bg_color }};
+    color: {{ block.settings.hero_cta_text_color }};
+    text-decoration: none;
+    font-size: {{ block.settings.hero_cta_font_size }}px;
+    font-weight: 600;
+    border-radius: {{ block.settings.hero_cta_border_radius }}px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .custom-banner-hero-cta-{{ ai_gen_id }}:hover {
+    transform: scale(1.05);
+    background-color: {{ block.settings.hero_cta_hover_bg_color }};
+  }
+
+  .custom-banner-bottom-strip-{{ ai_gen_id }} {
+    background-color: {{ block.settings.bottom_strip_bg_color }};
+    padding: 16px 20px;
+    text-align: center;
+  }
+
+  .custom-banner-bottom-strip-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bottom_strip_font_size }}px;
+    color: {{ block.settings.bottom_strip_text_color }};
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .custom-banner-topbar-content-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .custom-banner-brand-{{ ai_gen_id }} {
+      font-size: {{ block.settings.brand_font_size | times: 0.85 }}px;
+    }
+
+    .custom-banner-message-{{ ai_gen_id }} {
+      font-size: {{ block.settings.message_font_size | times: 0.9 }}px;
+    }
+
+    .custom-banner-topbar-cta-{{ ai_gen_id }} {
+      justify-self: center;
+      font-size: {{ block.settings.topbar_cta_font_size | times: 0.9 }}px;
+    }
+
+    .custom-banner-hero-content-{{ ai_gen_id }} {
+      padding: 60px 20px;
+      min-height: {{ block.settings.hero_min_height | times: 0.7 }}px;
+    }
+
+    .custom-banner-hero-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_heading_size | times: 0.6 }}px;
+    }
+
+    .custom-banner-hero-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_description_size | times: 0.9 }}px;
+    }
+
+    .custom-banner-hero-cta-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_cta_font_size | times: 0.9 }}px;
+      padding: 14px 32px;
+    }
+
+    .custom-banner-bottom-strip-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.bottom_strip_font_size | times: 0.85 }}px;
+      letter-spacing: 1px;
+    }
+  }
+{% endstyle %}
+
+<custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="custom-banner-topbar-{{ ai_gen_id }}">
+    <div class="custom-banner-topbar-content-{{ ai_gen_id }}">
+      <div class="custom-banner-brand-{{ ai_gen_id }}">
+        {{ block.settings.brand_text }}
+      </div>
+      <div class="custom-banner-message-{{ ai_gen_id }}">
+        {{ block.settings.message_text }}
+      </div>
+      {% if block.settings.topbar_cta_link != blank %}
+        <a href="{{ block.settings.topbar_cta_link }}" class="custom-banner-topbar-cta-{{ ai_gen_id }}">
+          {{ block.settings.topbar_cta_text }}
+          <svg class="custom-banner-topbar-cta-arrow-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="custom-banner-hero-{{ ai_gen_id }}">
+    {% if block.settings.hero_image %}
+      <img
+        src="{{ block.settings.hero_image | image_url: width: 2000 }}"
+        alt="{{ block.settings.hero_image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.hero_image.width }}"
+        height="{{ block.settings.hero_image.height }}"
+        class="custom-banner-hero-image-{{ ai_gen_id }}"
+      >
+    {% else %}
+      <div class="custom-banner-hero-placeholder-{{ ai_gen_id }}">
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+
+    <div class="custom-banner-hero-content-{{ ai_gen_id }}">
+      <div class="custom-banner-hero-text-{{ ai_gen_id }}">
+        {% if block.settings.hero_heading != blank %}
+          <h1 class="custom-banner-hero-heading-{{ ai_gen_id }}">
+            {{ block.settings.hero_heading }}
+          </h1>
+        {% endif %}
+        {% if block.settings.hero_description != blank %}
+          <div class="custom-banner-hero-description-{{ ai_gen_id }}">
+            {{ block.settings.hero_description }}
+          </div>
+        {% endif %}
+        {% if block.settings.hero_cta_link != blank %}
+          <a href="{{ block.settings.hero_cta_link }}" class="custom-banner-hero-cta-{{ ai_gen_id }}">
+            {{ block.settings.hero_cta_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-banner-bottom-strip-{{ ai_gen_id }}">
+    <p class="custom-banner-bottom-strip-text-{{ ai_gen_id }}">
+      {{ block.settings.bottom_strip_text }}
+    </p>
+  </div>
+</custom-banner-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CustomBanner{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.setupAccessibility();
+      }
+
+      setupAccessibility() {
+        const ctaButtons = this.querySelectorAll('a');
+        ctaButtons.forEach(button => {
+          if (!button.getAttribute('aria-label')) {
+            button.setAttribute('aria-label', button.textContent.trim());
+          }
+        });
+      }
+    }
+
+    customElements.define('custom-banner-{{ ai_gen_id }}', CustomBanner{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Custom banner",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "header",
+      "content": "Top bar"
+    },
+    {
+      "type": "text",
+      "id": "brand_text",
+      "label": "Brand text",
+      "default": "TISSO VISION"
+    },
+    {
+      "type": "range",
+      "id": "brand_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Brand font size",
+      "default": 16
+    },
+    {
+      "type": "text",
+      "id": "message_text",
+      "label": "Message text",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "range",
+      "id": "message_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Message font size",
+      "default": 14
+    },
+    {
+      "type": "text",
+      "id": "topbar_cta_text",
+      "label": "CTA button text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "topbar_cta_link",
+      "label": "CTA button link"
+    },
+    {
+      "type": "range",
+      "id": "topbar_cta_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "CTA font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "topbar_cta_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "CTA border radius",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "topbar_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "topbar_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "topbar_cta_bg_color",
+      "label": "CTA background color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "color",
+      "id": "topbar_cta_text_color",
+      "label": "CTA text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Background image"
+    },
+    {
+      "type": "range",
+      "id": "hero_min_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Minimum height",
+      "default": 500
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "range",
+      "id": "hero_heading_size",
+      "min": 32,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 64
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Description",
+      "default": "Discover the perfect gifts for everyone on your list."
+    },
+    {
+      "type": "range",
+      "id": "hero_description_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size",
+      "default": 18
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_text",
+      "label": "CTA button text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "hero_cta_link",
+      "label": "CTA button link"
+    },
+    {
+      "type": "range",
+      "id": "hero_cta_font_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "CTA font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "hero_cta_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "CTA border radius",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Background color",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_cta_bg_color",
+      "label": "CTA background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_cta_text_color",
+      "label": "CTA text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "hero_cta_hover_bg_color",
+      "label": "CTA hover background color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Bottom strip"
+    },
+    {
+      "type": "text",
+      "id": "bottom_strip_text",
+      "label": "Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_bg_color",
+      "label": "Background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom banner"
+    }
+  ]
+}
 {% endschema %}
