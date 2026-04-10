@@ -659,22 +659,86 @@
 {% endstyle %}
 
 <custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
- <div class="custom-banner__desktop-logo-{{ ai_gen_id }}">
-  {% if section.settings.logo != blank %}
-    <img
-      src="{{ section.settings.logo | image_url: width: 400 }}"
-      alt="{{ section.settings.logo.alt | escape }}"
-      width="{{ section.settings.logo_width }}"
-      height="auto"
-      loading="lazy"
-    >
-  {% endif %}
+ <div class="custom-banner__top-bar-{{ ai_gen_id }}">
+  <div class="custom-banner__desktop-bar-{{ ai_gen_id }}">
+    <div class="custom-banner__desktop-logo-{{ ai_gen_id }}">
+      {% if block.settings.logo != blank %}
+        <img
+          src="{{ block.settings.logo | image_url: width: 400 }}"
+          alt="{{ block.settings.logo.alt | escape }}"
+          width="{{ block.settings.logo_width }}"
+          height="auto"
+          loading="lazy"
+        >
+      {% else %}
+        <span class="custom-banner__brand-text-{{ ai_gen_id }}">
+          {{ block.settings.logo_text }}
+        </span>
+      {% endif %}
+    </div>
 
-  {% if section.settings.logo == blank and section.settings.logo_text != blank %}
-    <span class="custom-banner__brand-text-{{ ai_gen_id }}">
-      {{ section.settings.logo_text }}
-    </span>
-  {% endif %}
+    <div class="custom-banner__desktop-message-{{ ai_gen_id }}">
+      {{ block.settings.top_message }}
+    </div>
+
+    <div class="custom-banner__desktop-cta-{{ ai_gen_id }}">
+      <a
+        href="{{ block.settings.top_button_link | default: '#' }}"
+        class="custom-banner__top-button-{{ ai_gen_id }}"
+      >
+        <span>{{ block.settings.top_button_label }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="custom-banner__mobile-wrap-{{ ai_gen_id }}">
+    <button
+      type="button"
+      class="custom-banner__mobile-trigger-{{ ai_gen_id }}"
+      aria-expanded="false"
+      aria-controls="custom-banner-mobile-panel-{{ ai_gen_id }}"
+    >
+      <span class="custom-banner__menu-icon-{{ ai_gen_id }}">☰</span>
+
+      <span class="custom-banner__mobile-brand-{{ ai_gen_id }}">
+        {{ block.settings.logo_text }}
+      </span>
+    </button>
+
+    <div
+      id="custom-banner-mobile-panel-{{ ai_gen_id }}"
+      class="custom-banner__mobile-panel-{{ ai_gen_id }}"
+      hidden
+    >
+      <div class="custom-banner__mobile-panel-header-{{ ai_gen_id }}">
+        <button
+          type="button"
+          class="custom-banner__close-button-{{ ai_gen_id }}"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+
+        <div class="custom-banner__mobile-panel-brand-{{ ai_gen_id }}">
+          {{ block.settings.logo_text }}
+        </div>
+      </div>
+
+      <div class="custom-banner__mobile-message-{{ ai_gen_id }}">
+        {{ block.settings.top_message }}
+      </div>
+
+      <div class="custom-banner__mobile-cta-{{ ai_gen_id }}">
+        <a
+          href="{{ block.settings.top_button_link | default: '#' }}"
+          class="custom-banner__top-button-{{ ai_gen_id }}"
+        >
+          <span>{{ block.settings.top_button_label }}</span>
+          <span class="custom-banner__arrow-{{ ai_gen_id }}">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
   <div class="custom-banner__hero-{{ ai_gen_id }}">
