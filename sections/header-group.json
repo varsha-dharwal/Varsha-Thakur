@@ -1,1 +1,77 @@
-{"name":"t:sections.header.name","type":"header","sections":{"announcement-bar":{"type":"announcement-bar","blocks":{"announcement-bar-0":{"type":"announcement","settings":{"text":"Welcome to our store","link":""}}},"block_order":["announcement-bar-0"],"settings":{"auto_rotate":false,"change_slides_speed":5,"color_scheme":"scheme-1","show_line_separator":true,"show_social":false,"enable_country_selector":false,"enable_language_selector":false}},"header":{"type":"header","settings":{"logo_position":"middle-left","mobile_logo_position":"center","menu":"main-menu","menu_type_desktop":"dropdown","sticky_header_type":"on-scroll-up","show_line_separator":true,"color_scheme":"scheme-1","menu_color_scheme":"scheme-1","enable_country_selector":true,"enable_language_selector":true,"enable_customer_avatar":true,"margin_bottom":0,"padding_top":20,"padding_bottom":20}}},"order":["announcement-bar","header"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-1",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "1775839724934495f2": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d56ab66_EYznCY": {
+          "type": "ai_gen_block_d56ab66",
+          "settings": {
+            "max_width": 1200,
+            "brand_text": "",
+            "brand_font_size": 16,
+            "message_text": "Find the ideal gift for your loved ones.",
+            "message_font_size": 14,
+            "topbar_cta_text": "CHOOSE GIFT",
+            "topbar_cta_link": "",
+            "topbar_cta_font_size": 14,
+            "topbar_cta_border_radius": 4,
+            "topbar_bg_color": "#ffffff",
+            "topbar_text_color": "#121212",
+            "topbar_cta_bg_color": "#FFD700",
+            "topbar_cta_text_color": "#121212",
+            "hero_min_height": 500,
+            "hero_heading": "The Gift Guide",
+            "hero_heading_size": 64,
+            "hero_description": "Discover the perfect gifts for everyone on your list.",
+            "hero_description_size": 18,
+            "hero_cta_text": "SHOP NOW",
+            "hero_cta_link": "",
+            "hero_cta_font_size": 16,
+            "hero_cta_border_radius": 4,
+            "hero_bg_color": "#f4f4f4",
+            "hero_text_color": "#121212",
+            "hero_cta_bg_color": "#121212",
+            "hero_cta_text_color": "#ffffff",
+            "hero_cta_hover_bg_color": "#000000",
+            "bottom_strip_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+            "bottom_strip_font_size": 12,
+            "bottom_strip_bg_color": "#121212",
+            "bottom_strip_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d56ab66_EYznCY"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "1775839724934495f2"
+  ]
+}
