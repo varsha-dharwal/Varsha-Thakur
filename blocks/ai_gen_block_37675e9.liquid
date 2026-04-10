@@ -92,353 +92,360 @@
 {% enddoc %}
 {% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
-{% assign section_id = section.id %}
-
 {% style %}
-  .custom-banner-{{ section_id }} {
-    display: block;
-    width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-    background: {{ section.settings.section_bg_color }};
-  }
+    .custom-banner-{{ ai_gen_id }} {
+      display: block;
+      width: 100%;
+      max-width: 1440px;
+    margin: auto;
+    }
 
-  .custom-banner__top-bar-{{ section_id }} {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 20px;
-    padding: {{ section.settings.top_bar_padding }}px {{ section.settings.horizontal_padding }}px;
-    background-color: {{ section.settings.top_bar_bg_color }};
-  }
+    .custom-banner__top-bar-{{ ai_gen_id }} {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      align-items: center;
+      gap: 20px;
+      height: 64px;
+      padding: {{ block.settings.top_bar_padding }}px {{ block.settings.horizontal_padding }}px;
+      background-color: {{ block.settings.top_bar_bg_color }};
+    }
 
-  .custom-banner__logo-wrap-{{ section_id }} {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
+    .custom-banner__logo-{{ ai_gen_id }} {
+      display: flex;
+      justify-content: flex-start;
+    }
 
-  .custom-banner__logo-{{ section_id }} {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    width: {{ section.settings.logo_width }}px;
-  }
+    .custom-banner__logo-{{ ai_gen_id }} img {
+      max-width: {{ block.settings.logo_width }}px;
+      height: auto;
+    }
 
-  .custom-banner__logo-placeholder-{{ section_id }} {
-    width: {{ section.settings.logo_width }}px;
-    max-width: 100%;
-  }
+    .custom-banner__message-{{ ai_gen_id }} {
+      text-align: center;
+      color: {{ block.settings.top_message_color }};
+      font-size: {{ block.settings.top_message_size }}px;
+    }
 
-  .custom-banner__message-{{ section_id }} {
-    text-align: center;
-    color: {{ section.settings.top_message_color }};
-    font-size: {{ section.settings.top_message_size }}px;
-    line-height: 1.4;
-    margin: 0;
-  }
+    .custom-banner__top-cta-{{ ai_gen_id }} {
+      display: flex;
+      justify-content: flex-end;
+    }
 
-  .custom-banner__top-cta-{{ section_id }} {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .custom-banner__button-{{ section_id }} {
+    .custom-banner__top-button-{{ ai_gen_id }} {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 220px;
+    height: 50px;
     gap: 10px;
-    min-width: 200px;
-    min-height: 50px;
-    padding: 14px 24px;
     text-decoration: none;
+    font-size: {{ block.settings.top_button_font_size }}px;
+    color: #ffffff;
+    background-color: #000000;
     overflow: hidden;
-    background-color: {{ section.settings.button_bg_color }};
-    color: {{ section.settings.button_text_color }};
-    border: 1px solid {{ section.settings.button_border_color }};
-    transition: color 0.3s ease, transform 0.3s ease;
-    font-size: 14px;
-    line-height: 1;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    transition: color 0.3s ease;
   }
 
-  .custom-banner__top-button-{{ section_id }} {
-    font-size: {{ section.settings.top_button_font_size }}px;
-    border-radius: {{ section.settings.top_button_radius }}px;
-  }
-
-  .custom-banner__hero-button-{{ section_id }} {
-    font-size: {{ section.settings.hero_button_font_size }}px;
-    border-radius: {{ section.settings.hero_button_radius }}px;
-    align-self: flex-start;
-  }
-
-  .custom-banner__button-{{ section_id }}::before {
+  /* Sliding yellow layer */
+  .custom-banner__top-button-{{ ai_gen_id }}::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: {{ section.settings.button_hover_bg_color }};
+    background-color: #FFF544;
     transform: translateX(-100%);
-    transition: transform 0.35s ease;
+    transition: transform 0.4s ease;
     z-index: 0;
   }
 
-  .custom-banner__button-{{ section_id }} span {
+  /* Text above overlay */
+  .custom-banner__top-button-{{ ai_gen_id }} span {
     position: relative;
     z-index: 1;
   }
 
-  .custom-banner__button-{{ section_id }}:hover::before {
+  /* Hover animation */
+  .custom-banner__top-button-{{ ai_gen_id }}:hover::before {
     transform: translateX(0);
   }
 
-  .custom-banner__button-{{ section_id }}:hover {
-    color: {{ section.settings.button_hover_text_color }};
-    transform: translateY(-2px);
+  /* Text color change */
+  .custom-banner__top-button-{{ ai_gen_id }}:hover {
+    color: #000000;
   }
 
-  .custom-banner__arrow-{{ section_id }} {
-    display: inline-block;
+  /* Arrow animation */
+  .custom-banner__arrow-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 1;
     transition: transform 0.3s ease;
   }
 
-  .custom-banner__button-{{ section_id }}:hover .custom-banner__arrow-{{ section_id }} {
+  .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
     transform: translateX(5px);
   }
 
-  .custom-banner__hero-{{ section_id }} {
-    width: 100%;
+  .custom-banner__top-button-{{ ai_gen_id }}:hover span,
+  .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
+    color: #000000;
   }
 
-  .custom-banner__hero-top-{{ section_id }} {
-    width: 100%;
-    height: {{ section.settings.hero_top_height }}px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-  }
+    .custom-banner__arrow-{{ ai_gen_id }} {
+      transition: transform 0.3s ease;
+    }
 
-  .custom-banner__hero-top-placeholder-{{ section_id }},
-  .custom-banner__hero-right-placeholder-{{ section_id }} {
-    width: 100%;
-    height: 100%;
-  }
+    .custom-banner__hero-{{ ai_gen_id }} {
+      position: relative;
+    }
 
-  .custom-banner__hero-top-placeholder-{{ section_id }} svg,
-  .custom-banner__hero-right-placeholder-{{ section_id }} svg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+    .custom-banner__hero-top-{{ ai_gen_id }} {
+      width: 100%;
+      height: {{ block.settings.hero_top_height }}px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
-  .custom-banner__hero-bottom-{{ section_id }} {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch;
-    min-height: {{ section.settings.hero_bottom_height }}px;
-  }
+    .custom-banner__hero-bottom-{{ ai_gen_id }} {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
 
-  .custom-banner__hero-left-{{ section_id }} {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: {{ section.settings.hero_content_padding }}px;
-    background-color: {{ section.settings.hero_left_bg }};
-  }
+    .custom-banner__hero-left-{{ ai_gen_id }} {
+      display: flex;
+      flex-direction: column;
+      padding: {{ block.settings.hero_content_padding }}px;
+      background-color: {{ block.settings.hero_left_bg }};
+    }
 
-  .custom-banner__hero-heading-{{ section_id }} {
-    font-size: {{ section.settings.hero_heading_size }}px;
-    color: {{ section.settings.hero_heading_color }};
-    margin: 0 0 20px;
-    line-height: 1.05;
-    font-weight: 500;
-  }
+    .custom-banner__hero-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_heading_size }}px;
+      color: {{ block.settings.hero_heading_color }};
+      margin: 0 0 20px 0;
+      line-height: 1.2;
+    }
 
-  .custom-banner__hero-description-{{ section_id }} {
-    font-size: {{ section.settings.hero_description_size }}px;
-    color: {{ section.settings.hero_description_color }};
-    margin: 0 0 36px;
-    line-height: 1.6;
-    max-width: 520px;
-  }
+    .custom-banner__hero-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_description_size }}px;
+      color: {{ block.settings.hero_description_color }};
+      margin: 0 0 50px 0;
+      line-height: 1.4;
+      max-width:483px;
 
-  .custom-banner__hero-right-{{ section_id }} {
-    min-height: {{ section.settings.hero_bottom_height }}px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: {{ section.settings.hero_right_bg }};
-  }
+    }
 
-  .custom-banner__bottom-strip-{{ section_id }} {
-    display: flex;
+  /* ===============================
+     HERO BUTTON (SHOP NOW)
+  ================================ */
+
+  .custom-banner__hero-button-{{ ai_gen_id }} {
+    position: relative;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: {{ section.settings.bottom_strip_padding }}px {{ section.settings.horizontal_padding }}px;
-    background-color: {{ section.settings.bottom_strip_bg }};
-    text-align: center;
+    width: 220px;
+    height: 50px;
+    gap: 10px;
+    text-decoration: none;
+    font-size: {{ block.settings.hero_button_font_size }}px;
+    color: #ffffff;
+    background-color: #000000;
+    overflow: hidden;
+    transition: color 0.3s ease;
   }
 
-  .custom-banner__bottom-text-{{ section_id }} {
-    font-size: {{ section.settings.bottom_strip_font_size }}px;
-    color: {{ section.settings.bottom_strip_color }};
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 1.4;
-    margin: 0;
+  /* 🔥 Yellow sliding layer */
+  .custom-banner__hero-button-{{ ai_gen_id }}::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #FFF544;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: 0;
   }
 
-  @media screen and (max-width: 768px) {
-    .custom-banner__top-bar-{{ section_id }} {
-      grid-template-columns: 1fr;
+  /* Content above layer */
+  .custom-banner__hero-button-{{ ai_gen_id }} span {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hover: yellow slide */
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover::before {
+    transform: translateX(0);
+  }
+
+  /* Hover: text black */
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover {
+    color: #000000;
+  }
+
+  /* Arrow base */
+  .custom-banner__hero-arrow-{{ ai_gen_id }} {
+    color: inherit;
+    transition: transform 0.3s ease;
+  }
+
+  /* Arrow move */
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
+    transform: translateX(5px);
+  }
+
+  /* Ensure text + arrow black */
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover span,
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
+    color: #000000;
+  }
+
+    .custom-banner__hero-right-{{ ai_gen_id }} {
+      width: 100%;
+      height: {{ block.settings.hero_bottom_height }}px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    min-height: 500px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    }
+
+    .custom-banner__bottom-strip-{{ ai_gen_id }} {
+      padding: {{ block.settings.bottom_strip_padding }}px {{ block.settings.horizontal_padding }}px;
+      background-color: {{ block.settings.bottom_strip_bg }};
       text-align: center;
-      gap: 14px;
-      padding: 16px 20px;
     }
 
-    .custom-banner__logo-wrap-{{ section_id }},
-    .custom-banner__top-cta-{{ section_id }} {
-      justify-content: center;
+    .custom-banner__bottom-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.bottom_strip_font_size }}px;
+      color: {{ block.settings.bottom_strip_color }};
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0;
     }
 
-    .custom-banner__hero-top-{{ section_id }} {
-      height: {{ section.settings.hero_top_height_mobile }}px;
-    }
+    @media screen and (max-width: 768px) {
+      .custom-banner__top-bar-{{ ai_gen_id }} {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 15px;
+      }
 
-    .custom-banner__hero-bottom-{{ section_id }} {
-      grid-template-columns: 1fr;
-      min-height: auto;
-    }
+      .custom-banner__logo-{{ ai_gen_id }},
+      .custom-banner__top-cta-{{ ai_gen_id }} {
+        justify-content: center;
+      }
 
-    .custom-banner__hero-right-{{ section_id }} {
-      order: 1;
-      min-height: {{ section.settings.hero_right_mobile_height }}px;
-    }
+      .custom-banner__hero-bottom-{{ ai_gen_id }} {
+        grid-template-columns: 1fr;
+      }
 
-    .custom-banner__hero-left-{{ section_id }} {
-      order: 2;
-      padding: 32px 20px;
-      align-items: center;
-      text-align: center;
-    }
+      .custom-banner__hero-right-{{ ai_gen_id }} {
+        height: 300px;
+      }
 
-    .custom-banner__hero-button-{{ section_id }} {
-      align-self: center;
-    }
+      .custom-banner__hero-heading-{{ ai_gen_id }} {
+        font-size: calc({{ block.settings.hero_heading_size }}px * 0.7);
+      }
 
-    .custom-banner__hero-heading-{{ section_id }} {
-      font-size: calc({{ section.settings.hero_heading_size }}px * 0.62);
-    }
+      .custom-banner__hero-description-{{ ai_gen_id }} {
+        font-size: calc({{ block.settings.hero_description_size }}px * 0.9);
+      }
 
-    .custom-banner__hero-description-{{ section_id }} {
-      font-size: calc({{ section.settings.hero_description_size }}px * 0.95);
-      margin-bottom: 28px;
+      .custom-banner__bottom-text-{{ ai_gen_id }} {
+        font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.85);
+      }
     }
-
-    .custom-banner__bottom-text-{{ section_id }} {
-      font-size: calc({{ section.settings.bottom_strip_font_size }}px * 0.92);
-    }
-  }
 {% endstyle %}
 
-<section class="custom-banner-{{ section_id }}" {{ section.shopify_attributes }}>
-  <div class="custom-banner__top-bar-{{ section_id }}">
-    <div class="custom-banner__logo-wrap-{{ section_id }}">
-      {% if section.settings.logo != blank %}
+<custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="custom-banner__top-bar-{{ ai_gen_id }}">
+    <div class="custom-banner__logo-{{ ai_gen_id }}">
+      {% if block.settings.logo %}
         <img
-          class="custom-banner__logo-{{ section_id }}"
-          src="{{ section.settings.logo | image_url: width: 500 }}"
-          alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
-          loading="lazy"
-          width="{{ section.settings.logo_width }}"
+          src="{{ block.settings.logo | image_url: width: 400 }}"
+          alt="{{ block.settings.logo.alt | escape }}"
+          width="{{ block.settings.logo_width }}"
           height="auto"
+          loading="lazy"
         >
       {% else %}
-        <div class="custom-banner__logo-placeholder-{{ section_id }}">
+        <div class="custom-banner__logo-placeholder-{{ ai_gen_id }}">
           {{ 'image' | placeholder_svg_tag }}
         </div>
       {% endif %}
     </div>
 
-    <div class="custom-banner__message-{{ section_id }}">
-      {{ section.settings.top_message }}
+    <div class="custom-banner__message-{{ ai_gen_id }}">
+      {{ block.settings.top_message }}
     </div>
 
-    <div class="custom-banner__top-cta-{{ section_id }}">
+    <div class="custom-banner__top-cta-{{ ai_gen_id }}">
       <a
-        href="{{ section.settings.top_button_link | default: '#' }}"
-        class="custom-banner__button-{{ section_id }} custom-banner__top-button-{{ section_id }}"
+        href="{{ block.settings.top_button_link }}"
+        class="custom-banner__top-button-{{ ai_gen_id }}"
       >
-        <span>{{ section.settings.top_button_label }}</span>
-        <span class="custom-banner__arrow-{{ section_id }}">→</span>
+        <span class="custom-banner__text-{{ ai_gen_id }}">
+          {{ block.settings.top_button_label }}
+        </span>
       </a>
     </div>
   </div>
 
-  <div class="custom-banner__hero-{{ section_id }}">
+  <div class="custom-banner__hero-{{ ai_gen_id }}">
     <div
-      class="custom-banner__hero-top-{{ section_id }}"
-      {% if section.settings.hero_top_image != blank %}
-        style="background-image: url('{{ section.settings.hero_top_image | image_url: width: 2200 }}');"
+      class="custom-banner__hero-top-{{ ai_gen_id }}"
+      {% if block.settings.hero_top_image %}
+        style="background-image: url('{{ block.settings.hero_top_image | image_url: width: 2000 }}');"
       {% endif %}
     >
-      {% if section.settings.hero_top_image == blank %}
-        <div class="custom-banner__hero-top-placeholder-{{ section_id }}">
-          {{ 'lifestyle-1' | placeholder_svg_tag }}
-        </div>
-      {% endif %}
+      {% unless block.settings.hero_top_image %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      {% endunless %}
     </div>
 
-    <div class="custom-banner__hero-bottom-{{ section_id }}">
-      <div class="custom-banner__hero-left-{{ section_id }}">
-        {% if section.settings.hero_heading != blank %}
-          <h2 class="custom-banner__hero-heading-{{ section_id }}">
-            {{ section.settings.hero_heading }}
+    <div class="custom-banner__hero-bottom-{{ ai_gen_id }}">
+      <div class="custom-banner__hero-left-{{ ai_gen_id }}">
+        {% if block.settings.hero_heading != blank %}
+          <h2 class="custom-banner__hero-heading-{{ ai_gen_id }}">
+            {{ block.settings.hero_heading }}
           </h2>
         {% endif %}
 
-        {% if section.settings.hero_description != blank %}
-          <div class="custom-banner__hero-description-{{ section_id }}">
-            {{ section.settings.hero_description }}
+        {% if block.settings.hero_description != blank %}
+          <div class="custom-banner__hero-description-{{ ai_gen_id }}">
+            {{ block.settings.hero_description }}
           </div>
         {% endif %}
 
-        {% if section.settings.hero_button_label != blank %}
-          <a
-            href="{{ section.settings.hero_button_link | default: '#' }}"
-            class="custom-banner__button-{{ section_id }} custom-banner__hero-button-{{ section_id }}"
-          >
-            <span>{{ section.settings.hero_button_label }}</span>
-            <span class="custom-banner__arrow-{{ section_id }}">→</span>
-          </a>
-        {% endif %}
+        <a
+          href="{{ block.settings.hero_button_link }}"
+          class="custom-banner__hero-button-{{ ai_gen_id }}"
+        >
+          <span>{{ block.settings.hero_button_label }}</span>
+        </a>
       </div>
 
       <div
-        class="custom-banner__hero-right-{{ section_id }}"
-        {% if section.settings.hero_bottom_right_image != blank %}
-          style="background-image: url('{{ section.settings.hero_bottom_right_image | image_url: width: 1800 }}');"
+        class="custom-banner__hero-right-{{ ai_gen_id }}"
+        {% if block.settings.hero_bottom_right_image %}
+          style="background-image: url('{{ block.settings.hero_bottom_right_image | image_url: width: 1500 }}');"
         {% endif %}
       >
-        {% if section.settings.hero_bottom_right_image == blank %}
-          <div class="custom-banner__hero-right-placeholder-{{ section_id }}">
-            {{ 'collection-1' | placeholder_svg_tag }}
-          </div>
-        {% endif %}
+        {% unless block.settings.hero_bottom_right_image %}
+          {{ 'collection-apparel-1' | placeholder_svg_tag }}
+        {% endunless %}
       </div>
     </div>
   </div>
 
-  <div class="custom-banner__bottom-strip-{{ section_id }}">
-    <p class="custom-banner__bottom-text-{{ section_id }}">
-      {{ section.settings.bottom_strip_text }}
+  <div class="custom-banner__bottom-strip-{{ ai_gen_id }}">
+    <p class="custom-banner__bottom-text-{{ ai_gen_id }}">
+      {{ block.settings.bottom_strip_text }}
     </p>
   </div>
-</section>
+</custom-banner-{{ ai_gen_id }}>
 
 <script>
   (function() {
@@ -467,10 +474,10 @@
   })();
 </script>
 
-
 {% schema %}
 {
   "name": "Custom banner",
+  "tag": null,
   "settings": [
     {
       "type": "header",
@@ -484,17 +491,17 @@
     {
       "type": "range",
       "id": "logo_width",
-      "min": 60,
-      "max": 240,
+      "min": 50,
+      "max": 200,
       "step": 10,
       "unit": "px",
       "label": "Logo width",
-      "default": 140
+      "default": 120
     },
     {
       "type": "text",
       "id": "top_message",
-      "label": "Top message",
+      "label": "Message",
       "default": "Find the ideal gift for your loved ones."
     },
     {
@@ -504,19 +511,19 @@
       "max": 24,
       "step": 1,
       "unit": "px",
-      "label": "Top message font size",
+      "label": "Message font size",
       "default": 14
     },
     {
       "type": "text",
       "id": "top_button_label",
-      "label": "Top button label",
+      "label": "Button label",
       "default": "CHOOSE GIFT"
     },
     {
       "type": "url",
       "id": "top_button_link",
-      "label": "Top button link"
+      "label": "Button link"
     },
     {
       "type": "range",
@@ -525,7 +532,7 @@
       "max": 20,
       "step": 1,
       "unit": "px",
-      "label": "Top button font size",
+      "label": "Button font size",
       "default": 14
     },
     {
@@ -535,18 +542,52 @@
       "max": 40,
       "step": 2,
       "unit": "px",
-      "label": "Top button border radius",
-      "default": 0
+      "label": "Button border radius",
+      "default": 4
     },
     {
       "type": "range",
       "id": "top_bar_padding",
-      "min": 8,
-      "max": 40,
-      "step": 2,
+      "min": 10,
+      "max": 50,
+      "step": 5,
       "unit": "px",
-      "label": "Top bar vertical padding",
-      "default": 12
+      "label": "Vertical padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Top bar colors"
+    },
+    {
+      "type": "color",
+      "id": "top_bar_bg_color",
+      "label": "Background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "top_message_color",
+      "label": "Message color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "top_button_bg",
+      "label": "Button background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "top_button_hover_bg",
+      "label": "Button hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "top_button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
     },
     {
       "type": "header",
@@ -555,26 +596,16 @@
     {
       "type": "image_picker",
       "id": "hero_top_image",
-      "label": "Top hero background image"
+      "label": "Top background image"
     },
     {
       "type": "range",
       "id": "hero_top_height",
-      "min": 120,
+      "min": 100,
       "max": 500,
       "step": 20,
       "unit": "px",
-      "label": "Top hero height",
-      "default": 220
-    },
-    {
-      "type": "range",
-      "id": "hero_top_height_mobile",
-      "min": 120,
-      "max": 400,
-      "step": 20,
-      "unit": "px",
-      "label": "Top hero mobile height",
+      "label": "Top section height",
       "default": 200
     },
     {
@@ -587,48 +618,48 @@
       "type": "range",
       "id": "hero_heading_size",
       "min": 24,
-      "max": 92,
-      "step": 2,
+      "max": 72,
+      "step": 4,
       "unit": "px",
       "label": "Heading font size",
-      "default": 72
+      "default": 48
     },
     {
       "type": "textarea",
       "id": "hero_description",
       "label": "Description",
-      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+      "default": "Discover thoughtfully curated gifts for every occasion and every person in your life."
     },
     {
       "type": "range",
       "id": "hero_description_size",
       "min": 14,
-      "max": 28,
+      "max": 24,
       "step": 1,
       "unit": "px",
       "label": "Description font size",
-      "default": 18
+      "default": 16
     },
     {
       "type": "text",
       "id": "hero_button_label",
-      "label": "Main button label",
+      "label": "Button label",
       "default": "SHOP NOW"
     },
     {
       "type": "url",
       "id": "hero_button_link",
-      "label": "Main button link"
+      "label": "Button link"
     },
     {
       "type": "range",
       "id": "hero_button_font_size",
-      "min": 12,
-      "max": 20,
+      "min": 14,
+      "max": 22,
       "step": 1,
       "unit": "px",
-      "label": "Main button font size",
-      "default": 14
+      "label": "Button font size",
+      "default": 16
     },
     {
       "type": "range",
@@ -637,107 +668,43 @@
       "max": 40,
       "step": 2,
       "unit": "px",
-      "label": "Main button border radius",
-      "default": 0
+      "label": "Button border radius",
+      "default": 4
     },
     {
       "type": "image_picker",
       "id": "hero_bottom_right_image",
-      "label": "Bottom right image"
+      "label": "Right side image"
     },
     {
       "type": "range",
       "id": "hero_bottom_height",
       "min": 300,
-      "max": 800,
+      "max": 700,
       "step": 20,
       "unit": "px",
       "label": "Bottom section height",
-      "default": 520
-    },
-    {
-      "type": "range",
-      "id": "hero_right_mobile_height",
-      "min": 220,
-      "max": 500,
-      "step": 20,
-      "unit": "px",
-      "label": "Right image mobile height",
-      "default": 300
+      "default": 500
     },
     {
       "type": "range",
       "id": "hero_content_padding",
       "min": 20,
-      "max": 120,
-      "step": 4,
+      "max": 100,
+      "step": 10,
       "unit": "px",
-      "label": "Left content padding",
-      "default": 44
+      "label": "Content padding",
+      "default": 60
     },
     {
       "type": "header",
-      "content": "Bottom strip"
-    },
-    {
-      "type": "text",
-      "id": "bottom_strip_text",
-      "label": "Bottom strip text",
-      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
-    },
-    {
-      "type": "range",
-      "id": "bottom_strip_font_size",
-      "min": 10,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "label": "Bottom strip font size",
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "bottom_strip_padding",
-      "min": 8,
-      "max": 30,
-      "step": 2,
-      "unit": "px",
-      "label": "Bottom strip vertical padding",
-      "default": 10
-    },
-    {
-      "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color",
-      "id": "section_bg_color",
-      "label": "Section background",
-      "default": "#f3f3f3"
-    },
-    {
-      "type": "color",
-      "id": "top_bar_bg_color",
-      "label": "Top bar background",
-      "default": "#f3f3f3"
-    },
-    {
-      "type": "color",
-      "id": "top_message_color",
-      "label": "Top message color",
-      "default": "#121212"
+      "content": "Hero colors"
     },
     {
       "type": "color",
       "id": "hero_left_bg",
-      "label": "Hero left background",
-      "default": "#f3f3f3"
-    },
-    {
-      "type": "color",
-      "id": "hero_right_bg",
-      "label": "Hero right background",
-      "default": "#f3f3f3"
+      "label": "Left background",
+      "default": "#ffffff"
     },
     {
       "type": "color",
@@ -753,45 +720,63 @@
     },
     {
       "type": "color",
-      "id": "bottom_strip_bg",
-      "label": "Bottom strip background",
-      "default": "#f3f3f3"
-    },
-    {
-      "type": "color",
-      "id": "bottom_strip_color",
-      "label": "Bottom strip text color",
+      "id": "hero_button_bg",
+      "label": "Button background",
       "default": "#121212"
     },
     {
       "type": "color",
-      "id": "button_bg_color",
-      "label": "Button background",
+      "id": "hero_button_hover_bg",
+      "label": "Button hover background",
       "default": "#000000"
     },
     {
       "type": "color",
-      "id": "button_text_color",
-      "label": "Button text color",
+      "id": "hero_button_text_color",
+      "label": "Button text",
       "default": "#ffffff"
     },
     {
-      "type": "color",
-      "id": "button_border_color",
-      "label": "Button border color",
-      "default": "#000000"
+      "type": "header",
+      "content": "Bottom strip"
+    },
+    {
+      "type": "text",
+      "id": "bottom_strip_text",
+      "label": "Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 15
     },
     {
       "type": "color",
-      "id": "button_hover_bg_color",
-      "label": "Button hover background",
-      "default": "#FFF544"
+      "id": "bottom_strip_bg",
+      "label": "Background",
+      "default": "#121212"
     },
     {
       "type": "color",
-      "id": "button_hover_text_color",
-      "label": "Button hover text color",
-      "default": "#000000"
+      "id": "bottom_strip_color",
+      "label": "Text color",
+      "default": "#ffffff"
     },
     {
       "type": "header",
@@ -800,12 +785,12 @@
     {
       "type": "range",
       "id": "horizontal_padding",
-      "min": 16,
+      "min": 20,
       "max": 100,
-      "step": 4,
+      "step": 10,
       "unit": "px",
       "label": "Horizontal padding",
-      "default": 32
+      "default": 40
     }
   ],
   "presets": [
