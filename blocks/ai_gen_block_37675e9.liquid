@@ -129,29 +129,6 @@
       justify-content: flex-end;
     }
 
-    {% comment %} .custom-banner__top-button-{{ ai_gen_id }} {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background-color: {{ block.settings.top_button_bg }};
-      color: {{ block.settings.top_button_text_color }};
-      text-decoration: none;
-      border-radius: {{ block.settings.top_button_radius }}px;
-      font-size: {{ block.settings.top_button_font_size }}px;
-      font-weight: 600;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .custom-banner__top-button-{{ ai_gen_id }}:hover {
-      transform: translateX(5px);
-      background-color: {{ block.settings.top_button_hover_bg }};
-    }
-
-    .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
-      transform: translateX(5px);
-    } {% endcomment %}
-
     .custom-banner__top-button-{{ ai_gen_id }} {
     position: relative;
     display: inline-flex;
@@ -162,7 +139,6 @@
     gap: 10px;
     text-decoration: none;
     font-size: {{ block.settings.top_button_font_size }}px;
-    font-weight: 600;
     color: #ffffff;
     background-color: #000000;
     border: 1px solid #000000;
@@ -271,7 +247,6 @@
     gap: 10px;
     text-decoration: none;
     font-size: {{ block.settings.hero_button_font_size }}px;
-    font-weight: 600;
     color: #ffffff;
     background-color: #000000;
     border: 1px solid #000000;
