@@ -1,6 +1,717 @@
+{% doc %}
+  @prompt
+    Create a custom Shopify section named "custom-banner.liquid" from scratch. Do not use any prebuilt Dawn sections or components. Use only Liquid, HTML, CSS, and vanilla JavaScript (no jQuery).
+    
+    The banner must be divided into 3 main parts:
+    
+    --------------------------------------------------
+    
+    1. Top Bar (3-column layout with logo)
+    
+    - Left: PNG logo image (upload via Shopify customizer)
+    - Center: small message text (e.g., "Find the ideal gift for your loved ones.")
+    - Right: CTA button (e.g., "CHOOSE GIFT") with arrow icon
+    - Desktop layout: 3 columns (left, center, right)
+    - Mobile layout: stacked and centered
+    - Add smooth hover animation on button (translate + arrow move)
+    - Logo must be uploaded via image_picker setting
+    
+    --------------------------------------------------
+    
+    2. Hero Section (Split Layout)
+    
+    This section must be divided into TWO PARTS:
+    
+    (A) Top Hero Area:
+    - Full-width background image (selectable from customizer)
+    - Acts as visual banner top
+    - No text here, only background display
+    
+    (B) Bottom Split Area:
+    - Two-column layout
+    
+    Left Side:
+    - Heading (e.g., "The Gift Guide")
+    - Description text
+    - CTA button (e.g., "SHOP NOW")
+    - Button hover animation
+    
+    Right Side:
+    - Background image or image block (selectable from customizer)
+    
+    - Ensure alignment and spacing is clean and pixel-perfect
+    - Make layout responsive:
+      - Desktop: 2 columns
+      - Mobile: stacked
+    
+    --------------------------------------------------
+    
+    3. Bottom Strip Section
+    
+    - Thin horizontal strip below hero
+    - Center aligned uppercase text
+    - Example:
+      "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    
+    --------------------------------------------------
+    
+    Technical Requirements:
+    
+    - Everything must be inside ONE Shopify section file
+    - All text and images must be editable via schema settings
+    - Add settings for:
+      - logo image (PNG)
+      - top message
+      - top button label + link
+      - top background image
+      - bottom right image
+      - heading
+      - description
+      - main button label + link
+      - bottom strip text
+      - colors (optional)
+    
+    - Use semantic CSS class naming
+    - Add proper spacing, alignment, and typography
+    - Add responsive CSS (desktop + mobile)
+    - Use CSS transitions for animations (no JS needed for buttons)
+    - Ensure pixel-perfect layout as per design
+    - Code must be clean, structured, and production-ready
+    
+    --------------------------------------------------
+    
+    IMPORTANT POINTS (Must follow):
+    
+    - Do NOT use any existing Dawn section
+    - Do NOT use jQuery
+    - Build everything from scratch
+    - All content must be dynamic (editable in customizer)
+    - Keep code modular and readable
+    - Optimize image usage (use image_url filter)
+    - Ensure fast loading and clean UI
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .custom-banner-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .custom-banner__top-bar-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: {{ block.settings.top_bar_padding }}px {{ block.settings.horizontal_padding }}px;
+    background-color: {{ block.settings.top_bar_bg_color }};
+  }
+
+  .custom-banner__logo-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .custom-banner__logo-{{ ai_gen_id }} img {
+    max-width: {{ block.settings.logo_width }}px;
+    height: auto;
+  }
+
+  .custom-banner__message-{{ ai_gen_id }} {
+    text-align: center;
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
+  }
+
+  .custom-banner__top-cta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: {{ block.settings.top_button_bg }};
+    color: {{ block.settings.top_button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.top_button_radius }}px;
+    font-size: {{ block.settings.top_button_font_size }}px;
+    font-weight: 600;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover {
+    transform: translateX(5px);
+    background-color: {{ block.settings.top_button_hover_bg }};
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
+    transform: translateX(5px);
+  }
+
+  .custom-banner__arrow-{{ ai_gen_id }} {
+    transition: transform 0.3s ease;
+  }
+
+  .custom-banner__hero-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .custom-banner__hero-top-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.hero_top_height }}px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .custom-banner__hero-bottom-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .custom-banner__hero-left-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: {{ block.settings.hero_content_padding }}px;
+    background-color: {{ block.settings.hero_left_bg }};
+  }
+
+  .custom-banner__hero-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_heading_size }}px;
+    color: {{ block.settings.hero_heading_color }};
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+  }
+
+  .custom-banner__hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_description_size }}px;
+    color: {{ block.settings.hero_description_color }};
+    margin: 0 0 30px 0;
+    line-height: 1.6;
+  }
+
+  .custom-banner__hero-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    background-color: {{ block.settings.hero_button_bg }};
+    color: {{ block.settings.hero_button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.hero_button_radius }}px;
+    font-size: {{ block.settings.hero_button_font_size }}px;
+    font-weight: 600;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    align-self: flex-start;
+  }
+
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover {
+    transform: translateY(-3px);
+    background-color: {{ block.settings.hero_button_hover_bg }};
+  }
+
+  .custom-banner__hero-right-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.hero_bottom_height }}px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .custom-banner__bottom-strip-{{ ai_gen_id }} {
+    padding: {{ block.settings.bottom_strip_padding }}px {{ block.settings.horizontal_padding }}px;
+    background-color: {{ block.settings.bottom_strip_bg }};
+    text-align: center;
+  }
+
+  .custom-banner__bottom-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bottom_strip_font_size }}px;
+    color: {{ block.settings.bottom_strip_color }};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .custom-banner__top-bar-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 15px;
+    }
+
+    .custom-banner__logo-{{ ai_gen_id }},
+    .custom-banner__top-cta-{{ ai_gen_id }} {
+      justify-content: center;
+    }
+
+    .custom-banner__hero-bottom-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .custom-banner__hero-right-{{ ai_gen_id }} {
+      height: 300px;
+    }
+
+    .custom-banner__hero-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_heading_size }}px * 0.7);
+    }
+
+    .custom-banner__hero-description-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_description_size }}px * 0.9);
+    }
+
+    .custom-banner__bottom-text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.85);
+    }
+  }
+{% endstyle %}
+
+<custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="custom-banner__top-bar-{{ ai_gen_id }}">
+    <div class="custom-banner__logo-{{ ai_gen_id }}">
+      {% if block.settings.logo %}
+        <img
+          src="{{ block.settings.logo | image_url: width: 400 }}"
+          alt="{{ block.settings.logo.alt | escape }}"
+          width="{{ block.settings.logo_width }}"
+          height="auto"
+          loading="lazy"
+        >
+      {% else %}
+        <div class="custom-banner__logo-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="custom-banner__message-{{ ai_gen_id }}">
+      {{ block.settings.top_message }}
+    </div>
+
+    <div class="custom-banner__top-cta-{{ ai_gen_id }}">
+      <a
+        href="{{ block.settings.top_button_link }}"
+        class="custom-banner__top-button-{{ ai_gen_id }}"
+      >
+        {{ block.settings.top_button_label }}
+        <span class="custom-banner__arrow-{{ ai_gen_id }}">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="custom-banner__hero-{{ ai_gen_id }}">
+    <div
+      class="custom-banner__hero-top-{{ ai_gen_id }}"
+      {% if block.settings.hero_top_image %}
+        style="background-image: url('{{ block.settings.hero_top_image | image_url: width: 2000 }}');"
+      {% endif %}
+    >
+      {% unless block.settings.hero_top_image %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      {% endunless %}
+    </div>
+
+    <div class="custom-banner__hero-bottom-{{ ai_gen_id }}">
+      <div class="custom-banner__hero-left-{{ ai_gen_id }}">
+        {% if block.settings.hero_heading != blank %}
+          <h2 class="custom-banner__hero-heading-{{ ai_gen_id }}">
+            {{ block.settings.hero_heading }}
+          </h2>
+        {% endif %}
+
+        {% if block.settings.hero_description != blank %}
+          <div class="custom-banner__hero-description-{{ ai_gen_id }}">
+            {{ block.settings.hero_description }}
+          </div>
+        {% endif %}
+
+        <a
+          href="{{ block.settings.hero_button_link }}"
+          class="custom-banner__hero-button-{{ ai_gen_id }}"
+        >
+          {{ block.settings.hero_button_label }}
+        </a>
+      </div>
+
+      <div
+        class="custom-banner__hero-right-{{ ai_gen_id }}"
+        {% if block.settings.hero_bottom_right_image %}
+          style="background-image: url('{{ block.settings.hero_bottom_right_image | image_url: width: 1500 }}');"
+        {% endif %}
+      >
+        {% unless block.settings.hero_bottom_right_image %}
+          {{ 'collection-apparel-1' | placeholder_svg_tag }}
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-banner__bottom-strip-{{ ai_gen_id }}">
+    <p class="custom-banner__bottom-text-{{ ai_gen_id }}">
+      {{ block.settings.bottom_strip_text }}
+    </p>
+  </div>
+</custom-banner-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CustomBanner{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.initBanner();
+      }
+
+      initBanner() {
+        const buttons = this.querySelectorAll('a[href=""]');
+        buttons.forEach(button => {
+          button.addEventListener('click', (e) => {
+            if (!button.getAttribute('href') || button.getAttribute('href') === '') {
+              e.preventDefault();
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('custom-banner-{{ ai_gen_id }}', CustomBanner{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Custom banner",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Top bar"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 120
+    },
+    {
+      "type": "text",
+      "id": "top_message",
+      "label": "Message",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "range",
+      "id": "top_message_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Message font size",
+      "default": 14
+    },
+    {
+      "type": "text",
+      "id": "top_button_label",
+      "label": "Button label",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "top_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "top_button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "top_button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "top_bar_padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Top bar colors"
+    },
+    {
+      "type": "color",
+      "id": "top_bar_bg_color",
+      "label": "Background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "top_message_color",
+      "label": "Message color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "top_button_bg",
+      "label": "Button background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "top_button_hover_bg",
+      "label": "Button hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "top_button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_top_image",
+      "label": "Top background image"
+    },
+    {
+      "type": "range",
+      "id": "hero_top_height",
+      "min": 100,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Top section height",
+      "default": 200
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "range",
+      "id": "hero_heading_size",
+      "min": 24,
+      "max": 72,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 48
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Description",
+      "default": "Discover thoughtfully curated gifts for every occasion and every person in your life."
+    },
+    {
+      "type": "range",
+      "id": "hero_description_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size",
+      "default": 16
+    },
+    {
+      "type": "text",
+      "id": "hero_button_label",
+      "label": "Button label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "hero_button_font_size",
+      "min": 14,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "hero_button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 4
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bottom_right_image",
+      "label": "Right side image"
+    },
+    {
+      "type": "range",
+      "id": "hero_bottom_height",
+      "min": 300,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "label": "Bottom section height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "hero_content_padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Content padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Hero colors"
+    },
+    {
+      "type": "color",
+      "id": "hero_left_bg",
+      "label": "Left background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "hero_heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_description_color",
+      "label": "Description color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_button_bg",
+      "label": "Button background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_button_hover_bg",
+      "label": "Button hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "hero_button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Bottom strip"
+    },
+    {
+      "type": "text",
+      "id": "bottom_strip_text",
+      "label": "Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_bg",
+      "label": "Background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom banner"
+    }
+  ]
+}
 {% endschema %}
