@@ -215,6 +215,7 @@
     .custom-banner__hero-left-{{ ai_gen_id }} {
       display: flex;
       flex-direction: column;
+      padding-bottom:0 !important;
       padding: {{ block.settings.hero_content_padding }}px;
       background-color: {{ block.settings.hero_left_bg }};
     }
@@ -301,13 +302,7 @@
 
     .custom-banner__hero-right-{{ ai_gen_id }} {
       width: 100%;
-      height: {{ block.settings.hero_bottom_height }}px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    min-height: 500px;
     background-size: contain;
-    background-position: center;
     background-repeat: no-repeat;
     }
 
