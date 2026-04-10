@@ -55,7 +55,7 @@
             "hero_button_radius": 4,
             "hero_bottom_right_image": "shopify://shop_images/Frame_1.png",
             "hero_bottom_height": 400,
-            "hero_content_padding": 50,
+            "hero_content_padding": 40,
             "hero_left_bg": "#ffffff",
             "hero_heading_color": "#121212",
             "hero_description_color": "#121212",
