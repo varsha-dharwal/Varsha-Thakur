@@ -668,6 +668,11 @@
     background: transparent;
   }
 
+  .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }},
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
+    transform: translateX(5px);
+  }
+
   .custom-banner__top-bar-{{ ai_gen_id }} {
     width: 100%;
     background: {{ block.settings.top_bar_bg_color }};
