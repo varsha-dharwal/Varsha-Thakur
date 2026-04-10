@@ -467,41 +467,84 @@
       font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.85);
     }
   }
+
+ //
+
+/* Logo container */
+.custom-banner__logo-{{ ai_gen_id }} {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+/* Hamburger icon */
+.custom-banner__menu-icon-{{ ai_gen_id }} {
+  font-size: 20px;
+  cursor: pointer;
+  display: none; /* default hidden */
+}
+
+/* Tablet + Mobile → SHOW */
+@media screen and (max-width: 1024px) {
+  .custom-banner__menu-icon-{{ ai_gen_id }} {
+    display: block;
+  }
+}
+
+/* Desktop → HIDE */
+@media screen and (min-width: 1025px) {
+  .custom-banner__menu-icon-{{ ai_gen_id }} {
+    display: none;
+  }
+}
+
 {% endstyle %}
 
 <custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
-  <div class="custom-banner__top-bar-{{ ai_gen_id }}">
-    <div class="custom-banner__logo-{{ ai_gen_id }}">
-      {% if block.settings.logo %}
-        <img
-          src="{{ block.settings.logo | image_url: width: 400 }}"
-          alt="{{ block.settings.logo.alt | escape }}"
-          width="{{ block.settings.logo_width }}"
-          height="auto"
-          loading="lazy"
-        >
-      {% else %}
-        <div class="custom-banner__logo-placeholder-{{ ai_gen_id }}">
-          {{ 'image' | placeholder_svg_tag }}
-        </div>
-      {% endif %}
+ <div class="custom-banner__top-bar-{{ ai_gen_id }}">
+
+  <!-- LEFT (hamburger + logo) -->
+  <div class="custom-banner__logo-{{ ai_gen_id }}">
+
+    <!-- HAMBURGER -->
+    <div class="custom-banner__menu-icon-{{ ai_gen_id }}">
+      ☰
     </div>
 
-    <div class="custom-banner__message-{{ ai_gen_id }}">
-      {{ block.settings.top_message }}
-    </div>
-
-    <div class="custom-banner__top-cta-{{ ai_gen_id }}">
-      <a
-        href="{{ block.settings.top_button_link }}"
-        class="custom-banner__top-button-{{ ai_gen_id }}"
+    {% if block.settings.logo %}
+      <img
+        src="{{ block.settings.logo | image_url: width: 400 }}"
+        alt="{{ block.settings.logo.alt | escape }}"
+        width="{{ block.settings.logo_width }}"
+        height="auto"
+        loading="lazy"
       >
-        <span class="custom-banner__text-{{ ai_gen_id }}">
-          {{ block.settings.top_button_label }}
-        </span>
-      </a>
-    </div>
+    {% else %}
+      <div class="custom-banner__logo-placeholder-{{ ai_gen_id }}">
+        {{ 'image' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
   </div>
+
+  <!-- CENTER -->
+  <div class="custom-banner__message-{{ ai_gen_id }}">
+    {{ block.settings.top_message }}
+  </div>
+
+  <!-- RIGHT -->
+  <div class="custom-banner__top-cta-{{ ai_gen_id }}">
+    <a
+      href="{{ block.settings.top_button_link | default: '#' }}"
+      class="custom-banner__top-button-{{ ai_gen_id }}"
+    >
+      <span class="custom-banner__text-{{ ai_gen_id }}">
+        {{ block.settings.top_button_label }}
+      </span>
+    </a>
+  </div>
+
+</div>
 
   <div class="custom-banner__hero-{{ ai_gen_id }}">
     <div
