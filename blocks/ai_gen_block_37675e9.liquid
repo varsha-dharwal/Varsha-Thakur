@@ -1,4 +1,96 @@
-{% assign ai_gen_id = section.id | replace: '_', '' | downcase %}
+{% doc %}
+  @prompt
+    Create a custom Shopify section named "custom-banner.liquid" from scratch. Do not use any prebuilt Dawn sections or components. Use only Liquid, HTML, CSS, and vanilla JavaScript (no jQuery).
+    
+    The banner must be divided into 3 main parts:
+    
+    --------------------------------------------------
+    
+    1. Top Bar (3-column layout with logo)
+    
+    - Left: PNG logo image (upload via Shopify customizer)
+    - Center: small message text (e.g., "Find the ideal gift for your loved ones.")
+    - Right: CTA button (e.g., "CHOOSE GIFT") with arrow icon
+    - Desktop layout: 3 columns (left, center, right)
+    - Mobile layout: stacked and centered
+    - Add smooth hover animation on button (translate + arrow move)
+    - Logo must be uploaded via image_picker setting
+    
+    --------------------------------------------------
+    
+    2. Hero Section (Split Layout)
+    
+    This section must be divided into TWO PARTS:
+    
+    (A) Top Hero Area:
+    - Full-width background image (selectable from customizer)
+    - Acts as visual banner top
+    - No text here, only background display
+    
+    (B) Bottom Split Area:
+    - Two-column layout
+    
+    Left Side:
+    - Heading (e.g., "The Gift Guide")
+    - Description text
+    - CTA button (e.g., "SHOP NOW")
+    - Button hover animation
+    
+    Right Side:
+    - Background image or image block (selectable from customizer)
+    
+    - Ensure alignment and spacing is clean and pixel-perfect
+    - Make layout responsive:
+      - Desktop: 2 columns
+      - Mobile: stacked
+    
+    --------------------------------------------------
+    
+    3. Bottom Strip Section
+    
+    - Thin horizontal strip below hero
+    - Center aligned uppercase text
+    - Example:
+      "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    
+    --------------------------------------------------
+    
+    Technical Requirements:
+    
+    - Everything must be inside ONE Shopify section file
+    - All text and images must be editable via schema settings
+    - Add settings for:
+      - logo image (PNG)
+      - top message
+      - top button label + link
+      - top background image
+      - bottom right image
+      - heading
+      - description
+      - main button label + link
+      - bottom strip text
+      - colors (optional)
+    
+    - Use semantic CSS class naming
+    - Add proper spacing, alignment, and typography
+    - Add responsive CSS (desktop + mobile)
+    - Use CSS transitions for animations (no JS needed for buttons)
+    - Ensure pixel-perfect layout as per design
+    - Code must be clean, structured, and production-ready
+    
+    --------------------------------------------------
+    
+    IMPORTANT POINTS (Must follow):
+    
+    - Do NOT use any existing Dawn section
+    - Do NOT use jQuery
+    - Build everything from scratch
+    - All content must be dynamic (editable in customizer)
+    - Keep code modular and readable
+    - Optimize image usage (use image_url filter)
+    - Ensure fast loading and clean UI
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
 
 {% style %}
   .custom-banner-{{ ai_gen_id }} {
@@ -7,64 +99,47 @@
     max-width: 1440px;
     margin: 0 auto;
     overflow: hidden;
-    background: transparent;
   }
 
   .custom-banner__top-bar-{{ ai_gen_id }} {
-    width: 100%;
-    background: {{ section.settings.top_bar_bg_color }};
-    border-bottom: 1px solid {{ section.settings.top_bar_border_color }};
-  }
-
-  .custom-banner__brand-text-{{ ai_gen_id }},
-  .custom-banner__mobile-brand-{{ ai_gen_id }},
-  .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #111111;
-  }
-
-  .custom-banner__desktop-bar-{{ ai_gen_id }} {
     display: grid;
-    grid-template-columns: minmax(160px, 1fr) auto minmax(180px, 1fr);
+    grid-template-columns: minmax(140px, 1fr) minmax(220px, 2fr) minmax(180px, 1fr);
     align-items: center;
     gap: 20px;
     min-height: 64px;
-    padding: {{ section.settings.top_bar_padding }}px {{ section.settings.horizontal_padding }}px;
-    background-color: {{ section.settings.top_bar_bg_color }};
+    padding: {{ block.settings.top_bar_padding }}px {{ block.settings.horizontal_padding }}px;
+    background-color: {{ block.settings.top_bar_bg_color }};
   }
 
-  .custom-banner__desktop-logo-{{ ai_gen_id }} {
+  .custom-banner__logo-{{ ai_gen_id }} {
     display: flex;
-    align-items: center;
     justify-content: flex-start;
-    min-width: 160px;
-    overflow: visible;
+    align-items: center;
+    min-width: 0;
   }
 
-  .custom-banner__desktop-logo-{{ ai_gen_id }} img {
+  .custom-banner__logo-{{ ai_gen_id }} img {
     display: block;
-    width: auto;
-    max-width: {{ section.settings.logo_width }}px;
+    width: {{ block.settings.logo_width }}px;
+    max-width: 100%;
     height: auto;
     object-fit: contain;
   }
 
-  .custom-banner__desktop-message-{{ ai_gen_id }} {
+  .custom-banner__message-{{ ai_gen_id }} {
     text-align: center;
-    color: {{ section.settings.top_message_color }};
-    font-size: {{ section.settings.top_message_size }}px;
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
     line-height: 1.4;
+    min-width: 0;
     word-break: break-word;
   }
 
-  .custom-banner__desktop-cta-{{ ai_gen_id }} {
+  .custom-banner__top-cta-{{ ai_gen_id }} {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    min-width: 0;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }},
@@ -73,32 +148,28 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    min-height: 48px;
-    padding: 12px 22px;
+    gap: 10px;
+    min-height: 50px;
+    padding: 14px 24px;
+    width: auto;
     min-width: 220px;
     max-width: 100%;
     text-decoration: none;
-    line-height: 1;
-    text-transform: uppercase;
     overflow: hidden;
-    transition: color 0.3s ease, transform 0.25s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
     white-space: nowrap;
-    border: none;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} {
-    background: {{ section.settings.top_button_bg }};
-    color: {{ section.settings.top_button_text_color }};
-    font-size: {{ section.settings.top_button_font_size }}px;
-    border-radius: {{ section.settings.top_button_radius }}px;
+    font-size: {{ block.settings.top_button_font_size }}px;
+    color: #ffffff;
+    background-color: #000000;
   }
 
   .custom-banner__hero-button-{{ ai_gen_id }} {
-    background: {{ section.settings.hero_button_bg }};
-    color: {{ section.settings.hero_button_text_color }};
-    font-size: {{ section.settings.hero_button_font_size }}px;
-    border-radius: {{ section.settings.hero_button_radius }}px;
+    font-size: {{ block.settings.hero_button_font_size }}px;
+    color: #ffffff;
+    background-color: #000000;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }}::before,
@@ -106,17 +177,10 @@
     content: "";
     position: absolute;
     inset: 0;
+    background-color: #FFF544;
     transform: translateX(-100%);
-    transition: transform 0.35s ease;
+    transition: transform 0.4s ease;
     z-index: 0;
-  }
-
-  .custom-banner__top-button-{{ ai_gen_id }}::before {
-    background: {{ section.settings.top_button_hover_bg }};
-  }
-
-  .custom-banner__hero-button-{{ ai_gen_id }}::before {
-    background: {{ section.settings.hero_button_hover_bg }};
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} span,
@@ -132,98 +196,22 @@
 
   .custom-banner__top-button-{{ ai_gen_id }}:hover,
   .custom-banner__hero-button-{{ ai_gen_id }}:hover {
+    color: #000000;
     transform: translateY(-2px);
-    color: #111111;
   }
 
   .custom-banner__arrow-{{ ai_gen_id }},
   .custom-banner__hero-arrow-{{ ai_gen_id }} {
     position: relative;
     z-index: 1;
-    transition: transform 0.25s ease;
-    flex-shrink: 0;
     color: inherit;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }},
   .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
-    transform: translateX(4px);
-  }
-
-  .custom-banner__mobile-wrap-{{ ai_gen_id }} {
-    display: none;
-  }
-
-  .custom-banner__mobile-trigger-{{ ai_gen_id }} {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    min-height: 52px;
-    padding: 14px 16px;
-    border: 0;
-    background: {{ section.settings.top_bar_bg_color }};
-    cursor: pointer;
-  }
-
-  .custom-banner__mobile-logo-image-{{ ai_gen_id }} {
-    display: block;
-    max-width: 140px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-  }
-
-  .custom-banner__menu-icon-{{ ai_gen_id }},
-  .custom-banner__close-button-{{ ai_gen_id }} {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    line-height: 1;
-    color: {{ section.settings.top_icon_color }};
-  }
-
-  .custom-banner__close-button-{{ ai_gen_id }} {
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .custom-banner__mobile-panel-{{ ai_gen_id }} {
-    padding: 0 0 16px;
-    background: {{ section.settings.top_bar_bg_color }};
-  }
-
-  .custom-banner__mobile-panel-header-{{ ai_gen_id }} {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 52px;
-    padding: 14px 16px;
-    border-top: 1px solid {{ section.settings.top_bar_border_color }};
-    box-shadow: 0 1px 0 {{ section.settings.top_bar_border_color }} inset;
-  }
-
-  .custom-banner__mobile-message-{{ ai_gen_id }} {
-    margin-top: 14px;
-    padding: 0 16px;
-    text-align: center;
-    color: {{ section.settings.top_message_color }};
-    font-size: {{ section.settings.top_message_size }}px;
-    line-height: 1.5;
-    word-break: break-word;
-  }
-
-  .custom-banner__mobile-cta-{{ ai_gen_id }} {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-    padding: 0 16px;
+    transform: translateX(5px);
   }
 
   .custom-banner__hero-{{ ai_gen_id }} {
@@ -233,17 +221,10 @@
 
   .custom-banner__hero-top-{{ ai_gen_id }} {
     width: 100%;
-    height: {{ section.settings.hero_top_height }}px;
+    height: {{ block.settings.hero_top_height }}px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-  }
-
-  .custom-banner__hero-top-{{ ai_gen_id }} svg,
-  .custom-banner__hero-right-{{ ai_gen_id }} svg {
-    width: 100%;
-    height: 100%;
-    display: block;
   }
 
   .custom-banner__hero-bottom-{{ ai_gen_id }} {
@@ -251,7 +232,7 @@
     grid-template-columns: 1fr 1fr;
     align-items: stretch;
     gap: 0;
-    min-height: {{ section.settings.hero_bottom_height }}px;
+    min-height: {{ block.settings.hero_bottom_height }}px;
   }
 
   .custom-banner__hero-left-{{ ai_gen_id }} {
@@ -259,22 +240,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: {{ section.settings.hero_content_padding }}px;
-    background-color: {{ section.settings.hero_left_bg }};
+    padding: {{ block.settings.hero_content_padding }}px;
+    background-color: {{ block.settings.hero_left_bg }};
     min-width: 0;
   }
 
   .custom-banner__hero-heading-{{ ai_gen_id }} {
-    font-size: {{ section.settings.hero_heading_size }}px;
-    color: {{ section.settings.hero_heading_color }};
+    font-size: {{ block.settings.hero_heading_size }}px;
+    color: {{ block.settings.hero_heading_color }};
     margin: 0 0 20px 0;
     line-height: 1.15;
     word-break: break-word;
   }
 
   .custom-banner__hero-description-{{ ai_gen_id }} {
-    font-size: {{ section.settings.hero_description_size }}px;
-    color: {{ section.settings.hero_description_color }};
+    font-size: {{ block.settings.hero_description_size }}px;
+    color: {{ block.settings.hero_description_color }};
     margin: 0 0 36px 0;
     line-height: 1.5;
     max-width: 483px;
@@ -284,7 +265,7 @@
 
   .custom-banner__hero-right-{{ ai_gen_id }} {
     width: 100%;
-    min-height: {{ section.settings.hero_bottom_height }}px;
+    min-height: {{ block.settings.hero_bottom_height }}px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -292,14 +273,14 @@
   }
 
   .custom-banner__bottom-strip-{{ ai_gen_id }} {
-    padding: {{ section.settings.bottom_strip_padding }}px {{ section.settings.horizontal_padding }}px;
-    background-color: {{ section.settings.bottom_strip_bg }};
+    padding: {{ block.settings.bottom_strip_padding }}px {{ block.settings.horizontal_padding }}px;
+    background-color: {{ block.settings.bottom_strip_bg }};
     text-align: center;
   }
 
   .custom-banner__bottom-text-{{ ai_gen_id }} {
-    font-size: {{ section.settings.bottom_strip_font_size }}px;
-    color: {{ section.settings.bottom_strip_color }};
+    font-size: {{ block.settings.bottom_strip_font_size }}px;
+    color: {{ block.settings.bottom_strip_color }};
     text-transform: uppercase;
     letter-spacing: 1px;
     line-height: 1.4;
@@ -307,17 +288,13 @@
     word-break: break-word;
   }
 
+  /* Large tablet / small desktop */
   @media screen and (max-width: 1199px) {
-    .custom-banner__hero-left-{{ ai_gen_id }} {
-      padding: 40px;
-    }
-
-    .custom-banner__hero-heading-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.hero_heading_size }}px * 0.82);
-    }
-
-    .custom-banner__hero-description-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.hero_description_size }}px * 0.95);
+    .custom-banner__top-bar-{{ ai_gen_id }} {
+      grid-template-columns: minmax(120px, 1fr) minmax(180px, 2fr) minmax(160px, 1fr);
+      gap: 16px;
+      padding-left: 24px;
+      padding-right: 24px;
     }
 
     .custom-banner__top-button-{{ ai_gen_id }},
@@ -325,29 +302,39 @@
       min-width: 190px;
       padding: 12px 20px;
     }
-  }
 
-  @media screen and (max-width: 1024px) {
-    .custom-banner__desktop-bar-{{ ai_gen_id }} {
-      display: none;
+    .custom-banner__hero-left-{{ ai_gen_id }} {
+      padding: 40px;
     }
 
-    .custom-banner__mobile-wrap-{{ ai_gen_id }} {
-      display: block;
-    }
-  }
-
-  @media screen and (min-width: 1025px) {
-    .custom-banner__desktop-bar-{{ ai_gen_id }} {
-      display: grid;
+    .custom-banner__hero-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_heading_size }}px * 0.82);
     }
 
-    .custom-banner__mobile-wrap-{{ ai_gen_id }} {
-      display: none;
+    .custom-banner__hero-description-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_description_size }}px * 0.95);
     }
   }
 
+  /* Tablet */
   @media screen and (max-width: 989px) {
+    .custom-banner__top-bar-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      min-height: auto;
+      text-align: center;
+      padding: 18px 20px;
+    }
+
+    .custom-banner__logo-{{ ai_gen_id }},
+    .custom-banner__top-cta-{{ ai_gen_id }} {
+      justify-content: center;
+    }
+
+    .custom-banner__message-{{ ai_gen_id }} {
+      max-width: 100%;
+    }
+
     .custom-banner__hero-bottom-{{ ai_gen_id }} {
       grid-template-columns: 1fr;
       min-height: auto;
@@ -376,13 +363,37 @@
     }
   }
 
+  /* Mobile */
   @media screen and (max-width: 767px) {
     .custom-banner-{{ ai_gen_id }} {
       max-width: 100%;
     }
 
+    .custom-banner__top-bar-{{ ai_gen_id }} {
+      gap: 12px;
+      padding: 14px 16px;
+    }
+
+    .custom-banner__logo-{{ ai_gen_id }} img {
+      width: min({{ block.settings.logo_width }}px, 150px);
+    }
+
+    .custom-banner__message-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.top_message_size }}px * 0.95);
+      line-height: 1.5;
+    }
+
+    .custom-banner__top-button-{{ ai_gen_id }},
+    .custom-banner__hero-button-{{ ai_gen_id }} {
+      min-width: 100%;
+      width: 100%;
+      max-width: 280px;
+      min-height: 48px;
+      padding: 12px 18px;
+    }
+
     .custom-banner__hero-top-{{ ai_gen_id }} {
-      height: calc({{ section.settings.hero_top_height }}px * 0.72);
+      height: calc({{ block.settings.hero_top_height }}px * 0.72);
       min-height: 180px;
     }
 
@@ -397,23 +408,15 @@
     }
 
     .custom-banner__hero-heading-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.hero_heading_size }}px * 0.58);
+      font-size: calc({{ block.settings.hero_heading_size }}px * 0.58);
       margin-bottom: 16px;
+      line-height: 1.15;
     }
 
     .custom-banner__hero-description-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.hero_description_size }}px * 0.95);
+      font-size: calc({{ block.settings.hero_description_size }}px * 0.95);
       margin-bottom: 24px;
       max-width: 100%;
-    }
-
-    .custom-banner__top-button-{{ ai_gen_id }},
-    .custom-banner__hero-button-{{ ai_gen_id }} {
-      min-width: 100%;
-      width: 100%;
-      max-width: 280px;
-      min-height: 48px;
-      padding: 12px 18px;
     }
 
     .custom-banner__bottom-strip-{{ ai_gen_id }} {
@@ -422,19 +425,19 @@
     }
 
     .custom-banner__bottom-text-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.bottom_strip_font_size }}px * 0.92);
+      font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.92);
       letter-spacing: 0.4px;
     }
   }
 
-  @media screen and (max-width: 480px) {
-    .custom-banner__mobile-brand-{{ ai_gen_id }},
-    .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
-      font-size: 15px;
+  /* Very small mobile */
+  @media screen and (max-width: 479px) {
+    .custom-banner__top-bar-{{ ai_gen_id }} {
+      padding: 12px 14px;
     }
 
-    .custom-banner__mobile-message-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.top_message_size }}px * 0.95);
+    .custom-banner__message-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.top_message_size }}px * 0.9);
     }
 
     .custom-banner__top-button-{{ ai_gen_id }},
@@ -453,169 +456,332 @@
     }
 
     .custom-banner__hero-heading-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.hero_heading_size }}px * 0.48);
+      font-size: calc({{ block.settings.hero_heading_size }}px * 0.48);
     }
 
     .custom-banner__hero-description-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.hero_description_size }}px * 0.9);
+      font-size: calc({{ block.settings.hero_description_size }}px * 0.9);
     }
 
     .custom-banner__bottom-text-{{ ai_gen_id }} {
-      font-size: calc({{ section.settings.bottom_strip_font_size }}px * 0.85);
+      font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.85);
     }
   }
+
+ //
+
+  .custom-banner__top-bar-{{ ai_gen_id }} {
+    width: 100%;
+    background: {{ block.settings.top_bar_bg_color }};
+  }
+
+  .custom-banner__brand-text-{{ ai_gen_id }},
+  .custom-banner__mobile-brand-{{ ai_gen_id }},
+  .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #111111;
+  }
+
+  .custom-banner__desktop-bar-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    min-height: 64px;
+    padding: {{ block.settings.top_bar_padding }}px {{ block.settings.horizontal_padding }}px;
+    background-color: {{ block.settings.top_bar_bg_color }};
+  }
+
+  .custom-banner__desktop-logo-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .custom-banner__desktop-logo-{{ ai_gen_id }} img {
+    width: {{ block.settings.logo_width }}px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .custom-banner__desktop-message-{{ ai_gen_id }} {
+    text-align: center;
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
+    line-height: 1.4;
+  }
+
+  .custom-banner__desktop-cta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 220px;
+    min-height: 48px;
+    padding: 12px 22px;
+    text-decoration: none;
+    background: #f3e62f;
+    color: #111111;
+    font-size: {{ block.settings.top_button_font_size }}px;
+    line-height: 1;
+    text-transform: uppercase;
+    transition: transform 0.25s ease;
+  }
+
+  .custom-banner__arrow-{{ ai_gen_id }} {
+    transition: transform 0.25s ease;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
+    transform: translateX(4px);
+  }
+
+  .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+    {% comment %} display: none; {% endcomment %}
+  }
+
+  .custom-banner__mobile-trigger-{{ ai_gen_id }} {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 52px;
+    padding: 14px 16px;
+    border: 0;
+    background: {{ block.settings.top_bar_bg_color }};
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  .custom-banner__menu-icon-{{ ai_gen_id }},
+  .custom-banner__close-button-{{ ai_gen_id }} {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    line-height: 1;
+    color: #111111;
+  }
+
+  .custom-banner__close-button-{{ ai_gen_id }} {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .custom-banner__mobile-panel-{{ ai_gen_id }} {
+    padding: 0 0 16px;
+    background: {{ block.settings.top_bar_bg_color }};
+  }
+
+  .custom-banner__mobile-panel-header-{{ ai_gen_id }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 14px 16px;
+    border-top: 1px solid #d9d9d9;
+    box-shadow: 0 1px 0 #d9d9d9 inset;
+  }
+
+  .custom-banner__mobile-message-{{ ai_gen_id }} {
+    margin-top: 14px;
+    padding: 0 16px;
+    text-align: center;
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
+    line-height: 1.5;
+  }
+
+  .custom-banner__mobile-cta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    padding: 0 16px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .custom-banner__desktop-bar-{{ ai_gen_id }} {
+      display: none;
+    }
+
+    .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: 1025px) {
+    .custom-banner__desktop-bar-{{ ai_gen_id }} {
+      display: grid;
+    }
+
+    .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .custom-banner__mobile-brand-{{ ai_gen_id }},
+    .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
+      font-size: 15px;
+    }
+
+    .custom-banner__mobile-message-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.top_message_size }}px * 0.95);
+    }
+
+    .custom-banner__top-button-{{ ai_gen_id }} {
+      min-width: 180px;
+      font-size: 14px;
+    }
+  }
+
+
 {% endstyle %}
 
-<custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ section.shopify_attributes }}>
-  <div class="custom-banner__top-bar-{{ ai_gen_id }}">
-    <div class="custom-banner__desktop-bar-{{ ai_gen_id }}">
-      <div class="custom-banner__desktop-logo-{{ ai_gen_id }}">
-        {% if section.settings.logo != blank %}
-          <img
-            src="{{ section.settings.logo | image_url: width: 400 }}"
-            alt="{{ section.settings.logo.alt | escape }}"
-            width="{{ section.settings.logo_width }}"
-            height="auto"
-            loading="lazy"
-          >
-        {% else %}
-          <span class="custom-banner__brand-text-{{ ai_gen_id }}">
-            {{ section.settings.logo_text }}
-          </span>
-        {% endif %}
+<custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+ <div class="custom-banner__top-bar-{{ ai_gen_id }}">
+  <div class="custom-banner__desktop-bar-{{ ai_gen_id }}">
+    <div class="custom-banner__desktop-logo-{{ ai_gen_id }}">
+      {% if block.settings.logo != blank %}
+        <img
+          src="{{ block.settings.logo | image_url: width: 400 }}"
+          alt="{{ block.settings.logo.alt | escape }}"
+          width="{{ block.settings.logo_width }}"
+          height="auto"
+          loading="lazy"
+        >
+      {% else %}
+        <span class="custom-banner__brand-text-{{ ai_gen_id }}">
+          {{ block.settings.logo_text }}
+        </span>
+      {% endif %}
+    </div>
+
+    <div class="custom-banner__desktop-message-{{ ai_gen_id }}">
+      {{ block.settings.top_message }}
+    </div>
+
+    <div class="custom-banner__desktop-cta-{{ ai_gen_id }}">
+      <a
+        href="{{ block.settings.top_button_link | default: '#' }}"
+        class="custom-banner__top-button-{{ ai_gen_id }}"
+      >
+        <span>{{ block.settings.top_button_label }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="custom-banner__mobile-wrap-{{ ai_gen_id }}">
+    <button
+      type="button"
+      class="custom-banner__mobile-trigger-{{ ai_gen_id }}"
+      aria-expanded="false"
+      aria-controls="custom-banner-mobile-panel-{{ ai_gen_id }}"
+    >
+      <span class="custom-banner__menu-icon-{{ ai_gen_id }}">☰</span>
+
+      <span class="custom-banner__mobile-brand-{{ ai_gen_id }}">
+        {{ block.settings.logo_text }}
+      </span>
+    </button>
+
+    <div
+      id="custom-banner-mobile-panel-{{ ai_gen_id }}"
+      class="custom-banner__mobile-panel-{{ ai_gen_id }}"
+      hidden
+    >
+      <div class="custom-banner__mobile-panel-header-{{ ai_gen_id }}">
+        <button
+          type="button"
+          class="custom-banner__close-button-{{ ai_gen_id }}"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+
+        <div class="custom-banner__mobile-panel-brand-{{ ai_gen_id }}">
+          {{ block.settings.logo_text }}
+        </div>
       </div>
 
-      <div class="custom-banner__desktop-message-{{ ai_gen_id }}">
-        {{ section.settings.top_message }}
+      <div class="custom-banner__mobile-message-{{ ai_gen_id }}">
+        {{ block.settings.top_message }}
       </div>
 
-      <div class="custom-banner__desktop-cta-{{ ai_gen_id }}">
+      <div class="custom-banner__mobile-cta-{{ ai_gen_id }}">
         <a
-          href="{{ section.settings.top_button_link | default: '#' }}"
+          href="{{ block.settings.top_button_link | default: '#' }}"
           class="custom-banner__top-button-{{ ai_gen_id }}"
         >
-          <span>{{ section.settings.top_button_label }}</span>
+          <span>{{ block.settings.top_button_label }}</span>
           <span class="custom-banner__arrow-{{ ai_gen_id }}">→</span>
         </a>
       </div>
     </div>
-
-    <div class="custom-banner__mobile-wrap-{{ ai_gen_id }}">
-      <button
-        type="button"
-        class="custom-banner__mobile-trigger-{{ ai_gen_id }}"
-        aria-expanded="false"
-        aria-controls="custom-banner-mobile-panel-{{ ai_gen_id }}"
-      >
-        <span class="custom-banner__menu-icon-{{ ai_gen_id }}">☰</span>
-
-        {% if section.settings.logo != blank %}
-          <img
-            src="{{ section.settings.logo | image_url: width: 300 }}"
-            alt="{{ section.settings.logo.alt | escape }}"
-            width="{{ section.settings.logo_width }}"
-            height="auto"
-            loading="lazy"
-            class="custom-banner__mobile-logo-image-{{ ai_gen_id }}"
-          >
-        {% else %}
-          <span class="custom-banner__mobile-brand-{{ ai_gen_id }}">
-            {{ section.settings.logo_text }}
-          </span>
-        {% endif %}
-      </button>
-
-      <div
-        id="custom-banner-mobile-panel-{{ ai_gen_id }}"
-        class="custom-banner__mobile-panel-{{ ai_gen_id }}"
-        hidden
-      >
-        <div class="custom-banner__mobile-panel-header-{{ ai_gen_id }}">
-          <button
-            type="button"
-            class="custom-banner__close-button-{{ ai_gen_id }}"
-            aria-label="Close menu"
-          >
-            ✕
-          </button>
-
-          {% if section.settings.logo != blank %}
-            <img
-              src="{{ section.settings.logo | image_url: width: 300 }}"
-              alt="{{ section.settings.logo.alt | escape }}"
-              width="{{ section.settings.logo_width }}"
-              height="auto"
-              loading="lazy"
-              class="custom-banner__mobile-logo-image-{{ ai_gen_id }}"
-            >
-          {% else %}
-            <div class="custom-banner__mobile-panel-brand-{{ ai_gen_id }}">
-              {{ section.settings.logo_text }}
-            </div>
-          {% endif %}
-        </div>
-
-        <div class="custom-banner__mobile-message-{{ ai_gen_id }}">
-          {{ section.settings.top_message }}
-        </div>
-
-        <div class="custom-banner__mobile-cta-{{ ai_gen_id }}">
-          <a
-            href="{{ section.settings.top_button_link | default: '#' }}"
-            class="custom-banner__top-button-{{ ai_gen_id }}"
-          >
-            <span>{{ section.settings.top_button_label }}</span>
-            <span class="custom-banner__arrow-{{ ai_gen_id }}">→</span>
-          </a>
-        </div>
-      </div>
-    </div>
   </div>
+</div>
 
   <div class="custom-banner__hero-{{ ai_gen_id }}">
     <div
       class="custom-banner__hero-top-{{ ai_gen_id }}"
-      {% if section.settings.hero_top_image != blank %}
-        style="background-image: url('{{ section.settings.hero_top_image | image_url: width: 2000 }}');"
+      {% if block.settings.hero_top_image %}
+        style="background-image: url('{{ block.settings.hero_top_image | image_url: width: 2000 }}');"
       {% endif %}
     >
-      {% unless section.settings.hero_top_image != blank %}
+      {% unless block.settings.hero_top_image %}
         {{ 'hero-apparel-1' | placeholder_svg_tag }}
       {% endunless %}
     </div>
 
     <div class="custom-banner__hero-bottom-{{ ai_gen_id }}">
       <div class="custom-banner__hero-left-{{ ai_gen_id }}">
-        {% if section.settings.hero_heading != blank %}
+        {% if block.settings.hero_heading != blank %}
           <h2 class="custom-banner__hero-heading-{{ ai_gen_id }}">
-            {{ section.settings.hero_heading }}
+            {{ block.settings.hero_heading }}
           </h2>
         {% endif %}
 
-        {% if section.settings.hero_description != blank %}
+        {% if block.settings.hero_description != blank %}
           <div class="custom-banner__hero-description-{{ ai_gen_id }}">
-            {{ section.settings.hero_description }}
+            {{ block.settings.hero_description }}
           </div>
         {% endif %}
 
-        {% if section.settings.hero_button_label != blank %}
-          <a
-            href="{{ section.settings.hero_button_link | default: '#' }}"
-            class="custom-banner__hero-button-{{ ai_gen_id }}"
-          >
-            <span>{{ section.settings.hero_button_label }}</span>
-            <span class="custom-banner__hero-arrow-{{ ai_gen_id }}">→</span>
-          </a>
-        {% endif %}
+        <a
+          href="{{ block.settings.hero_button_link }}"
+          class="custom-banner__hero-button-{{ ai_gen_id }}"
+        >
+          <span>{{ block.settings.hero_button_label }}</span>
+        </a>
       </div>
 
       <div
         class="custom-banner__hero-right-{{ ai_gen_id }}"
-        {% if section.settings.hero_bottom_right_image != blank %}
-          style="background-image: url('{{ section.settings.hero_bottom_right_image | image_url: width: 1500 }}');"
+        {% if block.settings.hero_bottom_right_image %}
+          style="background-image: url('{{ block.settings.hero_bottom_right_image | image_url: width: 1500 }}');"
         {% endif %}
       >
-        {% unless section.settings.hero_bottom_right_image != blank %}
+        {% unless block.settings.hero_bottom_right_image %}
           {{ 'collection-apparel-1' | placeholder_svg_tag }}
         {% endunless %}
       </div>
@@ -624,7 +790,7 @@
 
   <div class="custom-banner__bottom-strip-{{ ai_gen_id }}">
     <p class="custom-banner__bottom-text-{{ ai_gen_id }}">
-      {{ section.settings.bottom_strip_text }}
+      {{ block.settings.bottom_strip_text }}
     </p>
   </div>
 </custom-banner-{{ ai_gen_id }}>
@@ -632,6 +798,10 @@
 <script>
   (function() {
     class CustomBanner{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
       connectedCallback() {
         this.initBanner();
       }
@@ -642,11 +812,10 @@
       }
 
       handleEmptyLinks() {
-        const links = this.querySelectorAll('a');
-        links.forEach((link) => {
-          link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
-            if (!href || href.trim() === '') {
+        const buttons = this.querySelectorAll('a[href=""]');
+        buttons.forEach((button) => {
+          button.addEventListener('click', (e) => {
+            if (!button.getAttribute('href') || button.getAttribute('href') === '') {
               e.preventDefault();
             }
           });
