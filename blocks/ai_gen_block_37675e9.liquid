@@ -128,7 +128,7 @@
     justify-content: flex-end;
   }
 
-  .custom-banner__top-button-{{ ai_gen_id }} {
+  {% comment %} .custom-banner__top-button-{{ ai_gen_id }} {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -149,7 +149,63 @@
 
   .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
     transform: translateX(5px);
-  }
+  } {% endcomment %}
+
+  .custom-banner__top-button-{{ ai_gen_id }} {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 50px;
+  gap: 10px;
+  text-decoration: none;
+  font-size: {{ block.settings.top_button_font_size }}px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #000000;
+  border: 1px solid #000000;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+/* Sliding yellow layer */
+.custom-banner__top-button-{{ ai_gen_id }}::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #FFF544;
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+
+/* Text above overlay */
+.custom-banner__top-button-{{ ai_gen_id }} span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover animation */
+.custom-banner__top-button-{{ ai_gen_id }}:hover::before {
+  transform: translateX(0);
+}
+
+/* Text color change */
+.custom-banner__top-button-{{ ai_gen_id }}:hover {
+  color: #000000;
+}
+
+/* Arrow animation */
+.custom-banner__arrow-{{ ai_gen_id }} {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }} {
+  transform: translateX(5px);
+}
 
   .custom-banner__arrow-{{ ai_gen_id }} {
     transition: transform 0.3s ease;
