@@ -1241,14 +1241,14 @@
       {{ block.settings.top_message }}
     </div>
 
-    <div class="custom-banner__desktop-cta-{{ ai_gen_id }}">
+    {% comment %} <div class="custom-banner__desktop-cta-{{ ai_gen_id }}">
       <a
         href="{{ block.settings.top_button_link | default: '#' }}"
         class="custom-banner__top-button-{{ ai_gen_id }}"
       >
         <span>{{ block.settings.top_button_label }}</span>
       </a>
-    </div>
+    </div> {% endcomment %}
   </div>
 
   <div class="custom-banner__mobile-wrap-{{ ai_gen_id }}">
