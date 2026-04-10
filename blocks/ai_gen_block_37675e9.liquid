@@ -174,9 +174,9 @@
     line-height: 1;
     text-transform: uppercase;
     overflow: hidden;
-    transition: color 0.3s ease, transform 0.25s ease;
     white-space: nowrap;
     border: none;
+    isolation: isolate;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} {
@@ -184,6 +184,7 @@
     color: {{ block.settings.top_button_text_color }};
     font-size: {{ block.settings.top_button_font_size }}px;
     border-radius: {{ block.settings.top_button_radius }}px;
+    transition: color 0.3s ease, transform 0.25s ease;
   }
 
   .custom-banner__hero-button-{{ ai_gen_id }} {
@@ -191,6 +192,7 @@
     color: {{ block.settings.hero_button_text_color }};
     font-size: {{ block.settings.hero_button_font_size }}px;
     border-radius: {{ block.settings.hero_button_radius }}px;
+    transition: color 0.3s ease, transform 0.25s ease;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }}::before,
@@ -199,16 +201,16 @@
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    transition: transform 0.35s ease;
+    transition: transform 0.4s ease;
     z-index: 0;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }}::before {
-    background: {{ block.settings.top_button_hover_bg }};
+    background-color: {{ block.settings.top_button_hover_bg }};
   }
 
   .custom-banner__hero-button-{{ ai_gen_id }}::before {
-    background: {{ block.settings.hero_button_hover_bg }};
+    background-color: {{ block.settings.hero_button_hover_bg }};
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} span,
@@ -232,14 +234,14 @@
   .custom-banner__hero-arrow-{{ ai_gen_id }} {
     position: relative;
     z-index: 1;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s ease;
     flex-shrink: 0;
     color: inherit;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }},
   .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
-    transform: translateX(4px);
+    transform: translateX(5px);
   }
 
   .custom-banner__mobile-wrap-{{ ai_gen_id }} {
