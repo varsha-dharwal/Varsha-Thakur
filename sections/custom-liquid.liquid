@@ -1,68 +1,431 @@
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: calc({{ section.settings.padding_top }}px * 0.75);
-    padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
+{% comment %}
+  Custom Banner Section
+  Built from scratch for hiring test
+  Uses only Liquid, HTML, CSS, and vanilla JS
+{% endcomment %}
+
+{% style %}
+  .custom-banner {
+    width: 100%;
+    background: {{ section.settings.banner_bg }};
   }
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+  .custom-banner__topbar {
+    background: {{ section.settings.topbar_bg }};
+    border-bottom: 1px solid {{ section.settings.topbar_border }};
+  }
+
+  .custom-banner__topbar-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 56px;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .custom-banner__brand {
+    margin: 0;
+    justify-self: start;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: {{ section.settings.topbar_text_color }};
+  }
+
+  .custom-banner__message {
+    margin: 0;
+    justify-self: center;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.4;
+    color: {{ section.settings.topbar_text_color }};
+  }
+
+  .custom-banner__top-button {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 40px;
+    padding: 0 18px;
+    background: {{ section.settings.top_button_bg }};
+    color: {{ section.settings.top_button_text_color }};
+    border: 1px solid {{ section.settings.top_button_bg }};
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+
+  .custom-banner__top-button:hover {
+    background: transparent;
+    color: {{ section.settings.topbar_text_color }};
+    transform: translateY(-1px);
+  }
+
+  .custom-banner__top-button-arrow,
+  .custom-banner__main-button-arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+
+  .custom-banner__top-button:hover .custom-banner__top-button-arrow,
+  .custom-banner__main-button:hover .custom-banner__main-button-arrow {
+    transform: translateX(4px);
+  }
+
+  .custom-banner__hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 690px;
+    background: {{ section.settings.banner_bg }};
+  }
+
+  .custom-banner__hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url({{ section.settings.background_image | image_url: width: 2200 }});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .custom-banner__hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 690px;
+    padding: 110px 32px 56px;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .custom-banner__content {
+    max-width: 470px;
+  }
+
+  .custom-banner__heading {
+    margin: 0 0 22px;
+    color: {{ section.settings.heading_color }};
+    font-size: 64px;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+  }
+
+  .custom-banner__description {
+    margin: 0 0 30px;
+    max-width: 390px;
+    color: {{ section.settings.description_color }};
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .custom-banner__main-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 0 22px;
+    background: {{ section.settings.main_button_bg }};
+    color: {{ section.settings.main_button_text_color }};
+    border: 1px solid {{ section.settings.main_button_bg }};
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+
+  .custom-banner__main-button:hover {
+    background: transparent;
+    color: {{ section.settings.heading_color }};
+    transform: translateY(-1px);
+  }
+
+  .custom-banner__bottom-strip {
+    background: {{ section.settings.bottom_strip_bg }};
+    border-top: 1px solid {{ section.settings.bottom_strip_border }};
+    border-bottom: 1px solid {{ section.settings.bottom_strip_border }};
+    text-align: center;
+    padding: 8px 16px;
+    color: {{ section.settings.bottom_strip_text_color }};
+    font-size: 10px;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 989px) {
+    .custom-banner__hero,
+    .custom-banner__hero-inner {
+      min-height: 580px;
+    }
+
+    .custom-banner__heading {
+      font-size: 48px;
     }
   }
-{%- endstyle -%}
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="section-{{ section.id }}-padding">
-    {{ section.settings.custom_liquid }}
+
+  @media screen and (max-width: 749px) {
+    .custom-banner__topbar-inner {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 10px 16px;
+      min-height: auto;
+    }
+
+    .custom-banner__brand,
+    .custom-banner__message,
+    .custom-banner__top-button {
+      justify-self: center;
+    }
+
+    .custom-banner__message {
+      white-space: normal;
+    }
+
+    .custom-banner__hero,
+    .custom-banner__hero-inner {
+      min-height: 540px;
+    }
+
+    .custom-banner__hero-inner {
+      align-items: flex-start;
+      padding: 250px 20px 36px;
+    }
+
+    .custom-banner__content {
+      max-width: 100%;
+    }
+
+    .custom-banner__heading {
+      font-size: 42px;
+      margin-bottom: 18px;
+    }
+
+    .custom-banner__description {
+      max-width: 100%;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .custom-banner__top-button,
+    .custom-banner__main-button {
+      min-height: 44px;
+      padding: 0 16px;
+      font-size: 11px;
+    }
+  }
+{% endstyle %}
+
+<section class="custom-banner">
+  <div class="custom-banner__topbar">
+    <div class="custom-banner__topbar-inner">
+      <p class="custom-banner__brand">
+        {{ section.settings.brand_text }}
+      </p>
+
+      <p class="custom-banner__message">
+        {{ section.settings.top_message }}
+      </p>
+
+      {% if section.settings.top_button_label != blank and section.settings.top_button_link != blank %}
+        <a href="{{ section.settings.top_button_link }}" class="custom-banner__top-button">
+          <span>{{ section.settings.top_button_label }}</span>
+          <span class="custom-banner__top-button-arrow">→</span>
+        </a>
+      {% endif %}
+    </div>
   </div>
-</div>
+
+  <div class="custom-banner__hero">
+    <div class="custom-banner__hero-bg"></div>
+
+    <div class="custom-banner__hero-inner">
+      <div class="custom-banner__content">
+        {% if section.settings.heading != blank %}
+          <h1 class="custom-banner__heading">{{ section.settings.heading }}</h1>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="custom-banner__description">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.main_button_label != blank and section.settings.main_button_link != blank %}
+          <a href="{{ section.settings.main_button_link }}" class="custom-banner__main-button">
+            <span>{{ section.settings.main_button_label }}</span>
+            <span class="custom-banner__main-button-arrow">→</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.bottom_strip_text != blank %}
+    <div class="custom-banner__bottom-strip">
+      {{ section.settings.bottom_strip_text }}
+    </div>
+  {% endif %}
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.custom-liquid.name",
-  "tag": "section",
-  "class": "section",
+  "name": "Custom Banner",
   "settings": [
     {
-      "type": "liquid",
-      "id": "custom_liquid",
-      "label": "t:sections.custom-liquid.settings.custom_liquid.label",
-      "info": "t:sections.custom-liquid.settings.custom_liquid.info"
+      "type": "text",
+      "id": "brand_text",
+      "label": "Top left text",
+      "default": "TISSO VISION"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "type": "text",
+      "id": "top_message",
+      "label": "Top center text",
+      "default": "Find the ideal gift for your loved ones."
     },
     {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "type": "text",
+      "id": "top_button_label",
+      "label": "Top right button label",
+      "default": "CHOOSE GIFT"
     },
     {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 40
+      "type": "url",
+      "id": "top_button_link",
+      "label": "Top right button link"
     },
     {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 52
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
+    },
+    {
+      "type": "text",
+      "id": "main_button_label",
+      "label": "Main button label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "main_button_link",
+      "label": "Main button link"
+    },
+    {
+      "type": "text",
+      "id": "bottom_strip_text",
+      "label": "Bottom strip text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "color",
+      "id": "topbar_bg",
+      "label": "Top bar background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "topbar_border",
+      "label": "Top bar border color",
+      "default": "#d9d9d9"
+    },
+    {
+      "type": "color",
+      "id": "topbar_text_color",
+      "label": "Top bar text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "top_button_bg",
+      "label": "Top button background",
+      "default": "#f1e94b"
+    },
+    {
+      "type": "color",
+      "id": "top_button_text_color",
+      "label": "Top button text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "banner_bg",
+      "label": "Banner fallback background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "main_button_bg",
+      "label": "Main button background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "main_button_text_color",
+      "label": "Main button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_bg",
+      "label": "Bottom strip background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_border",
+      "label": "Bottom strip border color",
+      "default": "#d9d9d9"
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_text_color",
+      "label": "Bottom strip text color",
+      "default": "#555555"
     }
   ],
   "presets": [
     {
-      "name": "t:sections.custom-liquid.presets.name"
+      "name": "Custom Banner"
     }
   ]
 }
