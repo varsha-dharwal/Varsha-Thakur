@@ -853,7 +853,6 @@
 {% schema %}
 {
   "name": "Custom banner",
-  "tag": null,
   "settings": [
     {
       "type": "header",
@@ -863,6 +862,12 @@
       "type": "image_picker",
       "id": "logo",
       "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "TISSO VISION"
     },
     {
       "type": "range",
@@ -943,6 +948,18 @@
     },
     {
       "type": "color",
+      "id": "top_bar_border_color",
+      "label": "Border color",
+      "default": "#d9d9d9"
+    },
+    {
+      "type": "color",
+      "id": "top_icon_color",
+      "label": "Hamburger / close icon color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
       "id": "top_message_color",
       "label": "Message color",
       "default": "#121212"
@@ -951,7 +968,7 @@
       "type": "color",
       "id": "top_button_bg",
       "label": "Button background",
-      "default": "#121212"
+      "default": "#f3e62f"
     },
     {
       "type": "color",
@@ -963,7 +980,7 @@
       "type": "color",
       "id": "top_button_text_color",
       "label": "Button text",
-      "default": "#ffffff"
+      "default": "#111111"
     },
     {
       "type": "header",
