@@ -607,7 +607,7 @@
 
     function getFirstAvailableVariant(product) {
       if (!product || !product.variants) return null;
-      return product.variants.find(v => v.available) || product.variants[0] || null;
+      return product.variants.find((v) => v.available) || product.variants[0] || null;
     }
 
     function buildInitialSelectedOptions(product) {
@@ -623,7 +623,7 @@
     function findMatchingVariant(product, optionValues) {
       if (!product || !product.variants) return null;
 
-      return product.variants.find(variant => {
+      return product.variants.find((variant) => {
         return optionValues.every((value, index) => {
           const key = `option${index + 1}`;
           return (variant[key] || '') === value;
@@ -667,7 +667,10 @@
         btn.type = 'button';
         btn.className = 'custom-grid__pill-{{ grid_id }}';
         btn.textContent = value;
-        if (selectedOptions[optionIndex] === value) btn.classList.add('is-active');
+
+        if (selectedOptions[optionIndex] === value) {
+          btn.classList.add('is-active');
+        }
 
         btn.addEventListener('click', () => {
           selectedOptions[optionIndex] = value;
@@ -702,7 +705,11 @@
         const optionEl = document.createElement('option');
         optionEl.value = value;
         optionEl.textContent = value;
-        if (selectedOptions[optionIndex] === value) optionEl.selected = true;
+
+        if (selectedOptions[optionIndex] === value) {
+          optionEl.selected = true;
+        }
+
         select.appendChild(optionEl);
       });
 
@@ -714,6 +721,7 @@
       const icon = document.createElement('span');
       icon.className = 'custom-grid__select-icon-{{ grid_id }}';
       icon.textContent = '▾';
+
       wrap.appendChild(select);
       wrap.appendChild(icon);
       group.appendChild(wrap);
@@ -747,6 +755,7 @@
       modalDescription.textContent = product.description || '';
       modalImage.src = (selectedVariant && selectedVariant.featured_image) || product.featured_image || '';
       modalImage.alt = product.title || '';
+
       renderOptions();
       updateSelectedVariant();
 
@@ -763,11 +772,22 @@
       showError('');
     }
 
+    /* ONLY + ICON SHOULD OPEN MODAL */
     cards.forEach((card) => {
-      card.addEventListener('click', () => {
+      const hotspot = card.querySelector('.custom-grid__hotspot-{{ grid_id }}');
+
+      if (!hotspot) return;
+
+      hotspot.style.pointerEvents = 'auto';
+
+      hotspot.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
         const id = card.getAttribute('data-product-json-id');
         const product = safeParseProduct(id);
         if (!product) return;
+
         openModal(product);
       });
     });
@@ -783,7 +803,8 @@
 
     function shouldAddBundle(optionValues) {
       if (!Array.isArray(optionValues)) return false;
-      const normalized = optionValues.map(v => String(v || '').trim().toLowerCase());
+
+      const normalized = optionValues.map((v) => String(v || '').trim().toLowerCase());
       return normalized.includes('black') && normalized.includes('medium');
     }
 
@@ -794,7 +815,8 @@
       try {
         const bundleProduct = JSON.parse(bundleNode.textContent);
         if (!bundleProduct || !bundleProduct.variants || !bundleProduct.variants.length) return null;
-        const availableVariant = bundleProduct.variants.find(v => v.available);
+
+        const availableVariant = bundleProduct.variants.find((v) => v.available);
         return (availableVariant || bundleProduct.variants[0] || {}).id || null;
       } catch (e) {
         return null;
@@ -815,7 +837,9 @@
         let message = 'Unable to add item to cart.';
         try {
           const data = await response.json();
-          if (data && data.description) message = data.description;
+          if (data && data.description) {
+            message = data.description;
+          }
         } catch (e) {}
         throw new Error(message);
       }
@@ -865,7 +889,6 @@
     });
   })();
 </script>
-
 {% schema %}
 {
   "name": "Custom grid",
