@@ -371,7 +371,7 @@
 
   .custom-banner__hero-bottom-{{ ai_gen_id }} {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+       grid-template-columns: 1fr minmax(0, 807px);
     align-items: stretch;
     gap: 0;
   }
@@ -409,7 +409,7 @@
     width: 100%;
         height: 100%;
     {% comment %} min-height: {{ block.settings.hero_bottom_height }}px; {% endcomment %}
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-color: transparent;
   }
