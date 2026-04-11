@@ -17,9 +17,14 @@
         "top_button_link": "/collections/all",
         "bottom_strip_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
       }
+    },
+    "grid": {
+      "type": "custom-grid",
+      "settings": {}
     }
   },
   "order": [
-    "banner"
+    "banner",
+    "grid"
   ]
 }
