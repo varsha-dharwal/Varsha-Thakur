@@ -1149,7 +1149,7 @@
 /* ================= DEFAULT COLORS ================= */
 
 .custom-banner__top-button-{{ ai_gen_id }} {
-  background: {{ block.settings.top_button_bg }};
+  {% comment %} background: {{ block.settings.top_button_bg }}; {% endcomment %}
   color: {{ block.settings.top_button_text_color }};
 }
 
@@ -1176,7 +1176,7 @@
 
 /* hover color */
 .custom-banner__top-button-{{ ai_gen_id }}::before {
-  background: {{ block.settings.top_button_hover_bg }};
+  {% comment %} background: {{ block.settings.top_button_hover_bg }}; {% endcomment %}
 }
 
 .custom-banner__hero-button-{{ ai_gen_id }}::before {
