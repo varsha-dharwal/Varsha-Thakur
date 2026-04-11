@@ -1,96 +1,1037 @@
-<div class="custom-grid-section">
-  <div class="page-width">
-    <h2>{{ section.settings.heading }}</h2>
-
-    <div class="custom-grid">
-      {% for block in section.blocks %}
-        <div class="custom-grid-item" {{ block.shopify_attributes }}>
-          {% if block.settings.image != blank %}
-            <img
-              src="{{ block.settings.image | image_url: width: 800 }}"
-              alt="{{ block.settings.title | escape }}"
-              width="400"
-              height="auto"
-            >
-          {% endif %}
-
-          <h3>{{ block.settings.title }}</h3>
-          <p>{{ block.settings.text }}</p>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-</div>
+{% assign grid_id = section.id | replace: '_', '' | downcase %}
 
 {% style %}
-  .custom-grid-section {
-    padding: 60px 20px;
+  .custom-grid-section-{{ grid_id }} {
+    background: {{ section.settings.section_bg }};
+    padding: {{ section.settings.section_padding_top }}px {{ section.settings.section_padding_horizontal }}px {{ section.settings.section_padding_bottom }}px;
   }
 
-  .custom-grid-section .page-width {
-    max-width: 1200px;
+  .custom-grid__inner-{{ grid_id }} {
+    max-width: {{ section.settings.page_width }}px;
     margin: 0 auto;
   }
 
-  .custom-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+  .custom-grid__heading-{{ grid_id }} {
+    margin: 0 0 28px;
+    font-size: {{ section.settings.heading_size }}px;
+    line-height: 1.1;
+    color: {{ section.settings.heading_color }};
+    font-weight: 400;
+    letter-spacing: 0;
   }
 
-  .custom-grid-item img {
+  .custom-grid__list-{{ grid_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: {{ section.settings.grid_gap }}px;
+  }
+
+  .custom-grid__card-{{ grid_id }} {
+    position: relative;
+    display: block;
     width: 100%;
-    height: auto;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .custom-grid__media-wrap-{{ grid_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 0.79;
+    overflow: hidden;
+    background: #f2f2f2;
+  }
+
+  .custom-grid__media-wrap-{{ grid_id }} img,
+  .custom-grid__media-wrap-{{ grid_id }} svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .custom-grid__hotspot-{{ grid_id }} {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.92);
+    color: #111111;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.12);
+    pointer-events: none;
+  }
+
+  .custom-grid__modal-{{ grid_id }}[hidden] {
+    display: none !important;
+  }
+
+  .custom-grid__modal-{{ grid_id }} {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+  }
+
+  .custom-grid__overlay-{{ grid_id }} {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+  }
+
+  .custom-grid__dialog-{{ grid_id }} {
+    position: relative;
+    z-index: 1;
+    width: min(100% - 32px, 760px);
+    margin: 48px auto;
+    background: {{ section.settings.modal_bg }};
+    color: {{ section.settings.modal_text_color }};
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    padding: 20px;
+  }
+
+  .custom-grid__close-{{ grid_id }} {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: transparent;
+    color: #111111;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .custom-grid__modal-content-{{ grid_id }} {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .custom-grid__modal-image-{{ grid_id }} {
+    width: 100%;
+    aspect-ratio: 0.85;
+    overflow: hidden;
+    background: #f4f4f4;
+  }
+
+  .custom-grid__modal-image-{{ grid_id }} img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .custom-grid__product-title-{{ grid_id }} {
+    margin: 0 0 16px;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 400;
+    color: {{ section.settings.modal_text_color }};
+  }
+
+  .custom-grid__price-{{ grid_id }} {
+    margin: 0 0 14px;
+    font-size: 18px;
+    line-height: 1.2;
+    color: {{ section.settings.modal_text_color }};
+  }
+
+  .custom-grid__description-{{ grid_id }} {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: {{ section.settings.modal_text_color }};
+  }
+
+  .custom-grid__option-group-{{ grid_id }} {
+    margin-bottom: 16px;
+  }
+
+  .custom-grid__option-label-{{ grid_id }} {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    line-height: 1.2;
+    color: {{ section.settings.modal_text_color }};
+  }
+
+  .custom-grid__pill-list-{{ grid_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid #bdbdbd;
+  }
+
+  .custom-grid__pill-{{ grid_id }} {
+    appearance: none;
+    border: 0;
+    border-right: 1px solid #bdbdbd;
+    background: transparent;
+    color: #111111;
+    min-width: 110px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  .custom-grid__pill-{{ grid_id }}:last-child {
+    border-right: 0;
+  }
+
+  .custom-grid__pill-{{ grid_id }}.is-active {
+    background: #111111;
+    color: #ffffff;
+  }
+
+  .custom-grid__select-wrap-{{ grid_id }} {
+    position: relative;
+  }
+
+  .custom-grid__select-{{ grid_id }} {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid #bdbdbd;
+    background: #ffffff;
+    color: #111111;
+    min-height: 48px;
+    padding: 0 46px 0 14px;
+    font-size: 14px;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+
+  .custom-grid__select-icon-{{ grid_id }} {
+    pointer-events: none;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #111111;
+  }
+
+  .custom-grid__error-{{ grid_id }} {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #b42318;
+    display: none;
+  }
+
+  .custom-grid__error-{{ grid_id }}.is-visible {
     display: block;
   }
 
-  @media screen and (max-width: 768px) {
-    .custom-grid {
+  .custom-grid__add-btn-{{ grid_id }} {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 54px;
+    margin-top: 22px;
+    border: 0;
+    background: {{ section.settings.add_to_cart_bg }};
+    color: {{ section.settings.add_to_cart_text }};
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 1;
+    overflow: hidden;
+  }
+
+  .custom-grid__add-btn-{{ grid_id }}::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 102%;
+    transform: translateX(-101%);
+    background: {{ section.settings.add_to_cart_hover_bg }};
+    transition: transform 0.4s ease;
+    z-index: 0;
+  }
+
+  .custom-grid__add-btn-{{ grid_id }} span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .custom-grid__add-btn-{{ grid_id }}:hover::before {
+    transform: translateX(0);
+  }
+
+  .custom-grid__add-btn-{{ grid_id }}:hover {
+    color: {{ section.settings.add_to_cart_hover_text }};
+  }
+
+  .custom-grid__add-btn-{{ grid_id }}[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .custom-grid__add-arrow-{{ grid_id }} {
+    transition: transform 0.3s ease;
+  }
+
+  .custom-grid__add-btn-{{ grid_id }}:hover .custom-grid__add-arrow-{{ grid_id }} {
+    transform: translateX(5px);
+  }
+
+  @media screen and (max-width: 989px) {
+    .custom-grid__list-{{ grid_id }} {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .custom-grid__dialog-{{ grid_id }} {
+      width: min(100% - 16px, 760px);
+      margin: 24px auto;
+      padding: 16px;
+    }
+
+    .custom-grid__modal-content-{{ grid_id }} {
       grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .custom-grid__modal-image-{{ grid_id }} {
+      max-width: 150px;
+      aspect-ratio: 0.85;
+    }
+
+    .custom-grid__product-title-{{ grid_id }} {
+      font-size: 24px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .custom-grid-section-{{ grid_id }} {
+      padding: {{ section.settings.mobile_padding_top }}px 12px {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    .custom-grid__inner-{{ grid_id }} {
+      max-width: 100%;
+    }
+
+    .custom-grid__heading-{{ grid_id }} {
+      margin-bottom: 16px;
+      font-size: {{ section.settings.mobile_heading_size }}px;
+      padding: 0 6px;
+    }
+
+    .custom-grid__list-{{ grid_id }} {
+      gap: 10px;
+    }
+
+    .custom-grid__hotspot-{{ grid_id }} {
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      font-size: 16px;
+    }
+
+    .custom-grid__dialog-{{ grid_id }} {
+      width: calc(100% - 16px);
+      margin: 8px auto;
+      padding: 12px;
+      max-height: calc(100vh - 16px);
+      overflow: auto;
+    }
+
+    .custom-grid__modal-content-{{ grid_id }} {
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .custom-grid__modal-image-{{ grid_id }} {
+      max-width: none;
+      width: 92px;
+      aspect-ratio: 0.83;
+    }
+
+    .custom-grid__product-title-{{ grid_id }} {
+      font-size: 24px;
+      margin-bottom: 14px;
+      padding-right: 28px;
+    }
+
+    .custom-grid__price-{{ grid_id }} {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .custom-grid__description-{{ grid_id }} {
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .custom-grid__pill-{{ grid_id }} {
+      min-width: 90px;
+      padding: 9px 12px;
+    }
+
+    .custom-grid__select-{{ grid_id }} {
+      min-height: 46px;
+    }
+
+    .custom-grid__add-btn-{{ grid_id }} {
+      min-height: 52px;
+      font-size: 15px;
+      margin-top: 18px;
     }
   }
 {% endstyle %}
 
+<section class="custom-grid-section-{{ grid_id }}" {{ section.shopify_attributes }}>
+  <div class="custom-grid__inner-{{ grid_id }}">
+    {% if section.settings.heading != blank %}
+      <h2 class="custom-grid__heading-{{ grid_id }}">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="custom-grid__list-{{ grid_id }}">
+      {% for block in section.blocks limit: 6 %}
+        {% assign product = block.settings.product %}
+        <button
+          type="button"
+          class="custom-grid__card-{{ grid_id }}"
+          data-grid-card
+          data-product-json-id="grid-product-json-{{ grid_id }}-{{ block.id }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="custom-grid__media-wrap-{{ grid_id }}">
+            {% if product != blank %}
+              {% if block.settings.custom_image != blank %}
+                <img
+                  src="{{ block.settings.custom_image | image_url: width: 900 }}"
+                  alt="{{ product.title | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="760"
+                >
+              {% elsif product.featured_image != blank %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 900 }}"
+                  alt="{{ product.title | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="760"
+                >
+              {% else %}
+                {{ 'product-apparel-1' | placeholder_svg_tag }}
+              {% endif %}
+            {% else %}
+              {{ 'product-apparel-1' | placeholder_svg_tag }}
+            {% endif %}
+
+            <span class="custom-grid__hotspot-{{ grid_id }}">+</span>
+          </div>
+        </button>
+
+        {% if product != blank %}
+          <script type="application/json" id="grid-product-json-{{ grid_id }}-{{ block.id }}">
+            {
+              "id": {{ product.id | json }},
+              "title": {{ product.title | json }},
+              "handle": {{ product.handle | json }},
+              "description": {{ product.description | strip_html | strip_newlines | json }},
+              "featured_image": {{ product.featured_image | image_url: width: 900 | json }},
+              "price": {{ product.price | json }},
+              "available": {{ product.available | json }},
+              "options": {{ product.options_with_values | json }},
+              "variants": [
+                {% for variant in product.variants %}
+                  {
+                    "id": {{ variant.id | json }},
+                    "title": {{ variant.title | json }},
+                    "available": {{ variant.available | json }},
+                    "price": {{ variant.price | json }},
+                    "compare_at_price": {{ variant.compare_at_price | json }},
+                    "option1": {{ variant.option1 | json }},
+                    "option2": {{ variant.option2 | json }},
+                    "option3": {{ variant.option3 | json }},
+                    "featured_image": {% if variant.featured_image %}{{ variant.featured_image | image_url: width: 900 | json }}{% else %}null{% endif %}
+                  }{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+              ]
+            }
+          </script>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
+    <div class="custom-grid__overlay-{{ grid_id }}" data-grid-overlay></div>
+
+    <div
+      class="custom-grid__dialog-{{ grid_id }}"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="custom-grid-modal-title-{{ grid_id }}"
+    >
+      <button type="button" class="custom-grid__close-{{ grid_id }}" aria-label="Close" data-grid-close>×</button>
+
+      <div class="custom-grid__modal-content-{{ grid_id }}">
+        <div class="custom-grid__modal-image-{{ grid_id }}">
+          <img src="" alt="" data-modal-image>
+        </div>
+
+        <div class="custom-grid__modal-details-{{ grid_id }}">
+          <h3 id="custom-grid-modal-title-{{ grid_id }}" class="custom-grid__product-title-{{ grid_id }}" data-modal-title></h3>
+          <p class="custom-grid__price-{{ grid_id }}" data-modal-price></p>
+          <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
+          <div data-modal-options></div>
+          <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
+
+          <button type="button" class="custom-grid__add-btn-{{ grid_id }}" data-modal-add-to-cart>
+            <span>{{ section.settings.add_to_cart_label }}</span>
+            <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% assign bundle_product = all_products[section.settings.bundle_product_handle] %}
+  {% if bundle_product != blank %}
+    <script type="application/json" id="grid-bundle-product-json-{{ grid_id }}">
+      {
+        "id": {{ bundle_product.id | json }},
+        "title": {{ bundle_product.title | json }},
+        "handle": {{ bundle_product.handle | json }},
+        "variants": [
+          {% for variant in bundle_product.variants %}
+            {
+              "id": {{ variant.id | json }},
+              "available": {{ variant.available | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+    </script>
+  {% endif %}
+</section>
+
+<script>
+  (function() {
+    const sectionRoot = document.querySelector('.custom-grid-section-{{ grid_id }}');
+    if (!sectionRoot) return;
+
+    const cards = sectionRoot.querySelectorAll('[data-grid-card]');
+    const modal = sectionRoot.querySelector('[data-grid-modal]');
+    const overlay = sectionRoot.querySelector('[data-grid-overlay]');
+    const closeBtn = sectionRoot.querySelector('[data-grid-close]');
+    const modalImage = sectionRoot.querySelector('[data-modal-image]');
+    const modalTitle = sectionRoot.querySelector('[data-modal-title]');
+    const modalPrice = sectionRoot.querySelector('[data-modal-price]');
+    const modalDescription = sectionRoot.querySelector('[data-modal-description]');
+    const modalOptions = sectionRoot.querySelector('[data-modal-options]');
+    const addToCartBtn = sectionRoot.querySelector('[data-modal-add-to-cart]');
+    const modalError = sectionRoot.querySelector('[data-modal-error]');
+
+    const moneyFormat = {{ shop.money_format | json }};
+    let currentProduct = null;
+    let selectedOptions = [];
+    let selectedVariant = null;
+    let isAdding = false;
+
+    function formatMoney(cents) {
+      if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+        return window.Shopify.formatMoney(cents, moneyFormat);
+      }
+      return (cents / 100).toFixed(2);
+    }
+
+    function safeParseProduct(elId) {
+      const node = document.getElementById(elId);
+      if (!node) return null;
+      try {
+        return JSON.parse(node.textContent);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function showError(message) {
+      if (!modalError) return;
+      modalError.textContent = message || '';
+      modalError.classList.toggle('is-visible', Boolean(message));
+    }
+
+    function getFirstAvailableVariant(product) {
+      if (!product || !product.variants) return null;
+      return product.variants.find(v => v.available) || product.variants[0] || null;
+    }
+
+    function buildInitialSelectedOptions(product) {
+      const initialVariant = getFirstAvailableVariant(product);
+      if (!initialVariant) return [];
+
+      return product.options.map((option, index) => {
+        const key = `option${index + 1}`;
+        return initialVariant[key] || option.values[0] || '';
+      });
+    }
+
+    function findMatchingVariant(product, optionValues) {
+      if (!product || !product.variants) return null;
+
+      return product.variants.find(variant => {
+        return optionValues.every((value, index) => {
+          const key = `option${index + 1}`;
+          return (variant[key] || '') === value;
+        });
+      }) || null;
+    }
+
+    function updateSelectedVariant() {
+      selectedVariant = findMatchingVariant(currentProduct, selectedOptions) || getFirstAvailableVariant(currentProduct);
+
+      if (!selectedVariant) return;
+
+      modalPrice.textContent = formatMoney(selectedVariant.price);
+      const img = selectedVariant.featured_image || currentProduct.featured_image || '';
+      modalImage.src = img;
+      modalImage.alt = currentProduct.title || '';
+
+      if (!selectedVariant.available) {
+        addToCartBtn.disabled = true;
+        showError('This variant is currently unavailable.');
+      } else {
+        addToCartBtn.disabled = false;
+        showError('');
+      }
+    }
+
+    function renderColorOption(option, optionIndex) {
+      const group = document.createElement('div');
+      group.className = 'custom-grid__option-group-{{ grid_id }}';
+
+      const label = document.createElement('label');
+      label.className = 'custom-grid__option-label-{{ grid_id }}';
+      label.textContent = option.name;
+      group.appendChild(label);
+
+      const list = document.createElement('div');
+      list.className = 'custom-grid__pill-list-{{ grid_id }}';
+
+      option.values.forEach((value) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'custom-grid__pill-{{ grid_id }}';
+        btn.textContent = value;
+        if (selectedOptions[optionIndex] === value) btn.classList.add('is-active');
+
+        btn.addEventListener('click', () => {
+          selectedOptions[optionIndex] = value;
+          renderOptions();
+          updateSelectedVariant();
+        });
+
+        list.appendChild(btn);
+      });
+
+      group.appendChild(list);
+      return group;
+    }
+
+    function renderSelectOption(option, optionIndex) {
+      const group = document.createElement('div');
+      group.className = 'custom-grid__option-group-{{ grid_id }}';
+
+      const label = document.createElement('label');
+      label.className = 'custom-grid__option-label-{{ grid_id }}';
+      label.textContent = option.name;
+      group.appendChild(label);
+
+      const wrap = document.createElement('div');
+      wrap.className = 'custom-grid__select-wrap-{{ grid_id }}';
+
+      const select = document.createElement('select');
+      select.className = 'custom-grid__select-{{ grid_id }}';
+      select.setAttribute('aria-label', option.name);
+
+      option.values.forEach((value) => {
+        const optionEl = document.createElement('option');
+        optionEl.value = value;
+        optionEl.textContent = value;
+        if (selectedOptions[optionIndex] === value) optionEl.selected = true;
+        select.appendChild(optionEl);
+      });
+
+      select.addEventListener('change', (event) => {
+        selectedOptions[optionIndex] = event.target.value;
+        updateSelectedVariant();
+      });
+
+      const icon = document.createElement('span');
+      icon.className = 'custom-grid__select-icon-{{ grid_id }}';
+      icon.textContent = '⌄';
+
+      wrap.appendChild(select);
+      wrap.appendChild(icon);
+      group.appendChild(wrap);
+
+      return group;
+    }
+
+    function renderOptions() {
+      modalOptions.innerHTML = '';
+
+      if (!currentProduct || !currentProduct.options) return;
+
+      currentProduct.options.forEach((option, optionIndex) => {
+        const optionName = (option.name || '').toLowerCase();
+        const isColorLike = optionName.includes('color') || optionName.includes('colour');
+
+        if (isColorLike) {
+          modalOptions.appendChild(renderColorOption(option, optionIndex));
+        } else {
+          modalOptions.appendChild(renderSelectOption(option, optionIndex));
+        }
+      });
+    }
+
+    function openModal(product) {
+      currentProduct = product;
+      selectedOptions = buildInitialSelectedOptions(product);
+      selectedVariant = getFirstAvailableVariant(product);
+
+      modalTitle.textContent = product.title || '';
+      modalDescription.textContent = product.description || '';
+      modalImage.src = (selectedVariant && selectedVariant.featured_image) || product.featured_image || '';
+      modalImage.alt = product.title || '';
+      renderOptions();
+      updateSelectedVariant();
+
+      modal.hidden = false;
+      document.documentElement.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.documentElement.style.overflow = '';
+      currentProduct = null;
+      selectedOptions = [];
+      selectedVariant = null;
+      showError('');
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const id = card.getAttribute('data-product-json-id');
+        const product = safeParseProduct(id);
+        if (!product) return;
+        openModal(product);
+      });
+    });
+
+    overlay.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !modal.hidden) {
+        closeModal();
+      }
+    });
+
+    function shouldAddBundle(optionValues) {
+      if (!Array.isArray(optionValues)) return false;
+
+      const normalized = optionValues.map(v => String(v || '').trim().toLowerCase());
+      return normalized.includes('black') && normalized.includes('medium');
+    }
+
+    function getBundleVariantId() {
+      const bundleNode = document.getElementById('grid-bundle-product-json-{{ grid_id }}');
+      if (!bundleNode) return null;
+
+      try {
+        const bundleProduct = JSON.parse(bundleNode.textContent);
+        if (!bundleProduct || !bundleProduct.variants || !bundleProduct.variants.length) return null;
+        const availableVariant = bundleProduct.variants.find(v => v.available);
+        return (availableVariant || bundleProduct.variants[0] || {}).id || null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function addItemsToCart(items) {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ items })
+      });
+
+      if (!response.ok) {
+        let message = 'Unable to add item to cart.';
+        try {
+          const data = await response.json();
+          if (data && data.description) message = data.description;
+        } catch (e) {}
+        throw new Error(message);
+      }
+
+      return response.json();
+    }
+
+    addToCartBtn.addEventListener('click', async () => {
+      if (!selectedVariant || isAdding) return;
+
+      if (!selectedVariant.available) {
+        showError('This variant is currently unavailable.');
+        return;
+      }
+
+      isAdding = true;
+      addToCartBtn.disabled = true;
+      showError('');
+
+      try {
+        const items = [
+          {
+            id: selectedVariant.id,
+            quantity: 1
+          }
+        ];
+
+        if (shouldAddBundle(selectedOptions)) {
+          const bundleVariantId = getBundleVariantId();
+          if (bundleVariantId) {
+            items.push({
+              id: bundleVariantId,
+              quantity: 1
+            });
+          }
+        }
+
+        await addItemsToCart(items);
+        closeModal();
+
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+      } catch (error) {
+        showError(error.message || 'Something went wrong.');
+      } finally {
+        isAdding = false;
+        addToCartBtn.disabled = false;
+      }
+    });
+  })();
+</script>
+
 {% schema %}
 {
-  "name": "Custom Grid",
+  "name": "Custom grid",
   "settings": [
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
-      "default": "Shop by Category"
+      "label": "Section heading",
+      "default": "Tisso vison in the wild"
+    },
+    {
+      "type": "text",
+      "id": "bundle_product_handle",
+      "label": "Bundle product handle",
+      "default": "soft-winter-jacket",
+      "info": "Used for the auto-add rule when Black + Medium is selected."
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart button label",
+      "default": "ADD TO CART"
+    },
+    {
+      "type": "range",
+      "id": "page_width",
+      "min": 900,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Page width",
+      "default": 1240
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 10,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 10,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile top padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile bottom padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "min": 18,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "modal_bg",
+      "label": "Modal background",
+      "default": "#f7f4ef"
+    },
+    {
+      "type": "color",
+      "id": "modal_text_color",
+      "label": "Modal text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_bg",
+      "label": "Add to cart button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_text",
+      "label": "Add to cart button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_hover_bg",
+      "label": "Add to cart hover background",
+      "default": "#FFF544"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_hover_text",
+      "label": "Add to cart hover text",
+      "default": "#111111"
     }
   ],
   "blocks": [
     {
-      "type": "item",
-      "name": "Grid Item",
+      "type": "product_card",
+      "name": "Product card",
       "settings": [
         {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
           "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "Category title"
-        },
-        {
-          "type": "textarea",
-          "id": "text",
-          "label": "Text",
-          "default": "Category description"
+          "id": "custom_image",
+          "label": "Optional custom grid image"
         }
       ]
     }
   ],
-  "max_blocks": 12,
+  "max_blocks": 6,
   "presets": [
     {
-      "name": "Custom Grid"
+      "name": "Custom grid",
+      "blocks": [
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" }
+      ]
     }
   ]
 }
