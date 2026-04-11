@@ -748,15 +748,15 @@
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} {
-    {% comment %} background: {{ block.settings.top_button_bg }}; {% endcomment %}
-    {% comment %} color: {{ block.settings.top_button_text_color }}; {% endcomment %}
+    background: {{ block.settings.top_button_bg }};
+    color: {{ block.settings.top_button_text_color }};
     font-size: {{ block.settings.top_button_font_size }}px;
     border-radius: {{ block.settings.top_button_radius }}px;
     transition: color 0.3s ease, transform 0.25s ease;
   }
 
   .custom-banner__hero-button-{{ ai_gen_id }} {
-    {% comment %} background: {{ block.settings.hero_button_bg }}; {% endcomment %}
+    background: {{ block.settings.hero_button_bg }};
     color: {{ block.settings.hero_button_text_color }};
     font-size: {{ block.settings.hero_button_font_size }}px;
     border-radius: {{ block.settings.hero_button_radius }}px;
@@ -773,9 +773,9 @@
     z-index: 0;
   }
 
-  {% comment %} .custom-banner__top-button-{{ ai_gen_id }}::before {
+  .custom-banner__top-button-{{ ai_gen_id }}::before {
     background-color: {{ block.settings.top_button_hover_bg }};
-  } {% endcomment %}
+  }
 
   .custom-banner__hero-button-{{ ai_gen_id }}::before {
     background-color: {{ block.settings.hero_button_hover_bg }};
@@ -1149,7 +1149,7 @@
 /* ================= DEFAULT COLORS ================= */
 
 .custom-banner__top-button-{{ ai_gen_id }} {
-  {% comment %} background: {{ block.settings.top_button_bg }}; {% endcomment %}
+  background: {{ block.settings.top_button_bg }};
   color: {{ block.settings.top_button_text_color }};
 }
 
@@ -1176,7 +1176,7 @@
 
 /* hover color */
 .custom-banner__top-button-{{ ai_gen_id }}::before {
-  {% comment %} background: {{ block.settings.top_button_hover_bg }}; {% endcomment %}
+  background: {{ block.settings.top_button_hover_bg }};
 }
 
 .custom-banner__hero-button-{{ ai_gen_id }}::before {
