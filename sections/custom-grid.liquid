@@ -878,9 +878,7 @@
       </div>
     </div>
   </div>
-</div>
-
- <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
+   <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
 
         <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
 
@@ -892,6 +890,9 @@
           <span>{{ section.settings.add_to_cart_label }}</span>
           <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
         </button>
+</div>
+
+
 
   {% assign bundle_product = all_products[section.settings.bundle_product_handle] %}
   {% if bundle_product != blank %}
