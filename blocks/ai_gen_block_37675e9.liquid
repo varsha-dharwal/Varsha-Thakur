@@ -715,6 +715,7 @@
   </div>
 
   <div class="custom-banner__mobile-wrap-{{ ai_gen_id }}">
+    <!-- Mobile top bar -->
     <button
       type="button"
       class="custom-banner__mobile-trigger-{{ ai_gen_id }}"
@@ -728,6 +729,7 @@
       </span>
     </button>
 
+    <!-- Mobile opened panel -->
     <div
       id="custom-banner-mobile-panel-{{ ai_gen_id }}"
       class="custom-banner__mobile-panel-{{ ai_gen_id }}"
@@ -748,15 +750,16 @@
       </div>
 
       <div class="custom-banner__mobile-message-{{ ai_gen_id }}">
-        {{ block.settings.top_message }}
+        Find the ideal gift for your loved ones.
       </div>
 
       <div class="custom-banner__mobile-cta-{{ ai_gen_id }}">
         <a
           href="{{ block.settings.top_button_link | default: '#' }}"
-          class="custom-banner__top-button-{{ ai_gen_id }}"
+          class="custom-banner__top-button-{{ ai_gen_id }} custom-banner__mobile-top-button-{{ ai_gen_id }}"
         >
-          <span>{{ block.settings.top_button_label }}</span>
+          <span>CHOOSE GIFT</span>
+          <span class="custom-banner__arrow-{{ ai_gen_id }}">→</span>
         </a>
       </div>
     </div>
@@ -834,10 +837,11 @@
       }
 
       handleEmptyLinks() {
-        const buttons = this.querySelectorAll('a[href=""]');
+        const buttons = this.querySelectorAll('a');
         buttons.forEach((button) => {
           button.addEventListener('click', (e) => {
-            if (!button.getAttribute('href') || button.getAttribute('href') === '') {
+            const href = button.getAttribute('href');
+            if (!href || href.trim() === '') {
               e.preventDefault();
             }
           });
@@ -851,16 +855,25 @@
 
         if (!trigger || !panel || !closeBtn) return;
 
-        trigger.addEventListener('click', () => {
+        const openPanel = () => {
           panel.hidden = false;
           trigger.hidden = true;
           trigger.setAttribute('aria-expanded', 'true');
-        });
+        };
 
-        closeBtn.addEventListener('click', () => {
+        const closePanel = () => {
           panel.hidden = true;
           trigger.hidden = false;
           trigger.setAttribute('aria-expanded', 'false');
+        };
+
+        trigger.addEventListener('click', openPanel);
+        closeBtn.addEventListener('click', closePanel);
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && !panel.hidden) {
+            closePanel();
+          }
         });
       }
     }
