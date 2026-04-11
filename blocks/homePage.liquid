@@ -1,0 +1,1237 @@
+{% style %}
+  .custom-banner-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .custom-banner__top-bar-{{ ai_gen_id }} {
+    width: 100%;
+    background: {{ block.settings.top_bar_bg_color }};
+  }
+
+  .custom-banner__brand-text-{{ ai_gen_id }},
+  .custom-banner__mobile-brand-{{ ai_gen_id }},
+  .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #111111;
+  }
+
+  .custom-banner__desktop-bar-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: minmax(160px, 1fr) auto minmax(180px, 1fr);
+    align-items: center;
+    gap: 20px;
+    min-height: 64px;
+    padding: {{ block.settings.top_bar_padding }}px {{ block.settings.horizontal_padding }}px;
+    background-color: {{ block.settings.top_bar_bg_color }};
+  }
+
+  .custom-banner__desktop-logo-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 160px;
+    overflow: visible;
+  }
+
+  .custom-banner__desktop-logo-{{ ai_gen_id }} img {
+    display: block;
+    width: auto;
+    max-width: {{ block.settings.logo_width }}px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .custom-banner__desktop-message-{{ ai_gen_id }} {
+    text-align: center;
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .custom-banner__desktop-cta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  /* ================= BUTTONS ================= */
+
+  .custom-banner__top-button-{{ ai_gen_id }},
+  .custom-banner__hero-button-{{ ai_gen_id }} {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 12px 22px;
+    min-width: 220px;
+    max-width: 100%;
+    text-decoration: none;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    isolation: isolate;
+    cursor: pointer;
+    backface-visibility: hidden;
+    -webkit-appearance: none;
+    appearance: none;
+    transform: translateZ(0);
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }} {
+    background: {{ block.settings.top_button_bg }};
+    color: {{ block.settings.top_button_text_color }};
+    font-size: {{ block.settings.top_button_font_size }}px;
+    border-radius: {{ block.settings.top_button_radius }}px;
+    transition: color 0.3s ease, transform 0.25s ease, background-color 0.3s ease;
+  }
+
+  .custom-banner__hero-button-{{ ai_gen_id }} {
+    background: {{ block.settings.hero_button_bg }};
+    color: {{ block.settings.hero_button_text_color }};
+    font-size: {{ block.settings.hero_button_font_size }}px;
+    border-radius: {{ block.settings.hero_button_radius }}px;
+    transition: color 0.3s ease, transform 0.25s ease, background-color 0.3s ease;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}::before,
+  .custom-banner__hero-button-{{ ai_gen_id }}::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 102%;
+    height: 100%;
+    transform: translateX(-101%);
+    transition: transform 0.4s ease;
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}::before {
+    background-color: {{ block.settings.top_button_hover_bg }};
+  }
+
+  .custom-banner__hero-button-{{ ai_gen_id }}::before {
+    background-color: {{ block.settings.hero_button_hover_bg }};
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }} span,
+  .custom-banner__hero-button-{{ ai_gen_id }} span,
+  .custom-banner__arrow-{{ ai_gen_id }},
+  .custom-banner__hero-arrow-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 1;
+    color: inherit;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover::before,
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover::before {
+    transform: translateX(0);
+      background: #FFF544;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover,
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+    color: #111111;
+    background: transparent;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:focus,
+  .custom-banner__top-button-{{ ai_gen_id }}:active,
+  .custom-banner__hero-button-{{ ai_gen_id }}:focus,
+  .custom-banner__hero-button-{{ ai_gen_id }}:active {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  .custom-banner__arrow-{{ ai_gen_id }},
+  .custom-banner__hero-arrow-{{ ai_gen_id }} {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }},
+  .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
+    transform: translateX(5px);
+  }
+
+  /* ================= MOBILE ================= */
+
+  .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .custom-banner__mobile-trigger-{{ ai_gen_id }} {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 52px;
+    padding: 14px 16px;
+    border: 0;
+    background: {{ block.settings.top_bar_bg_color }};
+    cursor: pointer;
+  }
+
+  .custom-banner__mobile-logo-image-{{ ai_gen_id }} {
+    display: block;
+    max-width: 140px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .custom-banner__menu-icon-{{ ai_gen_id }},
+  .custom-banner__close-button-{{ ai_gen_id }} {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    line-height: 1;
+    color: #111111;
+  }
+
+  .custom-banner__close-button-{{ ai_gen_id }} {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .custom-banner__mobile-panel-{{ ai_gen_id }} {
+    padding: 0 0 16px;
+    background: {{ block.settings.top_bar_bg_color }};
+  }
+
+  .custom-banner__mobile-panel-header-{{ ai_gen_id }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 14px 16px;
+    border-top: 1px solid #d9d9d9;
+    box-shadow: 0 1px 0 #d9d9d9 inset;
+  }
+
+  .custom-banner__mobile-message-{{ ai_gen_id }} {
+    margin-top: 14px;
+    padding: 0 16px;
+    text-align: center;
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .custom-banner__mobile-cta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    padding: 0 16px;
+  }
+
+  /* ================= HERO ================= */
+
+  .custom-banner__hero-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .custom-banner__hero-top-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.hero_top_height }}px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .custom-banner__hero-top-{{ ai_gen_id }} svg,
+  .custom-banner__hero-right-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .custom-banner__hero-bottom-{{ ai_gen_id }} {
+    display: grid;
+       grid-template-columns: 1fr minmax(0, 890px);
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .custom-banner__hero-left-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: {{ block.settings.hero_left_bg }};
+    min-width: 0;
+    padding-top:10px !Important;
+    padding-bottom:8px !important;
+  }
+
+  .custom-banner__hero-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_heading_size }}px;
+    color: {{ block.settings.hero_heading_color }};
+    margin: 0 0 20px 0;
+    line-height: 1.15;
+    word-break: break-word;
+  }
+
+  .custom-banner__hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_description_size }}px;
+    color: {{ block.settings.hero_description_color }};
+    margin: 0 0 36px 0;
+    line-height: 1.5;
+    max-width: 483px;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  .custom-banner__hero-right-{{ ai_gen_id }} {
+    width: 100%;
+        height: 100%;
+    {% comment %} min-height: {{ block.settings.hero_bottom_height }}px; {% endcomment %}
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+  }
+
+  .custom-banner__bottom-strip-{{ ai_gen_id }} {
+    padding-top:10px;
+    padding-bottom:10px;
+    background-color: {{ block.settings.bottom_strip_bg }};
+    text-align: center;
+  }
+
+  .custom-banner__bottom-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bottom_strip_font_size }}px;
+    color: {{ block.settings.bottom_strip_color }};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    margin: 0;
+    word-break: break-word;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .custom-banner__hero-bottom-{{ ai_gen_id }}{
+      grid-template-columns: 1fr minmax(0, 563px);
+    }
+
+
+    .custom-banner__hero-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_heading_size }}px * 0.82);
+    }
+
+    .custom-banner__hero-description-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_description_size }}px * 0.95);
+    }
+
+    .custom-banner__top-button-{{ ai_gen_id }},
+    .custom-banner__hero-button-{{ ai_gen_id }} {
+      min-width: 190px;
+      padding: 12px 20px;
+    }
+  }
+
+  .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+  display: none;
+}
+
+.custom-banner__mobile-logo-image-{{ ai_gen_id }} {
+  display: block;
+  max-width: 140px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1024px) {
+  /* Desktop hide */
+  .custom-banner__desktop-bar-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  /* Mobile wrapper */
+  .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background: {{ block.settings.top_bar_bg_color }};
+  }
+
+  /* 🔥 HEADER GRID FIX */
+  .custom-banner__mobile-trigger-{{ ai_gen_id }} {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+    min-height: 64px;
+    padding: 9px 16px;
+    border: none;
+    background: {{ block.settings.top_bar_bg_color }};
+    cursor: pointer;
+  }
+
+  /* LEFT ICON WRAP */
+  .custom-banner__mobile-icon-wrap-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+  }
+
+  /* 🔥 ICON FIX (IMPORTANT) */
+  .custom-banner__menu-icon-{{ ai_gen_id }},
+  .custom-banner__close-icon-{{ ai_gen_id }} {
+    font-size: 18px;
+    line-height: 1;
+    color: #111111;
+  }
+
+  .custom-banner__menu-icon-{{ ai_gen_id }}[hidden],
+  .custom-banner__close-icon-{{ ai_gen_id }}[hidden] {
+    display: none !important;
+  }
+
+  /* CENTER LOGO */
+  .custom-banner__mobile-brand-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #111111;
+    min-width: 0;
+  }
+
+  /* RIGHT SPACER */
+  .custom-banner__mobile-spacer-{{ ai_gen_id }} {
+    display: block;
+    width: 48px;
+    height: 48px;
+  }
+
+  /* PANEL */
+  .custom-banner__mobile-panel-{{ ai_gen_id }} {
+           background: #F2F2F2;
+  }
+
+  /* MESSAGE */
+  .custom-banner__mobile-message-{{ ai_gen_id }} {
+    text-align: center;
+    color: {{ block.settings.top_message_color }};
+    font-size: {{ block.settings.top_message_size }}px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  /* BUTTON WRAP */
+  .custom-banner__mobile-cta-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  /* BUTTON */
+  .custom-banner__mobile-top-button-{{ ai_gen_id }} {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .custom-banner__desktop-bar-{{ ai_gen_id }} {
+    display: grid;
+  }
+
+  .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+    display: none;
+  }
+}
+
+  @media screen and (min-width: 1025px) {
+    .custom-banner__desktop-bar-{{ ai_gen_id }} {
+      display: grid;
+    }
+
+    .custom-banner__mobile-wrap-{{ ai_gen_id }} {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .custom-banner__hero-bottom-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .custom-banner__hero-right-{{ ai_gen_id }} {
+      order: 1;
+      min-height: 420px;
+      background-size: contain;
+      background-position: center;
+    }
+
+    .custom-banner__hero-left-{{ ai_gen_id }} {
+      order: 2;
+      align-items: center;
+      text-align: center;
+      padding: 36px 28px;
+    }
+
+    .custom-banner__hero-description-{{ ai_gen_id }} {
+      max-width: 680px;
+    }
+
+    .custom-banner__hero-button-{{ ai_gen_id }} {
+      align-self: center;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .custom-banner-{{ ai_gen_id }} {
+      max-width: 100%;
+    }
+
+    .custom-banner__hero-top-{{ ai_gen_id }} {
+      height: calc({{ block.settings.hero_top_height }}px * 0.72);
+      min-height: 180px;
+    }
+
+    .custom-banner__hero-left-{{ ai_gen_id }} {
+      padding: 28px 18px;
+    }
+
+    .custom-banner__hero-right-{{ ai_gen_id }} {
+      min-height: 280px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .custom-banner__hero-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_heading_size }}px * 0.58);
+      margin-bottom: 16px;
+    }
+
+    .custom-banner__hero-description-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_description_size }}px * 0.95);
+      margin-bottom: 24px;
+      max-width: 100%;
+    }
+
+    .custom-banner__top-button-{{ ai_gen_id }},
+    .custom-banner__hero-button-{{ ai_gen_id }} {
+      min-width: 100%;
+      width: 100%;
+      max-width: 280px;
+      min-height: 48px;
+      padding: 12px 18px;
+    }
+
+    .custom-banner__bottom-strip-{{ ai_gen_id }} {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .custom-banner__bottom-text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.92);
+      letter-spacing: 0.4px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+/* ================= HERO BUTTON ================= */
+
+  .custom-banner__hero-left-{{ ai_gen_id }}{
+    padding-top: 49px !important;
+    padding-bottom: 2px !important;
+  }
+
+.custom-banner__hero-button-{{ ai_gen_id }} {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%) translateY(0);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 32px);
+  max-width: 260px;
+  height: 50px;
+  gap: 10px;
+
+  text-decoration: none;
+  font-size: {{ block.settings.hero_button_font_size }}px;
+  color: #ffffff;
+  background-color: #000000;
+
+  border: none;
+  outline: none;
+  overflow: hidden;
+  transition: color 0.3s ease, transform 0.3s ease;
+  z-index: 5;
+}
+
+/* 🔥 Yellow sliding layer */
+.custom-banner__hero-button-{{ ai_gen_id }}::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 102%;
+  height: 100%;
+  background-color: #FFF544;
+
+  transform: translateX(-101%);
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+
+/* Content above */
+.custom-banner__hero-button-{{ ai_gen_id }} span,
+.custom-banner__hero-arrow-{{ ai_gen_id }} {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover animation */
+.custom-banner__hero-button-{{ ai_gen_id }}:hover::before {
+  transform: translateX(0);
+}
+
+/* 🔥 IMPORTANT: keep center fixed */
+.custom-banner__hero-button-{{ ai_gen_id }}:hover {
+  transform: translateX(-50%) translateY(-2px);
+  color: #000000;
+  background: transparent;
+}
+
+/* Arrow movement */
+.custom-banner__hero-arrow-{{ ai_gen_id }} {
+  transition: transform 0.3s ease;
+}
+
+.custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
+  transform: translateX(5px);
+}
+  
+    .custom-banner__mobile-brand-{{ ai_gen_id }},
+    .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
+      font-size: 15px;
+    }
+
+    .custom-banner__hero-left-{{ ai_gen_id }}{
+    order:1;
+  }
+
+    .custom-banner__mobile-message-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.top_message_size }}px * 0.95);
+    }
+
+    .custom-banner__top-button-{{ ai_gen_id }},
+    .custom-banner__hero-button-{{ ai_gen_id }} {
+      min-width: 0;
+      font-size: 14px;
+    }
+
+    .custom-banner__hero-top-{{ ai_gen_id }} {
+     display:none;
+    }
+
+    .custom-banner__hero-{{ ai_gen_id }}{
+    padding-left: 0px;
+    padding-right: 0px;
+    }
+
+    .custom-banner__hero-right-{{ ai_gen_id }} {
+      min-height: 220px;
+    }
+
+    .custom-banner__hero-heading-{{ ai_gen_id }} {
+            font-size: 30px;
+    }
+
+    .custom-banner__hero-description-{{ ai_gen_id }} {
+            font-size: 16px;
+    }
+
+    .custom-banner__bottom-strip-{{ ai_gen_id }} {
+      padding-left:4px;
+      padding-right:4px;
+    }
+
+    .custom-banner__bottom-text-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+  }
+{% endstyle %}
+
+<custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+<div class="custom-banner__top-bar-{{ ai_gen_id }}">
+  <div class="custom-banner__desktop-bar-{{ ai_gen_id }}">
+    <div class="custom-banner__desktop-logo-{{ ai_gen_id }}">
+      {% if block.settings.logo != blank %}
+        <img
+          src="{{ block.settings.logo | image_url: width: 400 }}"
+          alt="{{ block.settings.logo.alt | escape }}"
+          width="{{ block.settings.logo_width }}"
+          height="auto"
+          loading="lazy"
+        >
+      {% else %}
+        <span class="custom-banner__brand-text-{{ ai_gen_id }}">
+          {{ block.settings.logo_text }}
+        </span>
+      {% endif %}
+    </div>
+
+    <div class="custom-banner__desktop-message-{{ ai_gen_id }}">
+      {{ block.settings.top_message }}
+    </div>
+
+    <div class="custom-banner__desktop-cta-{{ ai_gen_id }}">
+      <a
+        href="{{ block.settings.top_button_link | default: '#' }}"
+        class="custom-banner__top-button-{{ ai_gen_id }}"
+      >
+        <span>{{ block.settings.top_button_label }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="custom-banner__mobile-wrap-{{ ai_gen_id }}">
+    <button
+      type="button"
+      class="custom-banner__mobile-trigger-{{ ai_gen_id }}"
+      aria-expanded="false"
+      aria-controls="custom-banner-mobile-panel-{{ ai_gen_id }}"
+    >
+      <span class="custom-banner__mobile-icon-wrap-{{ ai_gen_id }}">
+        <span class="custom-banner__menu-icon-{{ ai_gen_id }}">☰</span>
+        <span class="custom-banner__close-icon-{{ ai_gen_id }}" hidden>✕</span>
+      </span>
+
+      <span class="custom-banner__mobile-brand-{{ ai_gen_id }}">
+        {% if block.settings.logo != blank %}
+          <img
+            src="{{ block.settings.logo | image_url: width: 300 }}"
+            alt="{{ block.settings.logo.alt | escape }}"
+            width="{{ block.settings.logo_width }}"
+            height="auto"
+            loading="lazy"
+            class="custom-banner__mobile-logo-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          {{ block.settings.logo_text }}
+        {% endif %}
+      </span>
+
+      <span class="custom-banner__mobile-spacer-{{ ai_gen_id }}"></span>
+    </button>
+
+    <div
+      id="custom-banner-mobile-panel-{{ ai_gen_id }}"
+      class="custom-banner__mobile-panel-{{ ai_gen_id }}"
+      hidden
+    >
+      <div class="custom-banner__mobile-message-{{ ai_gen_id }}">
+        {{ block.settings.top_message }}
+      </div>
+
+      <div class="custom-banner__mobile-cta-{{ ai_gen_id }}">
+        <a
+          href="{{ block.settings.top_button_link | default: '#' }}"
+          class="custom-banner__top-button-{{ ai_gen_id }} custom-banner__mobile-top-button-{{ ai_gen_id }}"
+        >
+          <span>{{ block.settings.top_button_label }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="custom-banner__hero-{{ ai_gen_id }}">
+    <div
+      class="custom-banner__hero-top-{{ ai_gen_id }}"
+      {% if block.settings.hero_top_image %}
+        style="background-image: url('{{ block.settings.hero_top_image | image_url: width: 2000 }}');"
+      {% endif %}
+    >
+      {% unless block.settings.hero_top_image %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      {% endunless %}
+    </div>
+
+    <div class="custom-banner__hero-bottom-{{ ai_gen_id }}">
+      <div class="custom-banner__hero-left-{{ ai_gen_id }}">
+        {% if block.settings.hero_heading != blank %}
+          <h2 class="custom-banner__hero-heading-{{ ai_gen_id }}">
+            {{ block.settings.hero_heading }}
+          </h2>
+        {% endif %}
+
+        {% if block.settings.hero_description != blank %}
+          <div class="custom-banner__hero-description-{{ ai_gen_id }}">
+            {{ block.settings.hero_description }}
+          </div>
+        {% endif %}
+
+        <a
+          href="{{ block.settings.hero_button_link }}"
+          class="custom-banner__hero-button-{{ ai_gen_id }}"
+        >
+          <span>{{ block.settings.hero_button_label }}</span>
+        </a>
+      </div>
+
+      <div
+        class="custom-banner__hero-right-{{ ai_gen_id }}"
+        {% if block.settings.hero_bottom_right_image %}
+          style="background-image: url('{{ block.settings.hero_bottom_right_image | image_url: width: 1500 }}');"
+        {% endif %}
+      >
+        {% unless block.settings.hero_bottom_right_image %}
+          {{ 'collection-apparel-1' | placeholder_svg_tag }}
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-banner__bottom-strip-{{ ai_gen_id }}">
+    <p class="custom-banner__bottom-text-{{ ai_gen_id }}">
+      {{ block.settings.bottom_strip_text }}
+    </p>
+  </div>
+</custom-banner-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CustomBanner{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.initBanner();
+      }
+
+      initBanner() {
+        this.handleEmptyLinks();
+        this.handleMobileToggle();
+      }
+
+      handleEmptyLinks() {
+        const buttons = this.querySelectorAll('a');
+        buttons.forEach((button) => {
+          button.addEventListener('click', (e) => {
+            const href = button.getAttribute('href');
+            if (!href || href.trim() === '') {
+              e.preventDefault();
+            }
+          });
+        });
+      }
+
+      handleMobileToggle() {
+        const trigger = this.querySelector('.custom-banner__mobile-trigger-{{ ai_gen_id }}');
+        const panel = this.querySelector('.custom-banner__mobile-panel-{{ ai_gen_id }}');
+        const menuIcon = this.querySelector('.custom-banner__menu-icon-{{ ai_gen_id }}');
+        const closeIcon = this.querySelector('.custom-banner__close-icon-{{ ai_gen_id }}');
+
+        if (!trigger || !panel || !menuIcon || !closeIcon) return;
+
+        trigger.addEventListener('click', () => {
+          const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+          if (isOpen) {
+            trigger.setAttribute('aria-expanded', 'false');
+            panel.hidden = true;
+            menuIcon.hidden = false;
+            closeIcon.hidden = true;
+          } else {
+            trigger.setAttribute('aria-expanded', 'true');
+            panel.hidden = false;
+            menuIcon.hidden = true;
+            closeIcon.hidden = false;
+          }
+        });
+      }
+    }
+
+    if (!customElements.get('custom-banner-{{ ai_gen_id }}')) {
+      customElements.define('custom-banner-{{ ai_gen_id }}', CustomBanner{{ ai_gen_id }});
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Custom banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Top bar"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "TISSO VISION"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 120
+    },
+    {
+      "type": "text",
+      "id": "top_message",
+      "label": "Message",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "range",
+      "id": "top_message_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Message font size",
+      "default": 14
+    },
+    {
+      "type": "text",
+      "id": "top_button_label",
+      "label": "Button label",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "top_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "top_button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "top_button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "top_bar_padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Top bar colors"
+    },
+    {
+      "type": "color",
+      "id": "top_bar_bg_color",
+      "label": "Background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "top_bar_border_color",
+      "label": "Border color",
+      "default": "#d9d9d9"
+    },
+    {
+      "type": "color",
+      "id": "top_icon_color",
+      "label": "Hamburger / close icon color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "top_message_color",
+      "label": "Message color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "top_button_bg",
+      "label": "Button background",
+      "default": "#f3e62f"
+    },
+    {
+      "type": "color",
+      "id": "top_button_hover_bg",
+      "label": "Button hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "top_button_text_color",
+      "label": "Button text",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_top_image",
+      "label": "Top background image"
+    },
+    {
+      "type": "range",
+      "id": "hero_top_height",
+      "min": 100,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Top section height",
+      "default": 200
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "range",
+      "id": "hero_heading_size",
+      "min": 24,
+      "max": 72,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 48
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Description",
+      "default": "Discover thoughtfully curated gifts for every occasion and every person in your life."
+    },
+    {
+      "type": "range",
+      "id": "hero_description_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size",
+      "default": 16
+    },
+    {
+      "type": "text",
+      "id": "hero_button_label",
+      "label": "Button label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "hero_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "hero_button_font_size",
+      "min": 14,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "hero_button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 4
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bottom_right_image",
+      "label": "Right side image"
+    },
+    {
+      "type": "range",
+      "id": "hero_bottom_height",
+      "min": 300,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "label": "Bottom section height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "hero_content_padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Content padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Hero colors"
+    },
+    {
+      "type": "color",
+      "id": "hero_left_bg",
+      "label": "Left background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "hero_heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_description_color",
+      "label": "Description color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_button_bg",
+      "label": "Button background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "hero_button_hover_bg",
+      "label": "Button hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "hero_button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Bottom strip"
+    },
+    {
+      "type": "text",
+      "id": "bottom_strip_text",
+      "label": "Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "bottom_strip_padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_bg",
+      "label": "Background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "bottom_strip_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom banner"
+    }
+  ]
+}
+{% endschema %}
