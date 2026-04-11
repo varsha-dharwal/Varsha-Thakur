@@ -1183,18 +1183,33 @@
   background: {{ block.settings.hero_button_hover_bg }};
 }
 
-/* ================= HOVER ================= */
+/* ================= BASE ================= */
+
+.custom-banner__top-button-{{ ai_gen_id }}::before,
+.custom-banner__hero-button-{{ ai_gen_id }}::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #FFF544;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+/* ================= HOVER (LEFT → RIGHT) ================= */
 
 .custom-banner__top-button-{{ ai_gen_id }}:hover::before,
 .custom-banner__hero-button-{{ ai_gen_id }}:hover::before {
   transform: scaleX(1);
-  background: #FFF544;
+  transform-origin: left;
 }
 
-/* ================= REVERSE ANIMATION ================= */
+/* ================= UNHOVER (RIGHT → LEFT) ================= */
 
 .custom-banner__top-button-{{ ai_gen_id }}:not(:hover)::before,
 .custom-banner__hero-button-{{ ai_gen_id }}:not(:hover)::before {
+  transform: scaleX(0);
   transform-origin: right;
 }
 
