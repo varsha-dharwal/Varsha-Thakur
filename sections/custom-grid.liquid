@@ -866,16 +866,16 @@
 
         <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
 
-        {% comment %} <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p> {% endcomment %}
+        <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
 
-        <button
+        {% comment %} <button
           type="button"
           class="custom-grid__add-btn-{{ grid_id }}"
           data-modal-add-to-cart
         >
           <span>{{ section.settings.add_to_cart_label }}</span>
           <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
-        </button>
+        </button> {% endcomment %}
       </div>
     </div>
   </div>
