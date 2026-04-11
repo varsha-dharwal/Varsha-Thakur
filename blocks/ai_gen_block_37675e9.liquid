@@ -668,12 +668,9 @@
     background: transparent;
   }
 
-
-  
   .custom-banner__top-bar-{{ ai_gen_id }} {
     width: 100%;
     background: {{ block.settings.top_bar_bg_color }};
-    {% comment %} border-bottom: 1px solid #d9d9d9; {% endcomment %}
   }
 
   .custom-banner__brand-text-{{ ai_gen_id }},
@@ -727,6 +724,8 @@
     align-items: center;
   }
 
+  /* ================= BUTTONS ================= */
+
   .custom-banner__top-button-{{ ai_gen_id }},
   .custom-banner__hero-button-{{ ai_gen_id }} {
     position: relative;
@@ -739,12 +738,19 @@
     min-width: 220px;
     max-width: 100%;
     text-decoration: none;
-    line-height: 1;
     text-transform: uppercase;
-    overflow: hidden;
+    line-height: 1;
     white-space: nowrap;
+    overflow: hidden;
     border: none;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
     isolation: isolate;
+    -webkit-appearance: none;
+    appearance: none;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} {
@@ -767,22 +773,29 @@
   .custom-banner__hero-button-{{ ai_gen_id }}::before {
     content: "";
     position: absolute;
-    inset: 0;
-    transform: translateX(-100%);
-    transition: transform 0.4s ease;
+    top: 0;
+    left: 0;
+    width: 101%;
+    height: 100%;
     z-index: 0;
+    transform: translateX(-101%);
+    transition: transform 0.4s ease;
+    will-change: transform;
+    pointer-events: none;
   }
 
   .custom-banner__top-button-{{ ai_gen_id }}::before {
-    background-color: {{ block.settings.top_button_hover_bg }};
+    background: {{ block.settings.top_button_hover_bg }};
   }
 
   .custom-banner__hero-button-{{ ai_gen_id }}::before {
-    background-color: {{ block.settings.hero_button_hover_bg }};
+    background: {{ block.settings.hero_button_hover_bg }};
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} span,
-  .custom-banner__hero-button-{{ ai_gen_id }} span {
+  .custom-banner__hero-button-{{ ai_gen_id }} span,
+  .custom-banner__arrow-{{ ai_gen_id }},
+  .custom-banner__hero-arrow-{{ ai_gen_id }} {
     position: relative;
     z-index: 1;
   }
@@ -794,14 +807,21 @@
 
   .custom-banner__top-button-{{ ai_gen_id }}:hover,
   .custom-banner__hero-button-{{ ai_gen_id }}:hover {
-    transform: translateY(-2px);
     color: #111111;
+    transform: translateY(-2px);
+  }
+
+  .custom-banner__top-button-{{ ai_gen_id }}:focus,
+  .custom-banner__top-button-{{ ai_gen_id }}:active,
+  .custom-banner__hero-button-{{ ai_gen_id }}:focus,
+  .custom-banner__hero-button-{{ ai_gen_id }}:active {
+    outline: none;
+    border: none;
+    box-shadow: none;
   }
 
   .custom-banner__arrow-{{ ai_gen_id }},
   .custom-banner__hero-arrow-{{ ai_gen_id }} {
-    position: relative;
-    z-index: 1;
     transition: transform 0.3s ease;
     flex-shrink: 0;
     color: inherit;
@@ -809,8 +829,10 @@
 
   .custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }},
   .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
-    transform: translateX(5px);
+    transform: translateX(6px);
   }
+
+  /* ================= MOBILE TOP ================= */
 
   .custom-banner__mobile-wrap-{{ ai_gen_id }} {
     display: none;
@@ -887,6 +909,8 @@
     margin-top: 16px;
     padding: 0 16px;
   }
+
+  /* ================= HERO ================= */
 
   .custom-banner__hero-{{ ai_gen_id }} {
     position: relative;
@@ -1126,121 +1150,6 @@
       font-size: calc({{ block.settings.bottom_strip_font_size }}px * 0.85);
     }
   }
-
-  /* ================= BUTTON BASE ================= */
-
-.custom-banner__top-button-{{ ai_gen_id }},
-.custom-banner__hero-button-{{ ai_gen_id }} {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 12px 22px;
-  min-width: 220px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  z-index: 1;
-  cursor: pointer;
-}
-
-/* ================= DEFAULT COLORS ================= */
-
-.custom-banner__top-button-{{ ai_gen_id }} {
-  background: {{ block.settings.top_button_bg }};
-  color: {{ block.settings.top_button_text_color }};
-}
-
-.custom-banner__hero-button-{{ ai_gen_id }} {
-  background: {{ block.settings.hero_button_bg }};
-  color: {{ block.settings.hero_button_text_color }};
-}
-
-/* ================= ANIMATION LAYER ================= */
-
-.custom-banner__top-button-{{ ai_gen_id }}::before,
-.custom-banner__hero-button-{{ ai_gen_id }}::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-
-  /* START hidden LEFT side */
-  transform: scaleX(0);
-  transform-origin: left;
-
-  transition: transform 0.4s ease;
-}
-
-/* hover color */
-.custom-banner__top-button-{{ ai_gen_id }}::before {
-  background: {{ block.settings.top_button_hover_bg }};
-}
-
-.custom-banner__hero-button-{{ ai_gen_id }}::before {
-  background: {{ block.settings.hero_button_hover_bg }};
-}
-
-/* ================= BASE ================= */
-
-.custom-banner__top-button-{{ ai_gen_id }}::before,
-.custom-banner__hero-button-{{ ai_gen_id }}::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #FFF544;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-  z-index: -1;
-}
-
-/* Sliding yellow layer */
-.custom-banner__top-button-{{ ai_gen_id }}::before,
-.custom-banner__hero-button-{{ ai_gen_id }}::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: #FFF544;
-
-  /* Start hidden on LEFT */
-  transform: translateX(-100%);
-  transition: transform 0.4s ease;
-  z-index: 0;
-}
-
-/* Hover → LEFT → RIGHT */
-.custom-banner__top-button-{{ ai_gen_id }}:hover::before,
-.custom-banner__hero-button-{{ ai_gen_id }}:hover::before {
-  transform: translateX(0);
-}
-
-/* Unhover → RIGHT → LEFT (KEY FIX) */
-.custom-banner__top-button-{{ ai_gen_id }}::before,
-.custom-banner__hero-button-{{ ai_gen_id }}::before {
-  will-change: transform;
-}
-/* ================= TEXT ================= */
-
-.custom-banner__top-button-{{ ai_gen_id }} span,
-.custom-banner__hero-button-{{ ai_gen_id }} span {
-  position: relative;
-  z-index: 2;
-}
-
-/* ================= ARROW ================= */
-
-.custom-banner__arrow-{{ ai_gen_id }},
-.custom-banner__hero-arrow-{{ ai_gen_id }} {
-  transition: transform 0.3s ease;
-}
-
-.custom-banner__top-button-{{ ai_gen_id }}:hover .custom-banner__arrow-{{ ai_gen_id }},
-.custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
-  transform: translateX(6px);
-}
 {% endstyle %}
 
 <custom-banner-{{ ai_gen_id }} class="custom-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
