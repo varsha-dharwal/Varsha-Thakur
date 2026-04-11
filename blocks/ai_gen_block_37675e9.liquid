@@ -748,16 +748,16 @@
   }
 
   .custom-banner__top-button-{{ ai_gen_id }} {
-    background: {{ block.settings.top_button_bg }};
-    color: {{ block.settings.top_button_text_color }};
+    {% comment %} background: {{ block.settings.top_button_bg }}; {% endcomment %}
+    {% comment %} color: {{ block.settings.top_button_text_color }}; {% endcomment %}
     font-size: {{ block.settings.top_button_font_size }}px;
     border-radius: {{ block.settings.top_button_radius }}px;
     transition: color 0.3s ease, transform 0.25s ease;
   }
 
   .custom-banner__hero-button-{{ ai_gen_id }} {
-    background: {{ block.settings.hero_button_bg }};
-    color: {{ block.settings.hero_button_text_color }};
+    {% comment %} background: {{ block.settings.hero_button_bg }}; {% endcomment %}
+    {% comment %} color: {{ block.settings.hero_button_text_color }}; {% endcomment %}
     font-size: {{ block.settings.hero_button_font_size }}px;
     border-radius: {{ block.settings.hero_button_radius }}px;
     transition: color 0.3s ease, transform 0.25s ease;
