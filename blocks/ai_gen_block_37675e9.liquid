@@ -437,6 +437,7 @@
       grid-template-columns: 1fr minmax(0, 563px);
     }
 
+
     .custom-banner__hero-heading-{{ ai_gen_id }} {
       font-size: calc({{ block.settings.hero_heading_size }}px * 0.82);
     }
@@ -455,6 +456,10 @@
   @media screen and (max-width: 1024px) {
     .custom-banner__desktop-bar-{{ ai_gen_id }} {
       display: none;
+    }
+
+     .custom-banner__hero-bottom{
+      grid-template-columns: 1fr minmax(0, 563px);
     }
 
     .custom-banner__mobile-wrap-{{ ai_gen_id }} {
