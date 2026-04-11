@@ -554,6 +554,80 @@
   }
 
   @media screen and (max-width: 600px) {
+/* ================= HERO BUTTON ================= */
+
+.custom-banner__hero-button-{{ ai_gen_id }} {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+
+  /* 🔥 center fix */
+  transform: translateX(-50%) translateY(0);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 32px);
+  max-width: 260px;
+  height: 50px;
+  gap: 10px;
+
+  text-decoration: none;
+  font-size: {{ block.settings.hero_button_font_size }}px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #000000;
+
+  border: none;
+  outline: none;
+  overflow: hidden;
+  transition: color 0.3s ease, transform 0.3s ease;
+  z-index: 5;
+}
+
+/* 🔥 Yellow sliding layer */
+.custom-banner__hero-button-{{ ai_gen_id }}::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 102%;
+  height: 100%;
+  background-color: #FFF544;
+
+  transform: translateX(-101%);
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+
+/* Content above */
+.custom-banner__hero-button-{{ ai_gen_id }} span,
+.custom-banner__hero-arrow-{{ ai_gen_id }} {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover animation */
+.custom-banner__hero-button-{{ ai_gen_id }}:hover::before {
+  transform: translateX(0);
+}
+
+/* 🔥 IMPORTANT: keep center fixed */
+.custom-banner__hero-button-{{ ai_gen_id }}:hover {
+  transform: translateX(-50%) translateY(-2px);
+  color: #000000;
+  background: transparent;
+}
+
+/* Arrow movement */
+.custom-banner__hero-arrow-{{ ai_gen_id }} {
+  transition: transform 0.3s ease;
+}
+
+.custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
+  transform: translateX(5px);
+}
+
 
     
     .custom-banner__mobile-brand-{{ ai_gen_id }},
