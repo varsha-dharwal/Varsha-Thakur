@@ -467,16 +467,20 @@
 }
 
 @media screen and (max-width: 1024px) {
+
+  /* Desktop hide */
   .custom-banner__desktop-bar-{{ ai_gen_id }} {
     display: none;
   }
 
+  /* Mobile wrapper */
   .custom-banner__mobile-wrap-{{ ai_gen_id }} {
     display: block;
     width: 100%;
     background: {{ block.settings.top_bar_bg_color }};
   }
 
+  /* 🔥 HEADER GRID FIX */
   .custom-banner__mobile-trigger-{{ ai_gen_id }} {
     width: 100%;
     display: grid;
@@ -489,24 +493,31 @@
     cursor: pointer;
   }
 
+  /* LEFT ICON WRAP */
   .custom-banner__mobile-icon-wrap-{{ ai_gen_id }} {
     width: 48px;
     height: 48px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
   }
 
+  /* 🔥 ICON FIX (IMPORTANT) */
   .custom-banner__menu-icon-{{ ai_gen_id }},
   .custom-banner__close-icon-{{ ai_gen_id }} {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     font-size: 28px;
     line-height: 1;
     color: #111111;
   }
 
+  /* ❌ FIX: hidden ko override hone se bachao */
+  .custom-banner__menu-icon-{{ ai_gen_id }}[hidden],
+  .custom-banner__close-icon-{{ ai_gen_id }}[hidden] {
+    display: none !important;
+  }
+
+  /* CENTER LOGO */
   .custom-banner__mobile-brand-{{ ai_gen_id }} {
     display: flex;
     align-items: center;
@@ -521,17 +532,20 @@
     min-width: 0;
   }
 
+  /* RIGHT SPACER */
   .custom-banner__mobile-spacer-{{ ai_gen_id }} {
     display: block;
     width: 48px;
     height: 48px;
   }
 
+  /* PANEL */
   .custom-banner__mobile-panel-{{ ai_gen_id }} {
     background: {{ block.settings.top_bar_bg_color }};
     padding: 12px 16px 20px;
   }
 
+  /* MESSAGE */
   .custom-banner__mobile-message-{{ ai_gen_id }} {
     text-align: center;
     color: {{ block.settings.top_message_color }};
@@ -540,12 +554,14 @@
     word-break: break-word;
   }
 
+  /* BUTTON WRAP */
   .custom-banner__mobile-cta-{{ ai_gen_id }} {
     display: flex;
     justify-content: center;
     margin-top: 16px;
   }
 
+  /* BUTTON */
   .custom-banner__mobile-top-button-{{ ai_gen_id }} {
     width: 100%;
     max-width: 320px;
