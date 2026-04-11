@@ -10,7 +10,7 @@
 {
   "sections": {
     "banner": {
-      "type": "ai_gen_block_37675e9",
+      "type": "custom-banner",
       "settings": {
         "top_message": "Find the ideal gift for your loved ones.",
         "top_button_label": "CHOOSE GIFT",
