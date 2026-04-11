@@ -80,7 +80,7 @@
       ],
       "settings": {}
     },
-    "custom_grid_FtE7LL": {
+    "custom_grid_XNk6WM": {
       "type": "custom-grid",
       "name": "Custom Grid",
       "settings": {
@@ -91,6 +91,6 @@
   "order": [
     "announcement-bar",
     "1775842760fcb527cd",
-    "custom_grid_FtE7LL"
+    "custom_grid_XNk6WM"
   ]
 }
