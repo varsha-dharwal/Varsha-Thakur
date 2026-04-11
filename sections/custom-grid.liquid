@@ -56,13 +56,12 @@
 
   .custom-grid__hotspot-{{ grid_id }} {
     position: absolute;
-    top: 238px;
-    left: 256px;
+    transform: translate(-50%, -50%);
     width: 24px;
     height: 24px;
     border-radius: 999px;
     border: 0;
-    background: #F8F8F8E5;
+    background: rgba(248, 248, 248, 0.9);
     color: #111111;
     display: inline-flex;
     align-items: center;
@@ -340,8 +339,6 @@
     }
 
     .custom-grid__hotspot-{{ grid_id }} {
-      top: 10px;
-      right: 10px;
       width: 22px;
       height: 22px;
       font-size: 16px;
@@ -441,7 +438,10 @@
               {{ 'product-apparel-1' | placeholder_svg_tag }}
             {% endif %}
 
-            <span class="custom-grid__hotspot-{{ grid_id }}">+</span>
+            <span
+              class="custom-grid__hotspot-{{ grid_id }}"
+              style="top: {{ block.settings.hotspot_top }}%; left: {{ block.settings.hotspot_left }}%;"
+            >+</span>
           </div>
         </button>
 
@@ -755,7 +755,6 @@
 
     function shouldAddBundle(optionValues) {
       if (!Array.isArray(optionValues)) return false;
-
       const normalized = optionValues.map(v => String(v || '').trim().toLowerCase());
       return normalized.includes('black') && normalized.includes('medium');
     }
@@ -828,7 +827,6 @@
 
         await addItemsToCart(items);
         closeModal();
-
         document.dispatchEvent(new CustomEvent('cart:refresh'));
       } catch (error) {
         showError(error.message || 'Something went wrong.');
@@ -1016,6 +1014,26 @@
           "type": "image_picker",
           "id": "custom_image",
           "label": "Optional custom grid image"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_top",
+          "label": "Hotspot top position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "hotspot_left",
+          "label": "Hotspot left position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 78
         }
       ]
     }
