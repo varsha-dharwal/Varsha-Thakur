@@ -153,8 +153,7 @@
 
 .custom-grid__modal-details-{{ grid_id }} {
   min-width: 0;
-  display: grid;
-  gap: 12px;
+  display: block;
 }
 
 .custom-grid__product-title-{{ grid_id }} {
@@ -181,7 +180,7 @@
 }
 
 .custom-grid__options-wrap-{{ grid_id }} {
-  display: grid;
+  display: block;
   gap: 16px;
   width: 100%;
 }
@@ -189,12 +188,12 @@
 .custom-grid__options-color-wrap-{{ grid_id }},
 .custom-grid__options-size-wrap-{{ grid_id }} {
   width: 100%;
-  display: grid;
-  gap: 14px;
+  display: block;
 }
 
 .custom-grid__option-group-{{ grid_id }} {
   width: 100%;
+  margin-bottom: 14px;
 }
 
 .custom-grid__option-label-{{ grid_id }} {
@@ -788,29 +787,22 @@
       modalOptions.innerHTML = '';
       if (!currentProduct || !currentProduct.options) return;
 
-      const colorWrap = document.createElement('div');
-      colorWrap.className = 'custom-grid__options-color-wrap-{{ grid_id }}';
-
-      const sizeWrap = document.createElement('div');
-      sizeWrap.className = 'custom-grid__options-size-wrap-{{ grid_id }}';
+      const colorSections = [];
+      const sizeSections = [];
 
       currentProduct.options.forEach((option, optionIndex) => {
         const optionName = (option.name || '').toLowerCase();
         const isColorLike = optionName.includes('color') || optionName.includes('colour');
 
         if (isColorLike) {
-          colorWrap.appendChild(renderColorOption(option, optionIndex));
+          colorSections.push(renderColorOption(option, optionIndex));
         } else {
-          sizeWrap.appendChild(renderSizeDropdown(option, optionIndex));
+          sizeSections.push(renderSizeDropdown(option, optionIndex));
         }
       });
 
-      if (colorWrap.children.length) {
-        modalOptions.appendChild(colorWrap);
-      }
-      if (sizeWrap.children.length) {
-        modalOptions.appendChild(sizeWrap);
-      }
+      colorSections.forEach((section) => modalOptions.appendChild(section));
+      sizeSections.forEach((section) => modalOptions.appendChild(section));
     }
 
     function openModal(product) {
