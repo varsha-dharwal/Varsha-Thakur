@@ -507,7 +507,7 @@
     </div>
   </div>
 
-  <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
+  {% comment %} <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
     <div class="custom-grid__overlay-{{ grid_id }}" data-grid-overlay></div>
 
     <div
@@ -537,7 +537,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
 
   {% assign bundle_product = all_products[section.settings.bundle_product_handle] %}
   {% if bundle_product != blank %}
