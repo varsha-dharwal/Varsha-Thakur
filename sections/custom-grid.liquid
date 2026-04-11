@@ -35,6 +35,7 @@
   cursor: pointer;
   text-align: left;
   border: 0;
+  transition: transform 0.25s ease;
 }
 
 .custom-grid__media-wrap-{{ grid_id }} {
@@ -51,6 +52,7 @@
   height: 100%;
   display: block;
   object-fit: cover;
+  transition: transform 0.35s ease;
 }
 
 .custom-grid__hotspot-{{ grid_id }} {
@@ -69,6 +71,7 @@
   line-height: 1;
   box-shadow: 0 1px 8px rgba(0,0,0,0.12);
   pointer-events: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .custom-grid__card-{{ grid_id }}:hover {
@@ -111,6 +114,7 @@
   border: 1px solid #cfc8bf;
   padding: 14px 14px 18px;
   max-height: calc(100vh - 8px);
+  overflow: auto;
 }
 
 .custom-grid__close-{{ grid_id }} {
@@ -152,12 +156,10 @@
 
 .custom-grid__modal-details-{{ grid_id }} {
   min-width: 0;
-  display: grid;
-  gap: 12px;
 }
 
 .custom-grid__product-title-{{ grid_id }} {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   font-size: 16px;
   line-height: 1.08;
   font-weight: 400;
@@ -174,29 +176,19 @@
 .custom-grid__description-{{ grid_id }} {
   margin: 0 0 14px;
   font-size: 12px;
-  line-height: 1.25;
+  line-height: 1.3;
   color: #5d5953;
   max-width: 100%;
 }
 
 .custom-grid__options-wrap-{{ grid_id }} {
   display: grid;
-  grid-auto-flow: row;
   gap: 16px;
   width: 100%;
 }
 
-.custom-grid__options-color-wrap-{{ grid_id }},
-.custom-grid__options-size-wrap-{{ grid_id }} {
-  width: 100%;
-  display: grid;
-  gap: 14px;
-}
-
 .custom-grid__option-group-{{ grid_id }} {
   width: 100%;
-  display: grid;
-  gap: 8px;
 }
 
 .custom-grid__option-label-{{ grid_id }} {
@@ -212,7 +204,6 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
   border: 1px solid #9a948c;
-  border-radius: 0;
   background: transparent;
   overflow: hidden;
 }
@@ -224,7 +215,7 @@
   background: transparent;
   color: {{ section.settings.modal_text_color }};
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 12px;
   cursor: pointer;
   font-size: 13px;
   line-height: 1.2;
@@ -292,8 +283,9 @@
   border: 1px solid #9a948c;
   background: #f3f0ea;
   z-index: 30;
-  max-height: 240px;
+  max-height: 220px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .custom-grid__dropdown-item-{{ grid_id }} {
@@ -307,7 +299,8 @@
   cursor: pointer;
 }
 
-.custom-grid__dropdown-item-{{ grid_id }}:hover {
+.custom-grid__dropdown-item-{{ grid_id }}:hover,
+.custom-grid__dropdown-item-{{ grid_id }}.is-selected {
   background: #000000;
   color: #ffffff;
 }
@@ -514,6 +507,7 @@
 
   <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
     <div class="custom-grid__overlay-{{ grid_id }}" data-grid-overlay></div>
+
     <div
       class="custom-grid__dialog-{{ grid_id }}"
       role="dialog"
@@ -542,24 +536,22 @@
           ></h3>
 
           <p class="custom-grid__price-{{ grid_id }}" data-modal-price></p>
-
-           <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
+          <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
         </div>
       </div>
-      <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
 
-          <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
+      <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
 
-          <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
+      <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
 
-          <button
-            type="button"
-            class="custom-grid__add-btn-{{ grid_id }}"
-            data-modal-add-to-cart
-          >
-            <span>{{ section.settings.add_to_cart_label }}</span>
-            <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
-          </button>
+      <button
+        type="button"
+        class="custom-grid__add-btn-{{ grid_id }}"
+        data-modal-add-to-cart
+      >
+        <span>{{ section.settings.add_to_cart_label }}</span>
+        <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
+      </button>
     </div>
   </div>
 
@@ -660,8 +652,9 @@
       if (!selectedVariant) return;
 
       modalPrice.textContent = formatMoney(selectedVariant.price);
-      const img = selectedVariant.featured_image || currentProduct.featured_image || '';
-      modalImage.src = img;
+
+      const imageSrc = selectedVariant.featured_image || currentProduct.featured_image || '';
+      modalImage.src = imageSrc;
       modalImage.alt = currentProduct.title || '';
 
       if (!selectedVariant.available) {
@@ -708,7 +701,7 @@
       return group;
     }
 
-    function renderSizeDropdown(option, optionIndex) {
+    function renderDropdownOption(option, optionIndex) {
       const group = document.createElement('div');
       group.className = 'custom-grid__option-group-{{ grid_id }}';
 
@@ -730,7 +723,7 @@
 
       const arrow = document.createElement('span');
       arrow.className = 'custom-grid__dropdown-arrow-{{ grid_id }}';
-      arrow.textContent = '⌃';
+      arrow.innerHTML = '&#709;';
 
       trigger.appendChild(labelText);
       trigger.appendChild(arrow);
@@ -739,7 +732,9 @@
       menu.className = 'custom-grid__dropdown-menu-{{ grid_id }}';
       menu.hidden = true;
 
-      trigger.addEventListener('click', () => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+
         const isOpen = dropdown.classList.contains('is-open');
 
         sectionRoot.querySelectorAll('.custom-grid__dropdown-{{ grid_id }}').forEach((dd) => {
@@ -806,7 +801,7 @@
         const isColorLike = optionName.includes('color') || optionName.includes('colour');
 
         if (!isColorLike) {
-          modalOptions.appendChild(renderSizeDropdown(option, optionIndex));
+          modalOptions.appendChild(renderDropdownOption(option, optionIndex));
         }
       });
     }
@@ -826,11 +821,13 @@
 
       modal.hidden = false;
       document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
       modal.hidden = true;
       document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
       currentProduct = null;
       selectedOptions = [];
       selectedVariant = null;
@@ -943,7 +940,13 @@
 
         await addItemsToCart(items);
         closeModal();
+
         document.dispatchEvent(new CustomEvent('cart:refresh'));
+        document.dispatchEvent(new CustomEvent('cart:update'));
+
+        if (window.location.pathname.includes('/cart')) {
+          window.location.reload();
+        }
       } catch (error) {
         showError(error.message || 'Something went wrong.');
       } finally {
