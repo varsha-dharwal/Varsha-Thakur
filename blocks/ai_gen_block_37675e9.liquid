@@ -433,8 +433,8 @@
   }
 
   @media screen and (max-width: 1199px) {
-    .custom-banner__hero-bottom{
-      grid-template-columns: 1fr minmax(0, 563px) !important;
+    .custom-banner__hero-bottom-{{ ai_gen_id }}{
+      grid-template-columns: 1fr minmax(0, 563px);
     }
 
 
@@ -456,10 +456,6 @@
   @media screen and (max-width: 1024px) {
     .custom-banner__desktop-bar-{{ ai_gen_id }} {
       display: none;
-    }
-
-     .custom-banner__hero-bottom{
-      grid-template-columns: 1fr minmax(0, 563px) !important;
     }
 
     .custom-banner__mobile-wrap-{{ ai_gen_id }} {
