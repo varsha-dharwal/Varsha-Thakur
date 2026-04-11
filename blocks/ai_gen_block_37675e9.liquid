@@ -554,6 +554,27 @@
   }
 
   @media screen and (max-width: 600px) {
+.custom-banner__hero-bottom-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  /* image section */
+  .custom-banner__hero-right-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  /* button ko overlay karo */
+  .custom-banner__hero-button-{{ ai_gen_id }} {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    z-index: 5;
+
+    width: calc(100% - 32px);
+    max-width: 260px;
+  }
+
     .custom-banner__mobile-brand-{{ ai_gen_id }},
     .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
       font-size: 15px;
