@@ -153,7 +153,8 @@
 
 .custom-grid__modal-details-{{ grid_id }} {
   min-width: 0;
-  display: block;
+  display: grid;
+  gap: 12px;
 }
 
 .custom-grid__product-title-{{ grid_id }} {
@@ -180,7 +181,8 @@
 }
 
 .custom-grid__options-wrap-{{ grid_id }} {
-  display: block;
+  display: grid;
+  grid-auto-flow: row;
   gap: 16px;
   width: 100%;
 }
@@ -188,12 +190,14 @@
 .custom-grid__options-color-wrap-{{ grid_id }},
 .custom-grid__options-size-wrap-{{ grid_id }} {
   width: 100%;
-  display: block;
+  display: grid;
+  gap: 14px;
 }
 
 .custom-grid__option-group-{{ grid_id }} {
   width: 100%;
-  margin-bottom: 14px;
+  display: grid;
+  gap: 8px;
 }
 
 .custom-grid__option-label-{{ grid_id }} {
@@ -254,6 +258,7 @@
   padding: 0 0 0 12px;
   font-size: 13px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .custom-grid__dropdown-label-{{ grid_id }} {
@@ -787,22 +792,23 @@
       modalOptions.innerHTML = '';
       if (!currentProduct || !currentProduct.options) return;
 
-      const colorSections = [];
-      const sizeSections = [];
-
       currentProduct.options.forEach((option, optionIndex) => {
         const optionName = (option.name || '').toLowerCase();
         const isColorLike = optionName.includes('color') || optionName.includes('colour');
 
         if (isColorLike) {
-          colorSections.push(renderColorOption(option, optionIndex));
-        } else {
-          sizeSections.push(renderSizeDropdown(option, optionIndex));
+          modalOptions.appendChild(renderColorOption(option, optionIndex));
         }
       });
 
-      colorSections.forEach((section) => modalOptions.appendChild(section));
-      sizeSections.forEach((section) => modalOptions.appendChild(section));
+      currentProduct.options.forEach((option, optionIndex) => {
+        const optionName = (option.name || '').toLowerCase();
+        const isColorLike = optionName.includes('color') || optionName.includes('colour');
+
+        if (!isColorLike) {
+          modalOptions.appendChild(renderSizeDropdown(option, optionIndex));
+        }
+      });
     }
 
     function openModal(product) {
