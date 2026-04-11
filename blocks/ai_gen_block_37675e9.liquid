@@ -715,7 +715,6 @@
   </div>
 
   <div class="custom-banner__mobile-wrap-{{ ai_gen_id }}">
-    <!-- Mobile top bar -->
     <button
       type="button"
       class="custom-banner__mobile-trigger-{{ ai_gen_id }}"
@@ -723,32 +722,18 @@
       aria-controls="custom-banner-mobile-panel-{{ ai_gen_id }}"
     >
       <span class="custom-banner__menu-icon-{{ ai_gen_id }}">☰</span>
+      <span class="custom-banner__close-icon-{{ ai_gen_id }}" hidden>✕</span>
 
       <span class="custom-banner__mobile-brand-{{ ai_gen_id }}">
         {{ block.settings.logo_text }}
       </span>
     </button>
 
-    <!-- Mobile opened panel -->
     <div
       id="custom-banner-mobile-panel-{{ ai_gen_id }}"
       class="custom-banner__mobile-panel-{{ ai_gen_id }}"
       hidden
     >
-      <div class="custom-banner__mobile-panel-header-{{ ai_gen_id }}">
-        <button
-          type="button"
-          class="custom-banner__close-button-{{ ai_gen_id }}"
-          aria-label="Close menu"
-        >
-          ✕
-        </button>
-
-        <div class="custom-banner__mobile-panel-brand-{{ ai_gen_id }}">
-          {{ block.settings.logo_text }}
-        </div>
-      </div>
-
       <div class="custom-banner__mobile-message-{{ ai_gen_id }}">
         Find the ideal gift for your loved ones.
       </div>
@@ -823,10 +808,6 @@
 <script>
   (function() {
     class CustomBanner{{ ai_gen_id }} extends HTMLElement {
-      constructor() {
-        super();
-      }
-
       connectedCallback() {
         this.initBanner();
       }
@@ -851,28 +832,24 @@
       handleMobileToggle() {
         const trigger = this.querySelector('.custom-banner__mobile-trigger-{{ ai_gen_id }}');
         const panel = this.querySelector('.custom-banner__mobile-panel-{{ ai_gen_id }}');
-        const closeBtn = this.querySelector('.custom-banner__close-button-{{ ai_gen_id }}');
+        const menuIcon = this.querySelector('.custom-banner__menu-icon-{{ ai_gen_id }}');
+        const closeIcon = this.querySelector('.custom-banner__close-icon-{{ ai_gen_id }}');
 
-        if (!trigger || !panel || !closeBtn) return;
+        if (!trigger || !panel || !menuIcon || !closeIcon) return;
 
-        const openPanel = () => {
-          panel.hidden = false;
-          trigger.hidden = true;
-          trigger.setAttribute('aria-expanded', 'true');
-        };
+        trigger.addEventListener('click', () => {
+          const isOpen = trigger.getAttribute('aria-expanded') === 'true';
 
-        const closePanel = () => {
-          panel.hidden = true;
-          trigger.hidden = false;
-          trigger.setAttribute('aria-expanded', 'false');
-        };
-
-        trigger.addEventListener('click', openPanel);
-        closeBtn.addEventListener('click', closePanel);
-
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape' && !panel.hidden) {
-            closePanel();
+          if (isOpen) {
+            panel.hidden = true;
+            trigger.setAttribute('aria-expanded', 'false');
+            menuIcon.hidden = false;
+            closeIcon.hidden = true;
+          } else {
+            panel.hidden = false;
+            trigger.setAttribute('aria-expanded', 'true');
+            menuIcon.hidden = true;
+            closeIcon.hidden = false;
           }
         });
       }
