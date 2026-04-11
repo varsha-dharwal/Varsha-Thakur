@@ -560,8 +560,6 @@
   position: absolute;
   left: 50%;
   bottom: 20px;
-
-  /* 🔥 center fix */
   transform: translateX(-50%) translateY(0);
 
   display: inline-flex;
@@ -574,7 +572,6 @@
 
   text-decoration: none;
   font-size: {{ block.settings.hero_button_font_size }}px;
-  font-weight: 600;
   color: #ffffff;
   background-color: #000000;
 
@@ -627,9 +624,7 @@
 .custom-banner__hero-button-{{ ai_gen_id }}:hover .custom-banner__hero-arrow-{{ ai_gen_id }} {
   transform: translateX(5px);
 }
-
-
-    
+  
     .custom-banner__mobile-brand-{{ ai_gen_id }},
     .custom-banner__mobile-panel-brand-{{ ai_gen_id }} {
       font-size: 15px;
@@ -645,7 +640,6 @@
 
     .custom-banner__top-button-{{ ai_gen_id }},
     .custom-banner__hero-button-{{ ai_gen_id }} {
-      max-width: 100%;
       min-width: 0;
       font-size: 14px;
     }
