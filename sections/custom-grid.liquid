@@ -507,37 +507,56 @@
     </div>
   </div>
 
-  {% comment %} <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
-    <div class="custom-grid__overlay-{{ grid_id }}" data-grid-overlay></div>
+  <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
+  <div class="custom-grid__overlay-{{ grid_id }}" data-grid-overlay></div>
 
-    <div
-      class="custom-grid__dialog-{{ grid_id }}"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="custom-grid-modal-title-{{ grid_id }}"
+  <div
+    class="custom-grid__dialog-{{ grid_id }}"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="custom-grid-modal-title-{{ grid_id }}"
+  >
+    <button
+      type="button"
+      class="custom-grid__close-{{ grid_id }}"
+      aria-label="Close"
+      data-grid-close
     >
-      <button type="button" class="custom-grid__close-{{ grid_id }}" aria-label="Close" data-grid-close>×</button>
+      ×
+    </button>
 
-      <div class="custom-grid__modal-content-{{ grid_id }}">
-        <div class="custom-grid__modal-image-{{ grid_id }}">
-          <img src="" alt="" data-modal-image>
-        </div>
+    <div class="custom-grid__modal-content-{{ grid_id }}">
+      <div class="custom-grid__modal-image-{{ grid_id }}">
+        <img src="" alt="" data-modal-image>
+      </div>
 
-        <div class="custom-grid__modal-details-{{ grid_id }}">
-          <h3 id="custom-grid-modal-title-{{ grid_id }}" class="custom-grid__product-title-{{ grid_id }}" data-modal-title></h3>
-          <p class="custom-grid__price-{{ grid_id }}" data-modal-price></p>
-          <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
-          <div data-modal-options></div>
-          <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
+      <div class="custom-grid__modal-details-{{ grid_id }}">
+        <h3
+          id="custom-grid-modal-title-{{ grid_id }}"
+          class="custom-grid__product-title-{{ grid_id }}"
+          data-modal-title
+        ></h3>
 
-          <button type="button" class="custom-grid__add-btn-{{ grid_id }}" data-modal-add-to-cart>
-            <span>{{ section.settings.add_to_cart_label }}</span>
-            <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
-          </button>
-        </div>
+        <p class="custom-grid__price-{{ grid_id }}" data-modal-price></p>
+
+        <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
+
+        <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
+
+        <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
+
+        <button
+          type="button"
+          class="custom-grid__add-btn-{{ grid_id }}"
+          data-modal-add-to-cart
+        >
+          <span>{{ section.settings.add_to_cart_label }}</span>
+          <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
+        </button>
       </div>
     </div>
-  </div> {% endcomment %}
+  </div>
+</div>
 
   {% assign bundle_product = all_products[section.settings.bundle_product_handle] %}
   {% if bundle_product != blank %}
@@ -685,7 +704,7 @@
       return group;
     }
 
-    function renderSelectOption(option, optionIndex) {
+    function renderSizeDropdown(option, optionIndex) {
       const group = document.createElement('div');
       group.className = 'custom-grid__option-group-{{ grid_id }}';
 
@@ -694,44 +713,79 @@
       label.textContent = option.name;
       group.appendChild(label);
 
-      const wrap = document.createElement('div');
-      wrap.className = 'custom-grid__select-wrap-{{ grid_id }}';
+      const dropdown = document.createElement('div');
+      dropdown.className = 'custom-grid__dropdown-{{ grid_id }}';
 
-      const select = document.createElement('select');
-      select.className = 'custom-grid__select-{{ grid_id }}';
-      select.setAttribute('aria-label', option.name);
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'custom-grid__dropdown-trigger-{{ grid_id }}';
+
+      const labelText = document.createElement('span');
+      labelText.className = 'custom-grid__dropdown-label-{{ grid_id }}';
+      labelText.textContent = selectedOptions[optionIndex] || 'Choose your size';
+
+      const arrow = document.createElement('span');
+      arrow.className = 'custom-grid__dropdown-arrow-{{ grid_id }}';
+      arrow.textContent = '⌃';
+
+      trigger.appendChild(labelText);
+      trigger.appendChild(arrow);
+
+      const menu = document.createElement('div');
+      menu.className = 'custom-grid__dropdown-menu-{{ grid_id }}';
+      menu.hidden = true;
+
+      trigger.addEventListener('click', () => {
+        const isOpen = dropdown.classList.contains('is-open');
+
+        sectionRoot.querySelectorAll('.custom-grid__dropdown-{{ grid_id }}').forEach((dd) => {
+          dd.classList.remove('is-open');
+          const ddMenu = dd.querySelector('.custom-grid__dropdown-menu-{{ grid_id }}');
+          if (ddMenu) ddMenu.hidden = true;
+        });
+
+        if (!isOpen) {
+          dropdown.classList.add('is-open');
+          menu.hidden = false;
+        }
+      });
 
       option.values.forEach((value) => {
-        const optionEl = document.createElement('option');
-        optionEl.value = value;
-        optionEl.textContent = value;
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'custom-grid__dropdown-item-{{ grid_id }}';
+        item.textContent = value;
 
         if (selectedOptions[optionIndex] === value) {
-          optionEl.selected = true;
+          item.classList.add('is-selected');
         }
 
-        select.appendChild(optionEl);
+        item.addEventListener('click', () => {
+          selectedOptions[optionIndex] = value;
+          labelText.textContent = value;
+
+          menu.querySelectorAll('.custom-grid__dropdown-item-{{ grid_id }}').forEach((el) => {
+            el.classList.remove('is-selected');
+          });
+
+          item.classList.add('is-selected');
+          dropdown.classList.remove('is-open');
+          menu.hidden = true;
+          updateSelectedVariant();
+        });
+
+        menu.appendChild(item);
       });
 
-      select.addEventListener('change', (event) => {
-        selectedOptions[optionIndex] = event.target.value;
-        updateSelectedVariant();
-      });
-
-      const icon = document.createElement('span');
-      icon.className = 'custom-grid__select-icon-{{ grid_id }}';
-      icon.textContent = '▾';
-
-      wrap.appendChild(select);
-      wrap.appendChild(icon);
-      group.appendChild(wrap);
+      dropdown.appendChild(trigger);
+      dropdown.appendChild(menu);
+      group.appendChild(dropdown);
 
       return group;
     }
 
     function renderOptions() {
       modalOptions.innerHTML = '';
-
       if (!currentProduct || !currentProduct.options) return;
 
       currentProduct.options.forEach((option, optionIndex) => {
@@ -741,7 +795,7 @@
         if (isColorLike) {
           modalOptions.appendChild(renderColorOption(option, optionIndex));
         } else {
-          modalOptions.appendChild(renderSelectOption(option, optionIndex));
+          modalOptions.appendChild(renderSizeDropdown(option, optionIndex));
         }
       });
     }
@@ -772,10 +826,8 @@
       showError('');
     }
 
-    /* ONLY + ICON SHOULD OPEN MODAL */
     cards.forEach((card) => {
       const hotspot = card.querySelector('.custom-grid__hotspot-{{ grid_id }}');
-
       if (!hotspot) return;
 
       hotspot.style.pointerEvents = 'auto';
@@ -795,6 +847,16 @@
     overlay.addEventListener('click', closeModal);
     closeBtn.addEventListener('click', closeModal);
 
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.custom-grid__dropdown-{{ grid_id }}')) {
+        sectionRoot.querySelectorAll('.custom-grid__dropdown-{{ grid_id }}').forEach((dd) => {
+          dd.classList.remove('is-open');
+          const ddMenu = dd.querySelector('.custom-grid__dropdown-menu-{{ grid_id }}');
+          if (ddMenu) ddMenu.hidden = true;
+        });
+      }
+    });
+
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && !modal.hidden) {
         closeModal();
@@ -803,7 +865,6 @@
 
     function shouldAddBundle(optionValues) {
       if (!Array.isArray(optionValues)) return false;
-
       const normalized = optionValues.map((v) => String(v || '').trim().toLowerCase());
       return normalized.includes('black') && normalized.includes('medium');
     }
