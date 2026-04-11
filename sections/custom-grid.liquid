@@ -832,7 +832,6 @@
 
   <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
   <div class="custom-grid__overlay-{{ grid_id }}" data-grid-overlay></div>
-
   <div
     class="custom-grid__dialog-{{ grid_id }}"
     role="dialog"
@@ -864,8 +863,24 @@
 
         <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
 
+        {% comment %} <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
+
+        <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
+
+        <button
+          type="button"
+          class="custom-grid__add-btn-{{ grid_id }}"
+          data-modal-add-to-cart
+        >
+          <span>{{ section.settings.add_to_cart_label }}</span>
+          <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
+        </button> {% endcomment %}
       </div>
-        <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
+    </div>
+  </div>
+</div>
+
+ <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
 
         <p class="custom-grid__error-{{ grid_id }}" data-modal-error></p>
 
@@ -877,9 +892,6 @@
           <span>{{ section.settings.add_to_cart_label }}</span>
           <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
         </button>
-    </div>
-  </div>
-</div>
 
   {% assign bundle_product = all_products[section.settings.bundle_product_handle] %}
   {% if bundle_product != blank %}
