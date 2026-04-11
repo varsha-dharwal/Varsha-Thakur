@@ -1,6 +1,329 @@
 {% assign grid_id = section.id | replace: '_', '' | downcase %}
 
 {% style %}
+.custom-grid__modal-{{ grid_id }}[hidden] {
+  display: none !important;
+}
+
+.custom-grid__modal-{{ grid_id }} {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.custom-grid__overlay-{{ grid_id }} {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.custom-grid__dialog-{{ grid_id }} {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 12px, 282px);
+  margin: 4px auto;
+  background: #f3f0ea;
+  color: #111111;
+  border: 1px solid #cfc8bf;
+  padding: 10px 10px 14px;
+  max-height: calc(100vh - 8px);
+  overflow-y: auto;
+}
+
+.custom-grid__close-{{ grid_id }} {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  background: transparent;
+  color: #111111;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.custom-grid__modal-content-{{ grid_id }} {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding-top: 12px;
+}
+
+.custom-grid__modal-image-{{ grid_id }} {
+  width: 88px;
+  aspect-ratio: 0.82;
+  overflow: hidden;
+  background: #ebe6de;
+}
+
+.custom-grid__modal-image-{{ grid_id }} img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.custom-grid__modal-details-{{ grid_id }} {
+  min-width: 0;
+}
+
+.custom-grid__product-title-{{ grid_id }} {
+  margin: 0 20px 10px 0;
+  font-size: 22px;
+  line-height: 1.08;
+  font-weight: 400;
+  color: #111111;
+}
+
+.custom-grid__price-{{ grid_id }} {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.15;
+  color: #111111;
+}
+
+.custom-grid__description-{{ grid_id }} {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.25;
+  color: #5d5953;
+  max-width: 150px;
+}
+
+.custom-grid__options-wrap-{{ grid_id }} {
+  width: 100%;
+}
+
+.custom-grid__option-group-{{ grid_id }} {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.custom-grid__option-label-{{ grid_id }} {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #111111;
+}
+
+.custom-grid__pill-list-{{ grid_id }} {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  border: 1px solid #9a948c;
+  background: transparent;
+}
+
+.custom-grid__pill-{{ grid_id }} {
+  appearance: none;
+  border: 0;
+  border-right: 1px solid #9a948c;
+  background: transparent;
+  color: #111111;
+  width: 100%;
+  min-width: 0;
+  padding: 9px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.custom-grid__pill-{{ grid_id }}:last-child {
+  border-right: 0;
+}
+
+.custom-grid__pill-{{ grid_id }}.is-active {
+  background: #111111;
+  color: #ffffff;
+}
+
+.custom-grid__dropdown-{{ grid_id }} {
+  position: relative;
+  width: 100%;
+}
+
+.custom-grid__dropdown-trigger-{{ grid_id }} {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #9a948c;
+  background: #f3f0ea;
+  color: #111111;
+  padding: 0 0 0 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.custom-grid__dropdown-label-{{ grid_id }} {
+  flex: 1;
+  text-align: left;
+}
+
+.custom-grid__dropdown-arrow-{{ grid_id }} {
+  width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #9a948c;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.custom-grid__dropdown-{{ grid_id }}.is-open .custom-grid__dropdown-arrow-{{ grid_id }} {
+  transform: rotate(180deg);
+}
+
+.custom-grid__dropdown-menu-{{ grid_id }}[hidden] {
+  display: none !important;
+}
+
+.custom-grid__dropdown-menu-{{ grid_id }} {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  width: 100%;
+  border: 1px solid #9a948c;
+  background: #f3f0ea;
+  z-index: 30;
+}
+
+.custom-grid__dropdown-item-{{ grid_id }} {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #111111;
+  text-align: center;
+  padding: 12px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.custom-grid__dropdown-item-{{ grid_id }}.is-selected {
+  background: #000000;
+  color: #ffffff;
+}
+
+.custom-grid__error-{{ grid_id }} {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #b42318;
+  display: none;
+}
+
+.custom-grid__error-{{ grid_id }}.is-visible {
+  display: block;
+}
+
+.custom-grid__add-btn-{{ grid_id }} {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 18px;
+  border: 0;
+  background: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.custom-grid__add-btn-{{ grid_id }}::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 102%;
+  transform: translateX(-101%);
+  background: #FFF544;
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+
+.custom-grid__add-btn-{{ grid_id }} span {
+  position: relative;
+  z-index: 1;
+}
+
+.custom-grid__add-btn-{{ grid_id }}:hover::before {
+  transform: translateX(0);
+}
+
+.custom-grid__add-btn-{{ grid_id }}:hover {
+  color: #111111;
+}
+
+.custom-grid__add-btn-{{ grid_id }}[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.custom-grid__add-arrow-{{ grid_id }} {
+  transition: transform 0.3s ease;
+}
+
+.custom-grid__add-btn-{{ grid_id }}:hover .custom-grid__add-arrow-{{ grid_id }} {
+  transform: translateX(5px);
+}
+
+.custom-grid__hotspot-{{ grid_id }} {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .custom-grid__dialog-{{ grid_id }} {
+    width: calc(100% - 8px);
+    margin: 4px auto;
+    padding: 10px 10px 14px;
+    max-height: calc(100vh - 8px);
+    overflow: auto;
+  }
+
+  .custom-grid__modal-content-{{ grid_id }} {
+    grid-template-columns: 88px 1fr;
+    gap: 10px;
+    align-items: start;
+    padding-top: 12px;
+  }
+
+  .custom-grid__modal-image-{{ grid_id }} {
+    width: 88px;
+    aspect-ratio: 0.82;
+  }
+
+  .custom-grid__product-title-{{ grid_id }} {
+    font-size: 21px;
+    margin: 0 18px 10px 0;
+  }
+
+  .custom-grid__price-{{ grid_id }} {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .custom-grid__description-{{ grid_id }} {
+    font-size: 12px;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    max-width: 150px;
+  }
+}
+
   .custom-grid-section-{{ grid_id }} {
     background: {{ section.settings.section_bg }};
     padding: {{ section.settings.section_padding_top }}px {{ section.settings.section_padding_horizontal }}px {{ section.settings.section_padding_bottom }}px;
