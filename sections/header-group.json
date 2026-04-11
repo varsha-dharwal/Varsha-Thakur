@@ -27,7 +27,7 @@
       "type": "_blocks",
       "blocks": {
         "ai_gen_block_37675e9_zxJc8N": {
-          "type": "ai_gen_block_37675e9",
+          "type": "homePage",
           "settings": {
             "logo": "shopify://shop_images/Logo.png",
             "logo_width": 120,
