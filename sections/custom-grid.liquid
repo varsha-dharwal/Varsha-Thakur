@@ -180,8 +180,15 @@
 
 .custom-grid__options-wrap-{{ grid_id }} {
   display: grid;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
+}
+
+.custom-grid__options-color-wrap-{{ grid_id }},
+.custom-grid__options-size-wrap-{{ grid_id }} {
+  width: 100%;
+  display: grid;
+  gap: 14px;
 }
 
 .custom-grid__option-group-{{ grid_id }} {
@@ -190,7 +197,7 @@
 
 .custom-grid__option-label-{{ grid_id }} {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-size: 12px;
   line-height: 1.2;
   color: {{ section.settings.modal_text_color }};
@@ -201,7 +208,9 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
   border: 1px solid #9a948c;
+  border-radius: 0;
   background: transparent;
+  overflow: hidden;
 }
 
 .custom-grid__pill-{{ grid_id }} {
