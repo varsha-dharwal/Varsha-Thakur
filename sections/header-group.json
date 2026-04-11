@@ -86,37 +86,49 @@
         "product_card_bkqxyB": {
           "type": "product_card",
           "settings": {
-            "product": "black-leather-bag"
+            "product": "black-leather-bag",
+            "hotspot_top": 54,
+            "hotspot_left": 64
           }
         },
         "product_card_JxpnBp": {
           "type": "product_card",
           "settings": {
-            "product": "blue-silk-tuxedo"
+            "product": "blue-silk-tuxedo",
+            "hotspot_top": 49,
+            "hotspot_left": 90
           }
         },
         "product_card_gFTXkd": {
           "type": "product_card",
           "settings": {
-            "product": "chequered-red-shirt"
+            "product": "chequered-red-shirt",
+            "hotspot_top": 18,
+            "hotspot_left": 78
           }
         },
         "product_card_wfehh9": {
           "type": "product_card",
           "settings": {
-            "product": "classic-leather-jacket"
+            "product": "classic-leather-jacket",
+            "hotspot_top": 18,
+            "hotspot_left": 78
           }
         },
         "product_card_FEmaCM": {
           "type": "product_card",
           "settings": {
-            "product": "classic-varsity-top"
+            "product": "classic-varsity-top",
+            "hotspot_top": 18,
+            "hotspot_left": 78
           }
         },
         "product_card_qkkfeW": {
           "type": "product_card",
           "settings": {
-            "product": "dark-denim-top"
+            "product": "dark-denim-top",
+            "hotspot_top": 18,
+            "hotspot_left": 78
           }
         }
       },
@@ -139,8 +151,8 @@
         "section_padding_horizontal": 24,
         "mobile_padding_top": 8,
         "mobile_padding_bottom": 8,
-        "heading_size": 26,
-        "mobile_heading_size": 22,
+        "heading_size": 36,
+        "mobile_heading_size": 24,
         "grid_gap": 12,
         "section_bg": "#ffffff",
         "heading_color": "#111111",
