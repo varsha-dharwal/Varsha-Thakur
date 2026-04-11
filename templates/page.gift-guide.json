@@ -9,15 +9,17 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "banner": {
+      "type": "custom-banner",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "top_message": "Find the ideal gift for your loved ones.",
+        "top_button_label": "CHOOSE GIFT",
+        "top_button_link": "/collections/all",
+        "bottom_strip_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
       }
     }
   },
   "order": [
-    "main"
+    "banner"
   ]
 }
