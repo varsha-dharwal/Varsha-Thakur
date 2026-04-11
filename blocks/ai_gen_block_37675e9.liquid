@@ -773,9 +773,9 @@
     z-index: 0;
   }
 
-  .custom-banner__top-button-{{ ai_gen_id }}::before {
+  {% comment %} .custom-banner__top-button-{{ ai_gen_id }}::before {
     background-color: {{ block.settings.top_button_hover_bg }};
-  }
+  } {% endcomment %}
 
   .custom-banner__hero-button-{{ ai_gen_id }}::before {
     background-color: {{ block.settings.hero_button_hover_bg }};
