@@ -617,7 +617,6 @@
         z-index: 5;
       }
 
-      /* 🔥 Yellow sliding layer */
       .custom-banner__hero-button-{{ ai_gen_id }}::before {
         content: "";
         position: absolute;
@@ -632,7 +631,6 @@
         z-index: 0;
       }
 
-      /* Content above */
       .custom-banner__hero-button-{{ ai_gen_id }} span,
       .custom-banner__hero-arrow-{{ ai_gen_id }} {
         position: relative;
@@ -644,14 +642,12 @@
         transform: translateX(0);
       }
 
-      /* 🔥 IMPORTANT: keep center fixed */
       .custom-banner__hero-button-{{ ai_gen_id }}:hover {
         transform: translateX(-50%) translateY(-2px);
         color: #000000;
         background: transparent;
       }
 
-      /* Arrow movement */
       .custom-banner__hero-arrow-{{ ai_gen_id }} {
         transition: transform 0.3s ease;
       }
