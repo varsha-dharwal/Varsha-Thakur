@@ -577,11 +577,6 @@
     font-size: 20px;
   }
 
-  /* .custom-banner__hero-button-{{ ai_gen_id }} .js-arrow {
-  display: inline-block;
-  margin-bottom: 6px;
-} */
-
   .custom-banner__mobile-top-button-{{ ai_gen_id }} span {
   display: flex;
   align-items: center;
@@ -854,70 +849,82 @@
 </custom-banner-{{ ai_gen_id }}>
 
 <script>
-    (function() {
-      class CustomBanner{{ ai_gen_id }} extends HTMLElement {
-        connectedCallback() {
-          this.initBanner();
-        }
+  (function() {
+    class CustomBanner{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.initBanner();
+      }
 
-        initBanner() {
-          this.handleEmptyLinks();
-          this.handleMobileToggle();
-        }
+      initBanner() {
+        this.handleEmptyLinks();
+        this.handleMobileToggle();
+        this.wrapArrows();
+      }
 
-        handleEmptyLinks() {
-          const buttons = this.querySelectorAll('a');
-          buttons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-              const href = button.getAttribute('href');
-              if (!href || href.trim() === '') {
-                e.preventDefault();
-              }
-            });
-          });
-        }
+      handleEmptyLinks() {
+        const buttons = this.querySelectorAll('a');
 
-        handleMobileToggle() {
-          const trigger = this.querySelector('.custom-banner__mobile-trigger-{{ ai_gen_id }}');
-          const panel = this.querySelector('.custom-banner__mobile-panel-{{ ai_gen_id }}');
-          const menuIcon = this.querySelector('.custom-banner__menu-icon-{{ ai_gen_id }}');
-          const closeIcon = this.querySelector('.custom-banner__close-icon-{{ ai_gen_id }}');
-
-          if (!trigger || !panel || !menuIcon || !closeIcon) return;
-
-          trigger.addEventListener('click', () => {
-            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
-
-            if (isOpen) {
-              trigger.setAttribute('aria-expanded', 'false');
-              panel.hidden = true;
-              menuIcon.hidden = false;
-              closeIcon.hidden = true;
-            } else {
-              trigger.setAttribute('aria-expanded', 'true');
-              panel.hidden = false;
-              menuIcon.hidden = true;
-              closeIcon.hidden = false;
+        buttons.forEach((button) => {
+          button.addEventListener('click', (e) => {
+            const href = button.getAttribute('href');
+            if (!href || href.trim() === '') {
+              e.preventDefault();
             }
           });
-        }
+        });
       }
 
-      if (!customElements.get('custom-banner-{{ ai_gen_id }}')) {
-        customElements.define('custom-banner-{{ ai_gen_id }}', CustomBanner{{ ai_gen_id }});
-      }
-      document.querySelectorAll('.custom-banner__top-button-{{ ai_gen_id }} span')
-  .forEach((el) => {
-    const text = el.innerHTML;
+      handleMobileToggle() {
+        const trigger = this.querySelector('.custom-banner__mobile-trigger-{{ ai_gen_id }}');
+        const panel = this.querySelector('.custom-banner__mobile-panel-{{ ai_gen_id }}');
+        const menuIcon = this.querySelector('.custom-banner__menu-icon-{{ ai_gen_id }}');
+        const closeIcon = this.querySelector('.custom-banner__close-icon-{{ ai_gen_id }}');
 
-    if (text.includes('→')) {
-      el.innerHTML = text.replace(
-        '→',
-        '<span class="js-arrow">→</span>'
-      );
+        if (!trigger || !panel || !menuIcon || !closeIcon) return;
+
+        trigger.addEventListener('click', () => {
+          const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+          if (isOpen) {
+            trigger.setAttribute('aria-expanded', 'false');
+            panel.hidden = true;
+            menuIcon.hidden = false;
+            closeIcon.hidden = true;
+          } else {
+            trigger.setAttribute('aria-expanded', 'true');
+            panel.hidden = false;
+            menuIcon.hidden = true;
+            closeIcon.hidden = false;
+          }
+        });
+      }
+
+      wrapArrows() {
+        const wrapArrow = (selector) => {
+          this.querySelectorAll(selector).forEach((btn) => {
+            const span = btn.querySelector('span');
+            if (!span) return;
+
+            const text = span.innerHTML;
+
+            if (text.includes('→') && !span.querySelector('.js-arrow')) {
+              span.innerHTML = text.replace(
+                '→',
+                '<span class="js-arrow">→</span>'
+              );
+            }
+          });
+        };
+
+        wrapArrow('.custom-banner__top-button-{{ ai_gen_id }}');
+        wrapArrow('.custom-banner__hero-button-{{ ai_gen_id }}');
+      }
     }
-  });
-    })();
+
+    if (!customElements.get('custom-banner-{{ ai_gen_id }}')) {
+      customElements.define('custom-banner-{{ ai_gen_id }}', CustomBanner{{ ai_gen_id }});
+    }
+  })();
 </script>
 
 {% schema %}
