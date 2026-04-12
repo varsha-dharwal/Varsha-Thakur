@@ -845,8 +845,13 @@
         }
       });
 
-      if (colorWrap.children.length) modalOptions.appendChild(colorWrap);
-      if (sizeWrap.children.length) modalOptions.appendChild(sizeWrap);
+      if (colorWrap.children.length) {
+        modalOptions.appendChild(colorWrap);
+      }
+
+      if (sizeWrap.children.length) {
+        modalOptions.appendChild(sizeWrap);
+      }
     }
 
     function openModal(product) {
@@ -879,6 +884,42 @@
       selectedVariant = null;
       showError('');
     }
+
+    cards.forEach((card) => {
+      const hotspot = card.querySelector('.custom-grid__hotspot-{{ grid_id }}');
+      if (!hotspot) return;
+
+      hotspot.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const id = card.getAttribute('data-product-json-id');
+        const product = safeParseProduct(id);
+        if (!product) return;
+
+        log('Hotspot clicked for:', product.title);
+        openModal(product);
+      });
+    });
+
+    overlay.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.custom-grid__dropdown-{{ grid_id }}')) {
+        sectionRoot.querySelectorAll('.custom-grid__dropdown-{{ grid_id }}').forEach((dd) => {
+          dd.classList.remove('is-open');
+          const ddMenu = dd.querySelector('.custom-grid__dropdown-menu-{{ grid_id }}');
+          if (ddMenu) ddMenu.hidden = true;
+        });
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !modal.hidden) {
+        closeModal();
+      }
+    });
 
     function shouldAddBundle(optionValues) {
       if (!Array.isArray(optionValues)) return false;
@@ -946,62 +987,6 @@
       return result;
     }
 
-    function openCartDrawerOrGoToCart() {
-      const drawerTrigger =
-        document.querySelector('cart-drawer') ||
-        document.querySelector('cart-notification') ||
-        document.querySelector('[data-cart-drawer]');
-
-      log('Trying user-friendly cart UX...');
-
-      document.dispatchEvent(new CustomEvent('cart:refresh'));
-      document.dispatchEvent(new CustomEvent('cart:open'));
-
-      if (drawerTrigger) {
-        log('Cart drawer/cart notification detected. Staying on page.');
-        return;
-      }
-
-      log('No cart drawer found. Redirecting to /cart');
-      window.location.assign('/cart');
-    }
-
-    cards.forEach((card) => {
-      const hotspot = card.querySelector('.custom-grid__hotspot-{{ grid_id }}');
-      if (!hotspot) return;
-
-      hotspot.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const id = card.getAttribute('data-product-json-id');
-        const product = safeParseProduct(id);
-        if (!product) return;
-
-        log('Hotspot clicked for:', product.title);
-        openModal(product);
-      });
-    });
-
-    overlay.addEventListener('click', closeModal);
-    closeBtn.addEventListener('click', closeModal);
-
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.custom-grid__dropdown-{{ grid_id }}')) {
-        sectionRoot.querySelectorAll('.custom-grid__dropdown-{{ grid_id }}').forEach((dd) => {
-          dd.classList.remove('is-open');
-          const ddMenu = dd.querySelector('.custom-grid__dropdown-menu-{{ grid_id }}');
-          if (ddMenu) ddMenu.hidden = true;
-        });
-      }
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !modal.hidden) {
-        closeModal();
-      }
-    });
-
     addToCartBtn.addEventListener('click', async () => {
       log('ADD TO CART clicked');
 
@@ -1043,7 +1028,9 @@
 
         await addItemsToCart(items);
         closeModal();
-        openCartDrawerOrGoToCart();
+
+        log('Redirecting to cart page...');
+        window.location.href = '/cart';
       } catch (error) {
         showError(error.message || 'Something went wrong.');
       } finally {
