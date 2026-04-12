@@ -32,9 +32,10 @@
   background: transparent;
   padding: 0;
   margin: 0;
-  cursor: pointer;
+  cursor: default;
   text-align: left;
   border: 0;
+  transition: transform 0.35s ease;
 }
 
 .custom-grid__media-wrap-{{ grid_id }} {
@@ -51,6 +52,7 @@
   height: 100%;
   display: block;
   object-fit: cover;
+  transition: transform 0.45s ease;
 }
 
 .custom-grid__hotspot-{{ grid_id }} {
@@ -68,7 +70,9 @@
   font-size: 18px;
   line-height: 1;
   box-shadow: 0 1px 8px rgba(0,0,0,0.12);
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .custom-grid__card-{{ grid_id }}:hover {
@@ -111,6 +115,7 @@
   border: 1px solid #cfc8bf;
   padding: 14px 14px 18px;
   max-height: calc(100vh - 8px);
+  overflow-y: auto;
 }
 
 .custom-grid__close-{{ grid_id }} {
@@ -152,8 +157,6 @@
 
 .custom-grid__modal-details-{{ grid_id }} {
   min-width: 0;
-  display: grid;
-  gap: 12px;
 }
 
 .custom-grid__product-title-{{ grid_id }} {
@@ -201,7 +204,7 @@
 
 .custom-grid__option-label-{{ grid_id }} {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   font-size: 12px;
   line-height: 1.2;
   color: {{ section.settings.modal_text_color }};
@@ -307,7 +310,8 @@
   cursor: pointer;
 }
 
-.custom-grid__dropdown-item-{{ grid_id }}:hover {
+.custom-grid__dropdown-item-{{ grid_id }}:hover,
+.custom-grid__dropdown-item-{{ grid_id }}.is-selected {
   background: #000000;
   color: #ffffff;
 }
@@ -514,6 +518,7 @@
 
   <div class="custom-grid__modal-{{ grid_id }}" data-grid-modal hidden>
     <div class="custom-grid__overlay-{{ grid_id }}" data-grid-overlay></div>
+
     <div
       class="custom-grid__dialog-{{ grid_id }}"
       role="dialog"
@@ -535,18 +540,17 @@
         </div>
 
         <div class="custom-grid__modal-details-{{ grid_id }}">
-          <h3
-            id="custom-grid-modal-title-{{ grid_id }}"
-            class="custom-grid__product-title-{{ grid_id }}"
-            data-modal-title
-          ></h3>
+          <div>
+            <h3
+              id="custom-grid-modal-title-{{ grid_id }}"
+              class="custom-grid__product-title-{{ grid_id }}"
+              data-modal-title
+            ></h3>
 
-          <p class="custom-grid__price-{{ grid_id }}" data-modal-price></p>
+            <p class="custom-grid__price-{{ grid_id }}" data-modal-price></p>
 
-           <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
-        </div>
-      </div>
-      <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
+            <div class="custom-grid__description-{{ grid_id }}" data-modal-description></div>
+          </div>
 
           <div class="custom-grid__options-wrap-{{ grid_id }}" data-modal-options></div>
 
@@ -560,6 +564,8 @@
             <span>{{ section.settings.add_to_cart_label }}</span>
             <span class="custom-grid__add-arrow-{{ grid_id }}">→</span>
           </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -606,6 +612,10 @@
     let selectedVariant = null;
     let isAdding = false;
 
+    function log() {
+      console.log('[Custom Grid {{ grid_id }}]', ...arguments);
+    }
+
     function formatMoney(cents) {
       if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
         return window.Shopify.formatMoney(cents, moneyFormat);
@@ -616,9 +626,11 @@
     function safeParseProduct(elId) {
       const node = document.getElementById(elId);
       if (!node) return null;
+
       try {
         return JSON.parse(node.textContent);
-      } catch (e) {
+      } catch (error) {
+        log('Product JSON parse failed', error);
         return null;
       }
     }
@@ -627,6 +639,7 @@
       if (!modalError) return;
       modalError.textContent = message || '';
       modalError.classList.toggle('is-visible', Boolean(message));
+      if (message) log('Error:', message);
     }
 
     function getFirstAvailableVariant(product) {
@@ -657,12 +670,19 @@
 
     function updateSelectedVariant() {
       selectedVariant = findMatchingVariant(currentProduct, selectedOptions) || getFirstAvailableVariant(currentProduct);
-      if (!selectedVariant) return;
+
+      if (!selectedVariant) {
+        log('No matching variant found for options:', selectedOptions);
+        return;
+      }
 
       modalPrice.textContent = formatMoney(selectedVariant.price);
       const img = selectedVariant.featured_image || currentProduct.featured_image || '';
       modalImage.src = img;
       modalImage.alt = currentProduct.title || '';
+
+      log('Selected options:', selectedOptions);
+      log('Matched variant:', selectedVariant);
 
       if (!selectedVariant.available) {
         addToCartBtn.disabled = true;
@@ -696,6 +716,7 @@
         }
 
         btn.addEventListener('click', () => {
+          log('Color changed to:', value);
           selectedOptions[optionIndex] = value;
           renderOptions();
           updateSelectedVariant();
@@ -765,6 +786,7 @@
         }
 
         item.addEventListener('click', () => {
+          log('Size changed to:', value);
           selectedOptions[optionIndex] = value;
           labelText.textContent = value;
 
@@ -792,29 +814,40 @@
       modalOptions.innerHTML = '';
       if (!currentProduct || !currentProduct.options) return;
 
+      const colorWrap = document.createElement('div');
+      colorWrap.className = 'custom-grid__options-color-wrap-{{ grid_id }}';
+
+      const sizeWrap = document.createElement('div');
+      sizeWrap.className = 'custom-grid__options-size-wrap-{{ grid_id }}';
+
       currentProduct.options.forEach((option, optionIndex) => {
         const optionName = (option.name || '').toLowerCase();
         const isColorLike = optionName.includes('color') || optionName.includes('colour');
 
         if (isColorLike) {
-          modalOptions.appendChild(renderColorOption(option, optionIndex));
+          colorWrap.appendChild(renderColorOption(option, optionIndex));
+        } else {
+          sizeWrap.appendChild(renderSizeDropdown(option, optionIndex));
         }
       });
 
-      currentProduct.options.forEach((option, optionIndex) => {
-        const optionName = (option.name || '').toLowerCase();
-        const isColorLike = optionName.includes('color') || optionName.includes('colour');
+      if (colorWrap.children.length) {
+        modalOptions.appendChild(colorWrap);
+      }
 
-        if (!isColorLike) {
-          modalOptions.appendChild(renderSizeDropdown(option, optionIndex));
-        }
-      });
+      if (sizeWrap.children.length) {
+        modalOptions.appendChild(sizeWrap);
+      }
     }
 
     function openModal(product) {
       currentProduct = product;
       selectedOptions = buildInitialSelectedOptions(product);
       selectedVariant = getFirstAvailableVariant(product);
+
+      log('Opening modal for product:', product.title);
+      log('Initial selected options:', selectedOptions);
+      log('Initial variant:', selectedVariant);
 
       modalTitle.textContent = product.title || '';
       modalDescription.textContent = product.description || '';
@@ -829,6 +862,7 @@
     }
 
     function closeModal() {
+      log('Closing modal');
       modal.hidden = true;
       document.documentElement.style.overflow = '';
       currentProduct = null;
@@ -841,8 +875,6 @@
       const hotspot = card.querySelector('.custom-grid__hotspot-{{ grid_id }}');
       if (!hotspot) return;
 
-      hotspot.style.pointerEvents = 'auto';
-
       hotspot.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -851,6 +883,7 @@
         const product = safeParseProduct(id);
         if (!product) return;
 
+        log('Hotspot clicked for:', product.title);
         openModal(product);
       });
     });
@@ -877,25 +910,41 @@
     function shouldAddBundle(optionValues) {
       if (!Array.isArray(optionValues)) return false;
       const normalized = optionValues.map((v) => String(v || '').trim().toLowerCase());
-      return normalized.includes('black') && normalized.includes('medium');
+      const shouldBundle = normalized.includes('black') && normalized.includes('medium');
+      log('Bundle rule check. Options:', normalized, 'Result:', shouldBundle);
+      return shouldBundle;
     }
 
     function getBundleVariantId() {
       const bundleNode = document.getElementById('grid-bundle-product-json-{{ grid_id }}');
-      if (!bundleNode) return null;
+      if (!bundleNode) {
+        log('Bundle product JSON not found');
+        return null;
+      }
 
       try {
         const bundleProduct = JSON.parse(bundleNode.textContent);
-        if (!bundleProduct || !bundleProduct.variants || !bundleProduct.variants.length) return null;
+        if (!bundleProduct || !bundleProduct.variants || !bundleProduct.variants.length) {
+          log('Bundle product has no variants');
+          return null;
+        }
 
         const availableVariant = bundleProduct.variants.find((v) => v.available);
-        return (availableVariant || bundleProduct.variants[0] || {}).id || null;
+        const bundleVariantId = (availableVariant || bundleProduct.variants[0] || {}).id || null;
+
+        log('Bundle product:', bundleProduct.title);
+        log('Bundle variant ID:', bundleVariantId);
+
+        return bundleVariantId;
       } catch (e) {
+        log('Bundle JSON parse error:', e);
         return null;
       }
     }
 
     async function addItemsToCart(items) {
+      log('Sending cart/add.js payload:', items);
+
       const response = await fetch('/cart/add.js', {
         method: 'POST',
         headers: {
@@ -912,15 +961,25 @@
           if (data && data.description) {
             message = data.description;
           }
-        } catch (e) {}
+          log('Cart add failed response:', data);
+        } catch (e) {
+          log('Cart add parse error:', e);
+        }
         throw new Error(message);
       }
 
-      return response.json();
+      const result = await response.json();
+      log('Cart add success:', result);
+      return result;
     }
 
     addToCartBtn.addEventListener('click', async () => {
-      if (!selectedVariant || isAdding) return;
+      log('ADD TO CART clicked');
+
+      if (!selectedVariant || isAdding) {
+        log('Add to cart prevented. selectedVariant:', selectedVariant, 'isAdding:', isAdding);
+        return;
+      }
 
       if (!selectedVariant.available) {
         showError('This variant is currently unavailable.');
@@ -932,18 +991,32 @@
       showError('');
 
       try {
-        const items = [{ id: selectedVariant.id, quantity: 1 }];
+        const items = [
+          {
+            id: selectedVariant.id,
+            quantity: 1
+          }
+        ];
+
+        log('Primary variant to add:', selectedVariant);
 
         if (shouldAddBundle(selectedOptions)) {
           const bundleVariantId = getBundleVariantId();
+
           if (bundleVariantId) {
-            items.push({ id: bundleVariantId, quantity: 1 });
+            items.push({
+              id: bundleVariantId,
+              quantity: 1
+            });
+            log('Bundle item appended:', bundleVariantId);
           }
         }
 
         await addItemsToCart(items);
         closeModal();
-        document.dispatchEvent(new CustomEvent('cart:refresh'));
+
+        log('Redirecting to cart page...');
+        window.location.href = '/cart';
       } catch (error) {
         showError(error.message || 'Something went wrong.');
       } finally {

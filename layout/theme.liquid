@@ -234,49 +234,6 @@
         height: 100%;
       }
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const TRIGGER_VARIANT_OPTIONS = { color: 'black', size: 'medium' };
-  const AUTO_ADD_VARIANT_ID = '47984153854196'; // Soft Winter Jacket - M / Black
-
-  function getSelectedOptions() {
-    const options = {};
-    document.querySelectorAll('.product-form__input input[type="radio"]:checked, select.product-form__input').forEach(el => {
-      const label = el.closest('[data-option-name]')?.dataset.optionName?.toLowerCase() ||
-                    el.closest('.product-form__input')?.querySelector('legend, label')?.textContent?.trim().toLowerCase();
-      const value = (el.value || el.options?.[el.selectedIndex]?.value || '').toLowerCase();
-      if (label && value) options[label] = value;
-    });
-    return options;
-  }
-
-  function shouldAutoAdd(selected) {
-    return Object.entries(TRIGGER_VARIANT_OPTIONS).every(
-      ([key, val]) => selected[key] === val
-    );
-  }
-
-  async function autoAddToCart(variantId) {
-    await fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
-    });
-  }
-
-  document.addEventListener('submit', async function (e) {
-    const form = e.target.closest('form[action="/cart/add"]');
-    if (!form) return;
-
-    const selected = getSelectedOptions();
-    if (shouldAutoAdd(selected)) {
-      await autoAddToCart(AUTO_ADD_VARIANT_ID);
-    }
-  });
-});
-</script>
-
-
       body {
         display: grid;
         grid-template-rows: auto auto 1fr auto;
