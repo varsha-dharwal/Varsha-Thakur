@@ -296,7 +296,59 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+
+    <style>
+  body.cart-page-cleaned [class^="custom-banner-"],
+  body.cart-page-cleaned [class*=" custom-banner-"],
+  body.cart-page-cleaned [class^="custom-grid-section-"],
+  body.cart-page-cleaned [class*=" custom-grid-section-"] {
+    display: none !important;
+  }
+</style>
+
   </head>
+
+...
+<script>
+  (function () {
+    function hideGiftGuideSectionsOnCart() {
+      var isCartPage =
+        window.location.pathname === '/cart' ||
+        window.location.pathname.indexOf('/cart') === 0;
+
+      if (!isCartPage) return;
+
+      console.log('[Cart Page Fix] Cart page detected');
+
+      var bannerElements = document.querySelectorAll(
+        '[class^="custom-banner-"], [class*=" custom-banner-"]'
+      );
+
+      var gridElements = document.querySelectorAll(
+        '[class^="custom-grid-section-"], [class*=" custom-grid-section-"]'
+      );
+
+      bannerElements.forEach(function (el) {
+        console.log('[Cart Page Fix] Hiding banner:', el);
+        el.style.display = 'none';
+      });
+
+      gridElements.forEach(function (el) {
+        console.log('[Cart Page Fix] Hiding grid:', el);
+        el.style.display = 'none';
+      });
+
+      document.body.classList.add('cart-page-cleaned');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', hideGiftGuideSectionsOnCart);
+    } else {
+      hideGiftGuideSectionsOnCart();
+    }
+  })();
+</script>
+
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
